@@ -42,6 +42,44 @@ do local env = ngx_html.environment
 		return type(something)=='function' and something() or print(tostring(something))
 	end
 	debug.setfenv(env.embed, env)
+
+	function env.html5()
+		print('<!doctype html5>')
+	end
+	debug.setfenv(env.html5, env)
+
+	function env.ulist(list)
+		ul(function()
+			for index, item in ipairs(list) do
+				li(item)
+			end
+		end)
+	end
+	debug.setfenv(env.ulist, env)
+
+	function env.olist(list)
+		ol(function()
+			for index, item in ipairs(list) do
+				li(item)
+			end
+		end)
+	end
+	debug.setfenv(env.ulist, env)
+
+	function env.vtable(...)
+		local rows = {...}
+		node('table', function()
+			for rownum, row in ipairs(rows) do
+				fun = row.header and th or td
+				tr(function()
+					for colnum, cell in ipairs(row) do
+						fun(cell)
+					end
+				end)
+			end
+		end)
+	end
+	debug.setfenv(env.vtable, env)
 end
 
 --- Utility Functions
@@ -81,5 +119,7 @@ function restia.markdown(template, cache)
 		return parsemdfile(template)
 	end
 end
+
+restia.string = {markdown = parsemd}
 
 return restia

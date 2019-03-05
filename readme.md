@@ -47,6 +47,10 @@ Changelog
 
 ### Development (0.1)
 
+- Add vtable function for vertical tables
+- Add olist function for ordered lists
+- Add ulist function for unordered lists
+- Add html5 function for html 5 doctype
 - MoonHTML templates
 - Markdown Templates (using [Lunamark][lunamark])
 
