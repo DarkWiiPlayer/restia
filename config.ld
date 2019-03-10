@@ -1,3 +1,7 @@
 -- vim: set filetype=lua :miv --
 format = 'lunamark'
-readme = 'readme.md'
+topics = {
+	'readme.md',
+	'license.md',
+}
+all = true
