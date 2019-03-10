@@ -6,7 +6,7 @@ source = {
 }
 description = {
 	summary = "Auxiliary library for dynamic web content in openresty";
-	homepage = "https://github.com/DarkWiiPlayer/restia";
+	homepage = "https://darkwiiplayer.github.io/restia/";
 	license = "Unlicense";
 	labels = {
 		"html";
