@@ -1,4 +1,5 @@
---- Restia
+--- Main module.
+-- Sets up an xhMoon environment and adds the utility functions.
 -- @module restia
 
 local moonxml = require "moonxml"
