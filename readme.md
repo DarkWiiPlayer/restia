@@ -58,7 +58,7 @@ After submitting a larger change, feel free to add your name to the
 Changelog
 --------------------------------------------------------------------------------
 
-### Development (0.1)
+### Development
 
 - Add `vtable` function for vertical tables
 - Add `olist` function for ordered lists
