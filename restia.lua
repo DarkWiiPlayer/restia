@@ -38,10 +38,10 @@ do local env = ngx_html.environment
 	end
 	debug.setfenv(env.stylesheet, env)
 
-	function env.embed(something)
-		return type(something)=='function' and something() or print(tostring(something))
+	function env.render(something, ...)
+		return type(something)=='function' and something(...) or print(tostring(something))
 	end
-	debug.setfenv(env.embed, env)
+	debug.setfenv(env.render, env)
 
 	function env.html5()
 		print('<!doctype html5>')
