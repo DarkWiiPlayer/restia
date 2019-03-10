@@ -18,10 +18,10 @@ Usage
 
 Currently there are only two functions:
 
-- restia.template(path)
-	Renders a template in [MoonXML][moonxml] format (similar to lapis builder syntax)
-- restia.markdown(path)
-	Renders a markdown file (using [Lunamark][lunamark])
+- `restia.template(path)`
+Renders a template in [MoonXML][moonxml] format (similar to lapis builder syntax)
+- `restia.markdown(path)`
+Renders a markdown file (using [Lunamark][lunamark])
 
 Planned features
 --------------------------------------------------------------------------------
@@ -58,6 +58,7 @@ Changelog
 
 License: [The Unlicense][unlicense]
 
-[moonxml]:   https://github.com/darkwiiplayer/moonxml "MoonXML"
-[lunamark]:  https://github.com/jgm/lunamark "Lunamark"
-[unlicense]: https://unlicense.org "The Unlicense"
+[moonxml]:    https://github.com/darkwiiplayer/moonxml "MoonXML"
+[lunamark]:   https://github.com/jgm/lunamark "Lunamark"
+[unlicense]:  https://unlicense.org "The Unlicense"
+
