@@ -7,18 +7,21 @@ local lunamark = require "lunamark"
 
 local restia = {}
 
---- Helper function that takes a markdown string and parses it as HTML
+--- Parses markdown into HTML
 -- @function parsemd
 -- @local
 -- @tparam string markdown
--- @treturn nil
+-- @treturn string
+-- @usage parsemd 'some *fancy* text'
 local parsemd do
 	local writer = lunamark.writer.html5.new{containers=true}
 	parsemd = lunamark.reader.markdown.new(writer, {smart = true})
 end
 
---- Parses a markdown file
+--- Parses a markdown file.
+-- @tparam string path The markdown file to read
 -- @treturn string
+-- @usage parsemdfile 'documents/markdown/article.md'
 local function parsemdfile(path)
 	local file, err = io.open(path)
 	if file then
@@ -40,6 +43,8 @@ do local env = ngx_html.environment
 	-- @tparam string uri The URI to the stylesheet
 	-- @treturn nil
 	-- @function stylesheet
+	-- @usage
+	-- 	stylesheet 'styles/site.css'
 	env.stylesheet = function(uri)
 		link({rel='stylesheet', href=uri, type='text/css'})
 	end
@@ -51,6 +56,9 @@ do local env = ngx_html.environment
 	-- @param object The object to render
 	-- @treturn nil
 	-- @function render
+	-- @usage
+	-- 	render(restia.template 'hello') -- Renders a function
+	-- 	render(restia.markdown 'world') -- Renders a string
 	function env.render(object, ...)
 		return type(object)=='function' and object(...) or print(tostring(object))
 	end
@@ -59,6 +67,8 @@ do local env = ngx_html.environment
 	--- Renders a HTML5 doctype in place.
 	-- @treturn nil
 	-- @function html5
+	-- @usage
+	-- 	html5()
 	function env.html5()
 		print('<!doctype html5>')
 	end
@@ -108,6 +118,11 @@ do local env = ngx_html.environment
 	-- @param ... A list of rows (header rows can be marked by setting the `header` key)
 	-- @treturn nil
 	-- @function vtable
+	-- @usage
+	-- 	vtable(
+	-- 		{'Name', 'Balance', header = true},
+	-- 		{'John', '500 €'}
+	-- 	)
 	function env.vtable(...)
 		local rows = {...}
 		node('table', function()
@@ -130,6 +145,8 @@ end
 local template_cache = {}
 
 --- Renders a template in moonhtml format
+-- @usage
+-- 	restia.template('layout')('argument 1', 'argument 2', 'etc.')
 function restia.template(template, cache)
 	template = template .. '.moonhtml'
 	if cache == nil then
@@ -147,7 +164,7 @@ end
 local markdown_cache = {}
 
 --- Renders a markdown file
--- FIXME: Do caching properly
+-- @fixme Do caching properly
 function restia.markdown(template, cache)
 	template = template .. '.md'
 	if cache == nil then
