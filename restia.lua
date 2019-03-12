@@ -1,6 +1,8 @@
 --- Main module.
 -- Sets up an xhMoon environment and adds the utility functions.
 -- @module restia
+-- @author DarkWiiPlayer
+-- @license Unlicense
 
 local moonxml = require "moonxml"
 local lunamark = require "lunamark"
@@ -31,7 +33,8 @@ local function parsemdfile(path)
 	end
 end
 
---- HTML Builder Environment
+--- HTML Builder Environment.
+-- Automatically has access to the Restia library in the global variable 'restia'.
 -- @section moonxml
 
 local ngx_html = moonxml.html:derive()
@@ -41,7 +44,6 @@ do local env = ngx_html.environment
 
 	--- Embeds a stylesheet into the document.
 	-- @tparam string uri The URI to the stylesheet
-	-- @treturn nil
 	-- @function stylesheet
 	-- @usage
 	-- 	stylesheet 'styles/site.css'
@@ -54,7 +56,6 @@ do local env = ngx_html.environment
 	-- If the object is a function, it is called with the additional arguments to render.
 	-- If the object is anything else, it is converted to a string and printed.
 	-- @param object The object to render
-	-- @treturn nil
 	-- @function render
 	-- @usage
 	-- 	render(restia.template 'hello') -- Renders a function
@@ -65,7 +66,6 @@ do local env = ngx_html.environment
 	debug.setfenv(env.render, env)
 
 	--- Renders a HTML5 doctype in place.
-	-- @treturn nil
 	-- @function html5
 	-- @usage
 	-- 	html5()
@@ -79,7 +79,6 @@ do local env = ngx_html.environment
 	-- including functions and tables.
 	-- They get passed directly to the `li` function call.
 	-- @tparam table list A sequence containing the list elements
-	-- @treturn nil
 	-- @function ulist
 	-- @usage
 	-- 	ulist {
@@ -102,7 +101,6 @@ do local env = ngx_html.environment
 
 	--- Renders an ordered list. Works like ulist.
 	-- @tparam table list A sequence containing the list elements
-	-- @treturn nil
 	-- @function olist
 	-- @see ulist
 	function env.olist(list)
@@ -116,7 +114,6 @@ do local env = ngx_html.environment
 
 	--- Renders a table (vertical).
 	-- @param ... A list of rows (header rows can be marked by setting the `header` key)
-	-- @treturn nil
 	-- @function vtable
 	-- @usage
 	-- 	vtable(
@@ -139,12 +136,15 @@ do local env = ngx_html.environment
 	debug.setfenv(env.vtable, env)
 end
 
---- Utility Functions
+--- Utility Functions.
+-- General functionality of restia.
 -- @section functions
 
 local template_cache = {}
 
 --- Renders a template in moonhtml format
+-- @tparam string template Template file (without extension) to load
+-- @tparam[opt=true] boolean cache Whether to cache the template
 -- @usage
 -- 	restia.template('layout')('argument 1', 'argument 2', 'etc.')
 function restia.template(template, cache)
@@ -165,17 +165,21 @@ local markdown_cache = {}
 
 --- Renders a markdown file
 -- @fixme Do caching properly
-function restia.markdown(template, cache)
-	template = template .. '.md'
+-- @tparam string document Markdown file (without extension) to load
+-- @tparam[opt=true] boolean cache Whether to cache the template
+-- @usage
+-- 	restia.markdown('content')
+function restia.markdown(document, cache)
+	document = document .. '.md'
 	if cache == nil then
 		cache = true
 	end
 	local result
 	if cache then
-		template_cache[template] = template_cache[template] or parsemdfile(template)
-		return template_cache[template]
+		document_cache[document] = document_cache[document] or parsemdfile(document)
+		return document_cache[document]
 	else
-		return parsemdfile(template)
+		return parsemdfile(document)
 	end
 end
 
