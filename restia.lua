@@ -33,6 +33,53 @@ local function parsemdfile(path)
 	end
 end
 
+--- Utility Functions.
+-- General functionality of restia.
+-- @section functions
+
+local template_cache = {}
+
+--- Renders a template in moonhtml format
+-- @tparam string template Template file (without extension) to load
+-- @tparam[opt=true] boolean cache Whether to cache the template
+-- @usage
+-- 	restia.template('layout')('argument 1', 'argument 2', 'etc.')
+function restia.template(template, cache)
+	template = template .. '.moonhtml'
+	if cache == nil then
+		cache = true
+	end
+	local result
+	if cache then
+		template_cache[template] = template_cache[template] or assert(ngx_html:loadmoonfile(template))
+		return template_cache[template]
+	else
+		return assert(ngx_html:loadmoonfile(template))
+	end
+end
+
+local markdown_cache = {}
+
+--- Renders a markdown file
+-- @fixme Do caching properly
+-- @tparam string document Markdown file (without extension) to load
+-- @tparam[opt=true] boolean cache Whether to cache the template
+-- @usage
+-- 	restia.markdown('content')
+function restia.markdown(document, cache)
+	document = document .. '.md'
+	if cache == nil then
+		cache = true
+	end
+	local result
+	if cache then
+		document_cache[document] = document_cache[document] or parsemdfile(document)
+		return document_cache[document]
+	else
+		return parsemdfile(document)
+	end
+end
+
 --- HTML Builder Environment.
 -- Automatically has access to the Restia library in the global variable 'restia'.
 -- @section moonxml
@@ -82,12 +129,11 @@ do local env = ngx_html.environment
 	-- @function ulist
 	-- @usage
 	-- 	ulist {
-	-- 		'Hello',
-	-- 		'World',
-	-- 		function()
+	-- 		'Hello'
+	-- 		'World'
+  -- 		->
 	-- 			br 'foo'
 	-- 			print 'bar'
-	-- 		end,
 	-- 		'That was a list'
 	-- 	}
 	function env.ulist(list)
@@ -176,53 +222,6 @@ do local env = ngx_html.environment
 		end)
 	end
 	debug.setfenv(env.ttable, env)
-end
-
---- Utility Functions.
--- General functionality of restia.
--- @section functions
-
-local template_cache = {}
-
---- Renders a template in moonhtml format
--- @tparam string template Template file (without extension) to load
--- @tparam[opt=true] boolean cache Whether to cache the template
--- @usage
--- 	restia.template('layout')('argument 1', 'argument 2', 'etc.')
-function restia.template(template, cache)
-	template = template .. '.moonhtml'
-	if cache == nil then
-		cache = true
-	end
-	local result
-	if cache then
-		template_cache[template] = template_cache[template] or assert(ngx_html:loadmoonfile(template))
-		return template_cache[template]
-	else
-		return assert(ngx_html:loadmoonfile(template))
-	end
-end
-
-local markdown_cache = {}
-
---- Renders a markdown file
--- @fixme Do caching properly
--- @tparam string document Markdown file (without extension) to load
--- @tparam[opt=true] boolean cache Whether to cache the template
--- @usage
--- 	restia.markdown('content')
-function restia.markdown(document, cache)
-	document = document .. '.md'
-	if cache == nil then
-		cache = true
-	end
-	local result
-	if cache then
-		document_cache[document] = document_cache[document] or parsemdfile(document)
-		return document_cache[document]
-	else
-		return parsemdfile(document)
-	end
 end
 
 restia.string = {markdown = parsemd}
