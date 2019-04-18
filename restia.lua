@@ -143,8 +143,8 @@ do local env = ngx_html.environment
 	-- @function ttable
 	-- @usage
 	-- 	ttable(
-  -- 	  {'name', 'age', 'address'}
-  -- 	  {name="John Doe", age="unknown", address="unknown"}
+  -- 	  {'name', 'age', 'address', number: true, header: true, caption: -> h1 'People'}
+  -- 	  {name: "John Doe", age: -> i 'unknown', address: -> i 'unknown'}
   -- 	)
 	function env.ttable(opt, ...)
     -- Header defaults to true
