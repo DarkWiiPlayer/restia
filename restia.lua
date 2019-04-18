@@ -8,6 +8,7 @@ local moonxml = require "moonxml"
 local lunamark = require "lunamark"
 
 local restia = {}
+local ngx_html = moonxml.html:derive()
 
 --- Parses markdown into HTML
 -- @function parsemd
@@ -84,7 +85,6 @@ end
 -- Automatically has access to the Restia library in the global variable 'restia'.
 -- @section moonxml
 
-local ngx_html = moonxml.html:derive()
 do local env = ngx_html.environment
 	env.print = function(...) ngx.print(...) end
 	env.restia = restia
