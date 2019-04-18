@@ -51,7 +51,12 @@
 
 <h1>Module <code>restia</code></h1>
 <p>Main module.</p>
-<p>Sets up an xhMoon environment and adds the utility functions.</p>
+<p> Sets up an xhMoon environment and adds the utility functions.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: Unlicense</li>
+        <li><strong>Author</strong>: DarkWiiPlayer</li>
+    </ul>
 
 
 <h2><a href="#Local_Functions">Local Functions</a></h2>
@@ -95,11 +100,11 @@
 <h2><a href="#Utility_Functions">Utility Functions </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#template">template (template, cache)</a></td>
+	<td class="name" nowrap><a href="#template">template (template[, cache=true])</a></td>
 	<td class="summary">Renders a template in moonhtml format</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#markdown">markdown (template, cache)</a></td>
+	<td class="name" nowrap><a href="#markdown">markdown (document[, cache=true])</a></td>
 	<td class="summary">Renders a markdown file</td>
 	</tr>
 </table>
@@ -124,6 +129,8 @@
         <li><span class="parameter">markdown</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
 
+
+
         </li>
     </ul>
 
@@ -131,6 +138,8 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+
+
 
     </ol>
 
@@ -154,7 +163,7 @@
     <ul>
         <li><span class="parameter">path</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        The markdown file to read
+         The markdown file to read
         </li>
     </ul>
 
@@ -162,6 +171,8 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+
+
 
     </ol>
 
@@ -174,8 +185,11 @@
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="HTML_Builder_Environment"></a>HTML Builder Environment </h2>
+    <h2 class="section-header has-description"><a name="HTML_Builder_Environment"></a>HTML Builder Environment </h2>
 
+          <div class="section-description">
+           Automatically has access to the Restia library in the global variable 'restia'.
+          </div>
     <dl class="function">
     <dt>
     <a name = "stylesheet"></a>
@@ -189,16 +203,10 @@
     <ul>
         <li><span class="parameter">uri</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        The URI to the stylesheet
+         The URI to the stylesheet
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">nil</span></span>
-
-    </ol>
 
 
 
@@ -213,22 +221,18 @@
     <strong>render (object)</strong>
     </dt>
     <dd>
-    Renders an object into the document. If the object is a function, it is called with the additional arguments to render. If the object is anything else, it is converted to a string and printed.
+    Renders an object into the document.
+ If the object is a function, it is called with the additional arguments to render.
+ If the object is anything else, it is converted to a string and printed.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">object</span>
-        The object to render
+         The object to render
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">nil</span></span>
-
-    </ol>
 
 
 
@@ -248,12 +252,6 @@
 
 
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">nil</span></span>
-
-    </ol>
 
 
 
@@ -268,23 +266,20 @@
     <strong>ulist (list)</strong>
     </dt>
     <dd>
-    Renders an unordered list. List elements can be any valid MoonHTML data object, including functions and tables. They get passed directly to the <code>li</code> function call.
+    Renders an unordered list.
+ List elements can be any valid MoonHTML data object,
+ including functions and tables.
+ They get passed directly to the <code>li</code> function call.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">list</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        A sequence containing the list elements
+         A sequence containing the list elements
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">nil</span></span>
-
-    </ol>
 
 
 
@@ -307,23 +302,17 @@
     <strong>olist (list)</strong>
     </dt>
     <dd>
-    Renders an ordered list. Works like ulist.
+    Renders an ordered list.  Works like ulist.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">list</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        A sequence containing the list elements
+         A sequence containing the list elements
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">nil</span></span>
-
-    </ol>
 
 
     <h3>See also:</h3>
@@ -344,16 +333,10 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">...</span>
-        A list of rows (header rows can be marked by setting the <code>header</code> key)
+         A list of rows (header rows can be marked by setting the <code>header</code> key)
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">nil</span></span>
-
-    </ol>
 
 
 
@@ -367,12 +350,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Utility_Functions"></a>Utility Functions </h2>
+    <h2 class="section-header has-description"><a name="Utility_Functions"></a>Utility Functions </h2>
 
+          <div class="section-description">
+           General functionality of restia.
+          </div>
     <dl class="function">
     <dt>
     <a name = "template"></a>
-    <strong>template (template, cache)</strong>
+    <strong>template (template[, cache=true])</strong>
     </dt>
     <dd>
     Renders a template in moonhtml format
@@ -381,10 +367,13 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">template</span>
-
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Template file (without extension) to load
         </li>
         <li><span class="parameter">cache</span>
-
+            <span class="types"><span class="type">boolean</span></span>
+         Whether to cache the template
+         (<em>default</em> true)
         </li>
     </ul>
 
@@ -399,7 +388,7 @@
 </dd>
     <dt>
     <a name = "markdown"></a>
-    <strong>markdown (template, cache)</strong>
+    <strong>markdown (document[, cache=true])</strong>
     </dt>
     <dd>
     Renders a markdown file
@@ -407,17 +396,24 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">template</span>
-
+        <li><span class="parameter">document</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Markdown file (without extension) to load
         </li>
         <li><span class="parameter">cache</span>
-
+            <span class="types"><span class="type">boolean</span></span>
+         Whether to cache the template
+         (<em>default</em> true)
         </li>
     </ul>
 
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">restia.markdown(<span class="string">'content'</span>)</pre>
+    </ul>
 
 </dd>
 </dl>
@@ -427,7 +423,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-03-11 18:25:02 </i>
+<i style="float:right;">Last updated 2019-04-18 11:29:16 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
