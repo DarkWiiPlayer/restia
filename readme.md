@@ -21,26 +21,24 @@ If you want to use Restia for your own project,
 be warned that API changes are likely to happen unannounced during the
 zero-versions (`0.x.y`).
 
-Documentation
---------------------------------------------------------------------------------
-The documentation is currently not hosted online. It can be generated easily by
-cloning the git repository and running [LDoc][ldoc].
-
 Usage
 --------------------------------------------------------------------------------
 
-Currently there are only two functions:
+Currently there are only two functions in the module:
 
 - `restia.template`
 Renders a template in [MoonXML][moonxml] format (similar to lapis builder syntax)
 - `restia.markdown`
 Renders a markdown file (using [Lunamark][lunamark])
 
+Restia also adds a few utility functions to the MoonXML environment.
+
 Planned features
 --------------------------------------------------------------------------------
 
 - More MoonXML utility methods (lists, tables, etc.)
 - Some High-Level functionality (Security-related, etc.)
+- Portability (Currently only nginx is supported)
 
 Contributing
 --------------------------------------------------------------------------------
@@ -55,11 +53,15 @@ under the following conditions:
 After submitting a larger change, feel free to add your name to the
 "contributors.lua" file. Please PGP-sign at least that commit though.
 
+All newly added code should be documented. The project uses [LDoc][ldoc] to
+generate documentation, so its format should be used.
+
 Changelog
 --------------------------------------------------------------------------------
 
 ### Development
 
+- Add `ttable` function for more complex tables
 - Add `vtable` function for vertical tables
 - Add `olist` function for ordered lists
 - Add `ulist` function for unordered lists
