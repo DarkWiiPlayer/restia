@@ -74,8 +74,8 @@ function restia.markdown(document, cache)
 	end
 	local result
 	if cache then
-		document_cache[document] = document_cache[document] or parsemdfile(document)
-		return document_cache[document]
+		markdown_cache[document] = markdown_cache[document] or parsemdfile(document)
+		return markdown_cache[document]
 	else
 		return parsemdfile(document)
 	end
