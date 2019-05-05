@@ -51,7 +51,7 @@
 
 <h1>Module <code>restia</code></h1>
 <p>Main module.</p>
-<p> Sets up an xhMoon environment and adds the utility functions.</p>
+<p>Sets up an xhMoon environment and adds the utility functions.</p>
     <h3>Info:</h3>
     <ul>
         <li><strong>License</strong>: Unlicense</li>
@@ -133,8 +133,6 @@
         <li><span class="parameter">markdown</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
 
-
-
         </li>
     </ul>
 
@@ -142,8 +140,6 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-
-
 
     </ol>
 
@@ -167,7 +163,7 @@
     <ul>
         <li><span class="parameter">path</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The markdown file to read
+        The markdown file to read
         </li>
     </ul>
 
@@ -175,8 +171,6 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-
-
 
     </ol>
 
@@ -192,7 +186,7 @@
     <h2 class="section-header has-description"><a name="Utility_Functions"></a>Utility Functions </h2>
 
           <div class="section-description">
-           General functionality of restia.
+          General functionality of restia.
           </div>
     <dl class="function">
     <dt>
@@ -207,11 +201,11 @@
     <ul>
         <li><span class="parameter">template</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Template file (without extension) to load
+        Template file (without extension) to load
         </li>
         <li><span class="parameter">cache</span>
             <span class="types"><span class="type">boolean</span></span>
-         Whether to cache the template
+        Whether to cache the template
          (<em>default</em> true)
         </li>
     </ul>
@@ -237,11 +231,11 @@
     <ul>
         <li><span class="parameter">document</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Markdown file (without extension) to load
+        Markdown file (without extension) to load
         </li>
         <li><span class="parameter">cache</span>
             <span class="types"><span class="type">boolean</span></span>
-         Whether to cache the template
+        Whether to cache the template
          (<em>default</em> true)
         </li>
     </ul>
@@ -259,7 +253,7 @@
     <h2 class="section-header has-description"><a name="HTML_Builder_Environment"></a>HTML Builder Environment </h2>
 
           <div class="section-description">
-           Automatically has access to the Restia library in the global variable 'restia'.
+          Automatically has access to the Restia library in the global variable ‘restia’.
           </div>
     <dl class="function">
     <dt>
@@ -274,7 +268,7 @@
     <ul>
         <li><span class="parameter">uri</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The URI to the stylesheet
+        The URI to the stylesheet
         </li>
     </ul>
 
@@ -292,15 +286,13 @@
     <strong>render (object)</strong>
     </dt>
     <dd>
-    Renders an object into the document.
- If the object is a function, it is called with the additional arguments to render.
- If the object is anything else, it is converted to a string and printed.
+    Renders an object into the document. If the object is a function, it is called with the additional arguments to render. If the object is anything else, it is converted to a string and printed.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">object</span>
-         The object to render
+        The object to render
         </li>
     </ul>
 
@@ -337,17 +329,14 @@
     <strong>ulist (list)</strong>
     </dt>
     <dd>
-    Renders an unordered list.
- List elements can be any valid MoonHTML data object,
- including functions and tables.
- They get passed directly to the <code>li</code> function call.
+    Renders an unordered list. List elements can be any valid MoonHTML data object, including functions and tables. They get passed directly to the <code>li</code> function call.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">list</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         A sequence containing the list elements
+        A sequence containing the list elements
         </li>
     </ul>
 
@@ -372,14 +361,14 @@
     <strong>olist (list)</strong>
     </dt>
     <dd>
-    Renders an ordered list.  Works like ulist.
+    Renders an ordered list. Works like ulist.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">list</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         A sequence containing the list elements
+        A sequence containing the list elements
         </li>
     </ul>
 
@@ -403,7 +392,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">...</span>
-         A list of rows (header rows can be marked by setting the <code>header</code> key)
+        A list of rows (header rows can be marked by setting the <code>header</code> key)
         </li>
     </ul>
 
@@ -424,19 +413,17 @@
     <strong>ttable (opt, ...)</strong>
     </dt>
     <dd>
-    Renders a table.  Expects a sequence of keys as its first argument.
- Additional options can also be passed into the first table.
- Following arguments will be interpreted as key/value maps.
+    Renders a table. Expects a sequence of keys as its first argument. Additional options can also be passed into the first table. Following arguments will be interpreted as key/value maps.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">opt</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         A sequence containing the keys to be rendered.
+        A sequence containing the keys to be rendered.
         </li>
         <li><span class="parameter">...</span>
-         A list of tables
+        A list of tables
         </li>
     </ul>
 
@@ -446,8 +433,8 @@
     <h3>Usage:</h3>
     <ul>
         <pre class="example">ttable(
-  {<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'address'</span>, number: <span class="keyword">true</span>, header: <span class="keyword">true</span>, caption: -&gt; h1 <span class="string">'People'</span>}
-  {name: <span class="string">"John Doe"</span>, age: -&gt; i <span class="string">'unknown'</span>, address: -&gt; i <span class="string">'unknown'</span>}
+	{<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'address'</span>, number: <span class="keyword">true</span>, header: <span class="keyword">true</span>, caption: -&gt; h1 <span class="string">'People'</span>}
+	{name: <span class="string">"John Doe"</span>, age: -&gt; i <span class="string">'unknown'</span>, address: -&gt; i <span class="string">'unknown'</span>}
 )</pre>
     </ul>
 
@@ -459,7 +446,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-04-18 13:36:10 </i>
+<i style="float:right;">Last updated 2019-05-05 12:11:47 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
