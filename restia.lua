@@ -182,42 +182,42 @@ do local env = ngx_html.environment
 	debug.setfenv(env.vtable, env)
 
 	--- Renders a table. Expects a sequence of keys as its first argument.
-  -- Additional options can also be passed into the first table.
-  -- Following arguments will be interpreted as key/value maps.
-  -- @tparam table opt A sequence containing the keys to be rendered.
+	-- Additional options can also be passed into the first table.
+	-- Following arguments will be interpreted as key/value maps.
+	-- @tparam table opt A sequence containing the keys to be rendered.
 	-- @param ... A list of tables
 	-- @function ttable
 	-- @usage
 	-- 	ttable(
-  -- 	  {'name', 'age', 'address', number: true, header: true, caption: -> h1 'People'}
-  -- 	  {name: "John Doe", age: -> i 'unknown', address: -> i 'unknown'}
-  -- 	)
+	-- 		{'name', 'age', 'address', number: true, header: true, caption: -> h1 'People'}
+	-- 		{name: "John Doe", age: -> i 'unknown', address: -> i 'unknown'}
+	-- 	)
 	function env.ttable(opt, ...)
-    -- Header defaults to true
-    if opt.header==nil then opt.header=true end
-    local rows = {...}
+		-- Header defaults to true
+		if opt.header==nil then opt.header=true end
+		local rows = {...}
 
 		node('table', function()
-      if opt.caption then
-        caption(opt.caption)
-      end
+			if opt.caption then
+				caption(opt.caption)
+			end
 
-      if opt.header then
-        tr(function()
-          if opt.number then th '#' end
-          for idx,header in ipairs(opt) do
-            th(tostring(header))
-          end
-        end)
-      end
+			if opt.header then
+				tr(function()
+					if opt.number then th '#' end
+					for idx,header in ipairs(opt) do
+						th(tostring(header))
+					end
+				end)
+			end
 
-      for i,row in ipairs(rows) do
-        tr(function()
-          if opt.number then td(i) end
-          for idx,key in ipairs(opt) do
-            td(row[key])
-          end
-        end)
+			for i,row in ipairs(rows) do
+				tr(function()
+					if opt.number then td(i) end
+					for idx,key in ipairs(opt) do
+						td(row[key])
+					end
+				end)
 			end
 		end)
 	end
