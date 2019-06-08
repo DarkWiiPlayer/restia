@@ -33,6 +33,32 @@ Renders a markdown file (using [Lunamark][lunamark])
 
 Restia also adds a few utility functions to the MoonXML environment.
 
+### A simple example setup
+
+In your openresty configuration:
+
+	location = / {
+		content_from_lua_file 'controllers/front.lua';
+	}
+
+and then, in `controllers/front.lua`
+
+	restia.template('views/front')
+
+in `views/front.moonhtml`:
+
+	html5!
+	html ->
+		head ->
+			stylesheet 'css/page.css'
+		body ->
+			header -> h1 'My Website'
+			main ->
+				h2 'I have content here'
+				restia.markdown 'views/front'
+
+and `views/front.md` contains some text in markdown format.
+
 Planned features
 --------------------------------------------------------------------------------
 
