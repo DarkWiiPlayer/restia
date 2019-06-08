@@ -43,27 +43,37 @@
 
 <div id="content">
 
-    <h1>Restia</h1>
+
+<h1>Restia</h1>
 
 <p>Restia is a library that aims to make developing web-applications in Lua easier.</p>
 
-<p>It differs from frameworks like Lapis or Rails in that it is less opinionated and does not provide any inversion of control; the user still decides when to call restia and when not to, allowing for easier integration into existing systems.</p>
+<p>It differs from frameworks like Lapis or Rails in that it is less opinionated and
+does not provide any inversion of control;
+the user still decides when to call restia and when not to, allowing for easier
+integration into existing systems.</p>
 
 <h2>Work in Progress</h2>
 
-<p>In its current state, it should be obvious to anyone that Restia is still in development and nowhere near production ready.</p>
+<p>In its current state, it should be obvious to anyone that Restia is still in
+development and nowhere near production ready.</p>
 
-<p>Currently this is mostly a personal project intended for my own use. Suggestions are still welcome, of course.</p>
+<p>Currently this is mostly a personal project intended for my own use.
+Suggestions are still welcome, of course.</p>
 
-<p>If you want to use Restia for your own project, be warned that API changes are likely to happen unannounced during the zero-versions (<code>0.x.y</code>).</p>
+<p>If you want to use Restia for your own project,
+be warned that API changes are likely to happen unannounced during the
+zero-versions (<code>0.x.y</code>).</p>
 
 <h2>Usage</h2>
 
 <p>Currently there are only two functions in the module:</p>
 
 <ul>
-<li><a href="../index.html#template">restia.template</a> Renders a template in <a href="https://github.com/darkwiiplayer/moonxml" title="MoonXML">MoonXML</a> format (similar to lapis builder syntax)</li>
-<li><a href="../index.html#markdown">restia.markdown</a> Renders a markdown file (using <a href="https://github.com/jgm/lunamark" title="Lunamark">Lunamark</a>)</li>
+    <li><a href="../index.html#template">restia.template</a>
+    Renders a template in <a href="https://github.com/darkwiiplayer/moonxml" title="MoonXML">MoonXML</a> format (similar to lapis builder syntax)</li>
+    <li><a href="../index.html#markdown">restia.markdown</a>
+    Renders a markdown file (using <a href="https://github.com/jgm/lunamark" title="Lunamark">Lunamark</a>)</li>
 </ul>
 
 <p>Restia also adds a few utility functions to the MoonXML environment.</p>
@@ -72,57 +82,88 @@
 
 <p>In your openresty configuration:</p>
 
-<p><pre> location = / { content<em>from</em>lua_file <span class="string">‘controllers/front.lua’</span>; } </pre> and then, in <code>controllers/front.lua</code></p>
 
-<p><pre> restia.template(<span class="string">‘views/front’</span>) </pre> in <code>views/front.moonhtml</code>:</p>
+<pre>
+location = / {
+    content_from_lua_file <span class="string">'controllers/front.lua'</span>;
+}
+</pre>
 
-<p><pre> html5! html -&gt; head -&gt; stylesheet <span class="string">‘css/page.css’</span> body -&gt; header -&gt; h1 <span class="string">‘My Website’</span> main -&gt; h2 <span class="string">‘I have content here’</span> restia.markdown <span class="string">‘views/front’</span> </pre> and <code>views/front.md</code> contains some text in markdown format.</p>
+<p>and then, in <code>controllers/front.lua</code></p>
+
+
+<pre>
+restia.template(<span class="string">'views/front'</span>)
+</pre>
+
+<p>in <code>views/front.moonhtml</code>:</p>
+
+
+<pre>
+html5!
+html -&gt;
+    head -&gt;
+        stylesheet <span class="string">'css/page.css'</span>
+    body -&gt;
+        header -&gt; h1 <span class="string">'My Website'</span>
+        main -&gt;
+            h2 <span class="string">'I have content here'</span>
+            restia.markdown <span class="string">'views/front'</span>
+</pre>
+
+<p>and <code>views/front.md</code> contains some text in markdown format.</p>
 
 <h2>Planned features</h2>
 
 <ul>
-<li>More MoonXML utility methods (lists, tables, etc.)</li>
-<li>Some High-Level functionality (Security-related, etc.)</li>
-<li>Portability (Currently only nginx is supported)</li>
+    <li>More MoonXML utility methods (lists, tables, etc.)</li>
+    <li>Some High-Level functionality (Security-related, etc.)</li>
+    <li>Portability (Currently only nginx is supported)</li>
 </ul>
 
 <h2>Contributing</h2>
 
-<p>In general, all meaningful contributions are welcome under the following conditions:</p>
+<p>In general, all meaningful contributions are welcome
+under the following conditions:</p>
 
 <ul>
-<li>All commit messages must be meaningful. (No “updated file X”, etc.)</li>
-<li>Commits must consist of (Atomic) changes that fit together.</li>
-<li>PGP-Signing commits is not mandatory, but encouraged.</li>
+    <li>All commit messages must be meaningful. (No "updated file X", etc.)</li>
+    <li>Commits must consist of (Atomic) changes that fit together.</li>
+    <li>PGP-Signing commits is not mandatory, but encouraged.</li>
 </ul>
 
-<p>After submitting a larger change, feel free to add your name to the “contributors.lua” file. Please PGP-sign at least that commit though.</p>
+<p>After submitting a larger change, feel free to add your name to the
+"contributors.lua" file. Please PGP-sign at least that commit though.</p>
 
-<p>All newly added code should be documented. The project uses <a href="https://github.com/stevedonovan/LDoc," title="LDoc - A Lua Documentation Tool">LDoc</a> to generate documentation, so its format should be used.</p>
+<p>All newly added code should be documented. The project uses <a href="https://github.com/stevedonovan/LDoc," title="LDoc - A Lua Documentation Tool">LDoc</a> to
+generate documentation, so its format should be used.</p>
 
 <h2>Changelog</h2>
 
 <h3>Development</h3>
 
 <ul>
-<li>Add <a href="../index.html#ttable">ttable</a> function for more complex tables</li>
-<li>Add <a href="../index.html#vtable">vtable</a> function for vertical tables</li>
-<li>Add <a href="../index.html#olist">olist</a> function for ordered lists</li>
-<li>Add <a href="../index.html#ulist">ulist</a> function for unordered lists</li>
-<li>Add <a href="../index.html#html5">html5</a> function for html 5 doctype</li>
-<li>Add <a href="../index.html#template">template</a> function for MoonHTML templates</li>
-<li>Add <a href="../index.html#markdown">markdown</a> function for Markdown Templates (using <a href="https://github.com/jgm/lunamark" title="Lunamark">Lunamark</a>)</li>
+    <li>Add <a href="../index.html#ttable">ttable</a> function for more complex tables</li>
+    <li>Add <a href="../index.html#vtable">vtable</a> function for vertical tables</li>
+    <li>Add <a href="../index.html#olist">olist</a> function for ordered lists</li>
+    <li>Add <a href="../index.html#ulist">ulist</a> function for unordered lists</li>
+    <li>Add <a href="../index.html#html5">html5</a> function for html 5 doctype</li>
+    <li>Add <a href="../index.html#template">template</a> function for MoonHTML templates</li>
+    <li>Add <a href="../index.html#markdown">markdown</a> function for Markdown Templates (using <a href="https://github.com/jgm/lunamark" title="Lunamark">Lunamark</a>)</li>
 </ul>
 
-<hr />
+<hr/>
 
 <p>License: <a href="https://unlicense.org" title="The Unlicense">The Unlicense</a></p>
+
+
+
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-06-08 16:29:36 </i>
+<i style="float:right;">Last updated 2019-06-08 16:41:11 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
