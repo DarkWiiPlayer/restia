@@ -87,6 +87,7 @@ Changelog
 
 ### Development
 
+- Switch to moonxml initializers
 - Add `ttable` function for more complex tables
 - Add `vtable` function for vertical tables
 - Add `olist` function for ordered lists
