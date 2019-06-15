@@ -30,8 +30,8 @@
 <h2>Contents</h2>
 <ul>
 <li><a href="#Local_Functions">Local Functions</a></li>
-<li><a href="#Utility_Functions">Utility Functions </a></li>
 <li><a href="#HTML_Builder_Environment">HTML Builder Environment </a></li>
+<li><a href="#Utility_Functions">Utility Functions </a></li>
 </ul>
 
 
@@ -70,17 +70,6 @@
 	<td class="summary">Parses a markdown file.</td>
 	</tr>
 </table>
-<h2><a href="#Utility_Functions">Utility Functions </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#template">template (template[, cache=true])</a></td>
-	<td class="summary">Renders a template in moonhtml format</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#markdown">markdown (document[, cache=true])</a></td>
-	<td class="summary">Renders a markdown file</td>
-	</tr>
-</table>
 <h2><a href="#HTML_Builder_Environment">HTML Builder Environment </a></h2>
 <table class="function_list">
 	<tr>
@@ -110,6 +99,17 @@
 	<tr>
 	<td class="name" nowrap><a href="#ttable">ttable (opt, ...)</a></td>
 	<td class="summary">Renders a table.</td>
+	</tr>
+</table>
+<h2><a href="#Utility_Functions">Utility Functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#template">template (template[, cache=true])</a></td>
+	<td class="summary">Renders a template in moonhtml format</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#markdown">markdown (document[, cache=true])</a></td>
+	<td class="summary">Renders a markdown file</td>
 	</tr>
 </table>
 
@@ -185,73 +185,6 @@
     <h3>Usage:</h3>
     <ul>
         <pre class="example">parsemdfile <span class="string">'documents/markdown/article.md'</span></pre>
-    </ul>
-
-</dd>
-</dl>
-    <h2 class="section-header has-description"><a name="Utility_Functions"></a>Utility Functions </h2>
-
-          <div class="section-description">
-           General functionality of restia.
-          </div>
-    <dl class="function">
-    <dt>
-    <a name = "template"></a>
-    <strong>template (template[, cache=true])</strong>
-    </dt>
-    <dd>
-    Renders a template in moonhtml format
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">template</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Template file (without extension) to load
-        </li>
-        <li><span class="parameter">cache</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Whether to cache the template
-         (<em>default</em> true)
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">restia.template(<span class="string">'layout'</span>)(<span class="string">'argument 1'</span>, <span class="string">'argument 2'</span>, <span class="string">'etc.'</span>)</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "markdown"></a>
-    <strong>markdown (document[, cache=true])</strong>
-    </dt>
-    <dd>
-    Renders a markdown file
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">document</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Markdown file (without extension) to load
-        </li>
-        <li><span class="parameter">cache</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Whether to cache the template
-         (<em>default</em> true)
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">restia.markdown(<span class="string">'content'</span>)</pre>
     </ul>
 
 </dd>
@@ -453,13 +386,80 @@
 
 </dd>
 </dl>
+    <h2 class="section-header has-description"><a name="Utility_Functions"></a>Utility Functions </h2>
+
+          <div class="section-description">
+           General functionality of restia.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "template"></a>
+    <strong>template (template[, cache=true])</strong>
+    </dt>
+    <dd>
+    Renders a template in moonhtml format
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">template</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Template file (without extension) to load
+        </li>
+        <li><span class="parameter">cache</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Whether to cache the template
+         (<em>default</em> true)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">restia.template(<span class="string">'layout'</span>)(<span class="string">'argument 1'</span>, <span class="string">'argument 2'</span>, <span class="string">'etc.'</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "markdown"></a>
+    <strong>markdown (document[, cache=true])</strong>
+    </dt>
+    <dd>
+    Renders a markdown file
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">document</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Markdown file (without extension) to load
+        </li>
+        <li><span class="parameter">cache</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Whether to cache the template
+         (<em>default</em> true)
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">restia.markdown(<span class="string">'content'</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-06-08 16:41:11 </i>
+<i style="float:right;">Last updated 2019-06-15 16:31:11 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
