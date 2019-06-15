@@ -4,11 +4,10 @@
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
+local restia = {}
+
 local moonxml = require "moonxml"
 local lunamark = require "lunamark"
-
-local restia = {}
-local ngx_html = moonxml.html:derive()
 
 --- Parses markdown into HTML
 -- @function parsemd
@@ -33,6 +32,146 @@ local function parsemdfile(path)
 		return file, err
 	end
 end
+
+--- HTML Builder Environment.
+-- Automatically has access to the Restia library in the global variable 'restia'.
+-- @section moonxml
+
+local ngx_html = moonxml.html:derive(function(_ENV)
+	function print(...)
+		ngx.print(...)
+	end
+
+	--- Embeds a stylesheet into the document.
+	-- @tparam string uri The URI to the stylesheet
+	-- @function stylesheet
+	-- @usage
+	-- 	stylesheet 'styles/site.css'
+	stylesheet = function(uri)
+		link({rel='stylesheet', href=uri, type='text/css'})
+	end
+
+	--- Renders an object into the document.
+	-- If the object is a function, it is called with the additional arguments to render.
+	-- If the object is anything else, it is converted to a string and printed.
+	-- @param object The object to render
+	-- @function render
+	-- @usage
+	-- 	render(restia.template 'hello') -- Renders a function
+	-- 	render(restia.markdown 'world') -- Renders a string
+	function render(object, ...)
+		return type(object)=='function' and object(...) or print(tostring(object))
+	end
+
+	--- Renders a HTML5 doctype in place.
+	-- @function html5
+	-- @usage
+	-- 	html5()
+	function html5()
+		print('<!doctype html5>')
+	end
+
+	--- Renders an unordered list.
+	-- List elements can be any valid MoonHTML data object,
+	-- including functions and tables.
+	-- They get passed directly to the `li` function call.
+	-- @tparam table list A sequence containing the list elements
+	-- @function ulist
+	-- @usage
+	-- 	ulist {
+	-- 		'Hello'
+	-- 		'World'
+  -- 		->
+	-- 			br 'foo'
+	-- 			print 'bar'
+	-- 		'That was a list'
+	-- 	}
+	function ulist(list)
+		ul(function()
+			for index, item in ipairs(list) do
+				li(item)
+			end
+		end)
+	end
+
+	--- Renders an ordered list. Works like ulist.
+	-- @tparam table list A sequence containing the list elements
+	-- @function olist
+	-- @see ulist
+	function olist(list)
+		ol(function()
+			for index, item in ipairs(list) do
+				li(item)
+			end
+		end)
+	end
+
+	--- Renders a table (vertical).
+	-- @param ... A list of rows (header rows can be marked by setting the `header` key)
+	-- @function vtable
+	-- @usage
+	-- 	vtable(
+	-- 		{'Name', 'Balance', header = true},
+	-- 		{'John', '500 €'}
+	-- 	)
+	function vtable(...)
+		local rows = {...}
+		node('table', function()
+			for rownum, row in ipairs(rows) do
+				fun = row.header and th or td
+				tr(function()
+					for colnum, cell in ipairs(row) do
+						fun(cell)
+					end
+				end)
+			end
+		end)
+	end
+
+	--- Renders a table. Expects a sequence of keys as its first argument.
+	-- Additional options can also be passed into the first table.
+	-- Following arguments will be interpreted as key/value maps.
+	-- @tparam table opt A sequence containing the keys to be rendered.
+	-- @param ... A list of tables
+	-- @function ttable
+	-- @usage
+	-- 	ttable(
+	-- 		{'name', 'age', 'address', number: true, header: true, caption: -> h1 'People'}
+	-- 		{name: "John Doe", age: -> i 'unknown', address: -> i 'unknown'}
+	-- 	)
+	function ttable(opt, ...)
+		-- Header defaults to true
+		if opt.header==nil then opt.header=true end
+		local rows = {...}
+
+		node('table', function()
+			if opt.caption then
+				caption(opt.caption)
+			end
+
+			if opt.header then
+				tr(function()
+					if opt.number then th '#' end
+					for idx,header in ipairs(opt) do
+						th(tostring(header))
+					end
+				end)
+			end
+
+			for i,row in ipairs(rows) do
+				tr(function()
+					if opt.number then td(i) end
+					for idx,key in ipairs(opt) do
+						td(row[key])
+					end
+				end)
+			end
+		end)
+	end
+
+end)
+
+ngx_html.environment.restia = restia
 
 --- Utility Functions.
 -- General functionality of restia.
@@ -68,8 +207,7 @@ local markdown_cache = {}
 -- @usage
 -- 	restia.markdown('content')
 function restia.markdown(document, cache)
-	document = document .. '.md'
-	if cache == nil then
+	document = document .. '.md' if cache == nil then
 		cache = true
 	end
 	local result
@@ -79,149 +217,6 @@ function restia.markdown(document, cache)
 	else
 		return parsemdfile(document)
 	end
-end
-
---- HTML Builder Environment.
--- Automatically has access to the Restia library in the global variable 'restia'.
--- @section moonxml
-
-do local env = ngx_html.environment
-	env.print = function(...) ngx.print(...) end
-	env.restia = restia
-
-	--- Embeds a stylesheet into the document.
-	-- @tparam string uri The URI to the stylesheet
-	-- @function stylesheet
-	-- @usage
-	-- 	stylesheet 'styles/site.css'
-	env.stylesheet = function(uri)
-		link({rel='stylesheet', href=uri, type='text/css'})
-	end
-	debug.setfenv(env.stylesheet, env)
-
-	--- Renders an object into the document.
-	-- If the object is a function, it is called with the additional arguments to render.
-	-- If the object is anything else, it is converted to a string and printed.
-	-- @param object The object to render
-	-- @function render
-	-- @usage
-	-- 	render(restia.template 'hello') -- Renders a function
-	-- 	render(restia.markdown 'world') -- Renders a string
-	function env.render(object, ...)
-		return type(object)=='function' and object(...) or print(tostring(object))
-	end
-	debug.setfenv(env.render, env)
-
-	--- Renders a HTML5 doctype in place.
-	-- @function html5
-	-- @usage
-	-- 	html5()
-	function env.html5()
-		print('<!doctype html5>')
-	end
-	debug.setfenv(env.html5, env)
-
-	--- Renders an unordered list.
-	-- List elements can be any valid MoonHTML data object,
-	-- including functions and tables.
-	-- They get passed directly to the `li` function call.
-	-- @tparam table list A sequence containing the list elements
-	-- @function ulist
-	-- @usage
-	-- 	ulist {
-	-- 		'Hello'
-	-- 		'World'
-  -- 		->
-	-- 			br 'foo'
-	-- 			print 'bar'
-	-- 		'That was a list'
-	-- 	}
-	function env.ulist(list)
-		ul(function()
-			for index, item in ipairs(list) do
-				li(item)
-			end
-		end)
-	end
-	debug.setfenv(env.ulist, env)
-
-	--- Renders an ordered list. Works like ulist.
-	-- @tparam table list A sequence containing the list elements
-	-- @function olist
-	-- @see ulist
-	function env.olist(list)
-		ol(function()
-			for index, item in ipairs(list) do
-				li(item)
-			end
-		end)
-	end
-	debug.setfenv(env.ulist, env)
-
-	--- Renders a table (vertical).
-	-- @param ... A list of rows (header rows can be marked by setting the `header` key)
-	-- @function vtable
-	-- @usage
-	-- 	vtable(
-	-- 		{'Name', 'Balance', header = true},
-	-- 		{'John', '500 €'}
-	-- 	)
-	function env.vtable(...)
-		local rows = {...}
-		node('table', function()
-			for rownum, row in ipairs(rows) do
-				fun = row.header and th or td
-				tr(function()
-					for colnum, cell in ipairs(row) do
-						fun(cell)
-					end
-				end)
-			end
-		end)
-	end
-	debug.setfenv(env.vtable, env)
-
-	--- Renders a table. Expects a sequence of keys as its first argument.
-	-- Additional options can also be passed into the first table.
-	-- Following arguments will be interpreted as key/value maps.
-	-- @tparam table opt A sequence containing the keys to be rendered.
-	-- @param ... A list of tables
-	-- @function ttable
-	-- @usage
-	-- 	ttable(
-	-- 		{'name', 'age', 'address', number: true, header: true, caption: -> h1 'People'}
-	-- 		{name: "John Doe", age: -> i 'unknown', address: -> i 'unknown'}
-	-- 	)
-	function env.ttable(opt, ...)
-		-- Header defaults to true
-		if opt.header==nil then opt.header=true end
-		local rows = {...}
-
-		node('table', function()
-			if opt.caption then
-				caption(opt.caption)
-			end
-
-			if opt.header then
-				tr(function()
-					if opt.number then th '#' end
-					for idx,header in ipairs(opt) do
-						th(tostring(header))
-					end
-				end)
-			end
-
-			for i,row in ipairs(rows) do
-				tr(function()
-					if opt.number then td(i) end
-					for idx,key in ipairs(opt) do
-						td(row[key])
-					end
-				end)
-			end
-		end)
-	end
-	debug.setfenv(env.ttable, env)
 end
 
 restia.string = {markdown = parsemd}
