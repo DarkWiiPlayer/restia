@@ -30,7 +30,7 @@ build = {
 	};
 	install = {
 		bin = {
-			'bin/restia';
+			restia = 'bin/restia.lua';
 		};
 	};
 }

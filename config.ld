@@ -6,4 +6,7 @@ topics = {
 	'readme.md',
 	'license.md',
 }
+file = {
+	'restia', 'bin';
+}
 all = true
