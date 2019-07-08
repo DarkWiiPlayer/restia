@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "restia"
-version = "dev-1"
+version = "dev-2"
 source = {
 	url = "git://github.com/DarkWiiPlayer/restia.git";
 }
@@ -23,6 +23,6 @@ dependencies = {
 build = {
 	type = "builtin",
 	modules = {
-		restia = 'restia.lua'
+		['restia'] = 'restia/init.lua';
 	}
 }
