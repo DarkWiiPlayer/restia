@@ -27,17 +27,16 @@
 <h1>Restia</h1>
 
 
-<h2>Contents</h2>
-<ul>
-<li><a href="#Local_Functions">Local Functions</a></li>
-<li><a href="#HTML_Builder_Environment">HTML Builder Environment </a></li>
-<li><a href="#Utility_Functions">Utility Functions </a></li>
-</ul>
 
 
 <h2>Modules</h2>
 <ul class="nowrap">
-  <li><strong>restia</strong></li>
+  <li><a href="modules/restia.html">restia</a></li>
+  <li><a href="modules/utils.html">utils</a></li>
+</ul>
+<h2>Scripts</h2>
+<ul class="nowrap">
+  <li><a href="scripts/restia.html">restia</a></li>
 </ul>
 <h2>Topics</h2>
 <ul class="">
@@ -49,417 +48,43 @@
 
 <div id="content">
 
-<h1>Module <code>restia</code></h1>
-<p>Main module.</p>
-<p> Sets up an xhMoon environment and adds the utility functions.</p>
-    <h3>Info:</h3>
-    <ul>
-        <li><strong>License</strong>: Unlicense</li>
-        <li><strong>Author</strong>: DarkWiiPlayer</li>
-    </ul>
 
 
-<h2><a href="#Local_Functions">Local Functions</a></h2>
-<table class="function_list">
+<h2>Modules</h2>
+<table class="module_list">
 	<tr>
-	<td class="name" nowrap><a href="#parsemd">parsemd (markdown)</a></td>
-	<td class="summary">Parses markdown into HTML</td>
+		<td class="name"  nowrap><a href="modules/restia.html">restia</a></td>
+		<td class="summary">Main module.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#parsemdfile">parsemdfile (path)</a></td>
-	<td class="summary">Parses a markdown file.</td>
+		<td class="name"  nowrap><a href="modules/utils.html">utils</a></td>
+		<td class="summary">Utility functions for Restia</td>
 	</tr>
 </table>
-<h2><a href="#HTML_Builder_Environment">HTML Builder Environment </a></h2>
-<table class="function_list">
+<h2>Scripts</h2>
+<table class="module_list">
 	<tr>
-	<td class="name" nowrap><a href="#stylesheet">stylesheet (uri)</a></td>
-	<td class="summary">Embeds a stylesheet into the document.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#render">render (object)</a></td>
-	<td class="summary">Renders an object into the document.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#html5">html5 ()</a></td>
-	<td class="summary">Renders a HTML5 doctype in place.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#ulist">ulist (list)</a></td>
-	<td class="summary">Renders an unordered list.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#olist">olist (list)</a></td>
-	<td class="summary">Renders an ordered list.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#vtable">vtable (...)</a></td>
-	<td class="summary">Renders a table (vertical).</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#ttable">ttable (opt, ...)</a></td>
-	<td class="summary">Renders a table.</td>
+		<td class="name"  nowrap><a href="scripts/restia.html">restia</a></td>
+		<td class="summary">Restia on the command line.</td>
 	</tr>
 </table>
-<h2><a href="#Utility_Functions">Utility Functions </a></h2>
-<table class="function_list">
+<h2>Topics</h2>
+<table class="module_list">
 	<tr>
-	<td class="name" nowrap><a href="#template">template (template[, cache=true])</a></td>
-	<td class="summary">Renders a template in moonhtml format</td>
+		<td class="name"  nowrap><a href="topics/readme.md.html">readme.md</a></td>
+		<td class="summary"></td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#markdown">markdown (document[, cache=true])</a></td>
-	<td class="summary">Renders a markdown file</td>
+		<td class="name"  nowrap><a href="topics/license.md.html">license.md</a></td>
+		<td class="summary"></td>
 	</tr>
 </table>
-
-<br/>
-<br/>
-
-
-    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "parsemd"></a>
-    <strong>parsemd (markdown)</strong>
-    </dt>
-    <dd>
-    Parses markdown into HTML
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">markdown</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-
-
-
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-
-
-
-    </ol>
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">parsemd <span class="string">'some *fancy* text'</span></pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "parsemdfile"></a>
-    <strong>parsemdfile (path)</strong>
-    </dt>
-    <dd>
-    Parses a markdown file.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">path</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The markdown file to read
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-
-
-
-    </ol>
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">parsemdfile <span class="string">'documents/markdown/article.md'</span></pre>
-    </ul>
-
-</dd>
-</dl>
-    <h2 class="section-header has-description"><a name="HTML_Builder_Environment"></a>HTML Builder Environment </h2>
-
-          <div class="section-description">
-           Automatically has access to the Restia library in the global variable 'restia'.
-          </div>
-    <dl class="function">
-    <dt>
-    <a name = "stylesheet"></a>
-    <strong>stylesheet (uri)</strong>
-    </dt>
-    <dd>
-    Embeds a stylesheet into the document.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">uri</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The URI to the stylesheet
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">stylesheet <span class="string">'styles/site.css'</span></pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "render"></a>
-    <strong>render (object)</strong>
-    </dt>
-    <dd>
-    Renders an object into the document.
- If the object is a function, it is called with the additional arguments to render.
- If the object is anything else, it is converted to a string and printed.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">object</span>
-         The object to render
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">render(restia.template <span class="string">'hello'</span>) <span class="comment">-- Renders a function
-</span>render(restia.markdown <span class="string">'world'</span>) <span class="comment">-- Renders a string</span></pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "html5"></a>
-    <strong>html5 ()</strong>
-    </dt>
-    <dd>
-    Renders a HTML5 doctype in place.
-
-
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">html5()</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "ulist"></a>
-    <strong>ulist (list)</strong>
-    </dt>
-    <dd>
-    Renders an unordered list.
- List elements can be any valid MoonHTML data object,
- including functions and tables.
- They get passed directly to the <code>li</code> function call.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">list</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         A sequence containing the list elements
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">ulist {
-	<span class="string">'Hello'</span>
-	<span class="string">'World'</span>
-	-&gt;
-		br <span class="string">'foo'</span>
-		<span class="global">print</span> <span class="string">'bar'</span>
-	<span class="string">'That was a list'</span>
-}</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "olist"></a>
-    <strong>olist (list)</strong>
-    </dt>
-    <dd>
-    Renders an ordered list.  Works like ulist.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">list</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         A sequence containing the list elements
-        </li>
-    </ul>
-
-
-
-    <h3>See also:</h3>
-    <ul>
-         <a href="index.html#ulist">ulist</a>
-    </ul>
-
-
-</dd>
-    <dt>
-    <a name = "vtable"></a>
-    <strong>vtable (...)</strong>
-    </dt>
-    <dd>
-    Renders a table (vertical).
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">...</span>
-         A list of rows (header rows can be marked by setting the <code>header</code> key)
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">vtable(
-	{<span class="string">'Name'</span>, <span class="string">'Balance'</span>, header = <span class="keyword">true</span>},
-	{<span class="string">'John'</span>, <span class="string">'500 €'</span>}
-)</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "ttable"></a>
-    <strong>ttable (opt, ...)</strong>
-    </dt>
-    <dd>
-    Renders a table.  Expects a sequence of keys as its first argument.
- Additional options can also be passed into the first table.
- Following arguments will be interpreted as key/value maps.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">opt</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         A sequence containing the keys to be rendered.
-        </li>
-        <li><span class="parameter">...</span>
-         A list of tables
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">ttable(
-	{<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'address'</span>, number: <span class="keyword">true</span>, header: <span class="keyword">true</span>, caption: -&gt; h1 <span class="string">'People'</span>}
-	{name: <span class="string">"John Doe"</span>, age: -&gt; i <span class="string">'unknown'</span>, address: -&gt; i <span class="string">'unknown'</span>}
-)</pre>
-    </ul>
-
-</dd>
-</dl>
-    <h2 class="section-header has-description"><a name="Utility_Functions"></a>Utility Functions </h2>
-
-          <div class="section-description">
-           General functionality of restia.
-          </div>
-    <dl class="function">
-    <dt>
-    <a name = "template"></a>
-    <strong>template (template[, cache=true])</strong>
-    </dt>
-    <dd>
-    Renders a template in moonhtml format
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">template</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Template file (without extension) to load
-        </li>
-        <li><span class="parameter">cache</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Whether to cache the template
-         (<em>default</em> true)
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">restia.template(<span class="string">'layout'</span>)(<span class="string">'argument 1'</span>, <span class="string">'argument 2'</span>, <span class="string">'etc.'</span>)</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "markdown"></a>
-    <strong>markdown (document[, cache=true])</strong>
-    </dt>
-    <dd>
-    Renders a markdown file
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">document</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Markdown file (without extension) to load
-        </li>
-        <li><span class="parameter">cache</span>
-            <span class="types"><span class="type">boolean</span></span>
-         Whether to cache the template
-         (<em>default</em> true)
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">restia.markdown(<span class="string">'content'</span>)</pre>
-    </ul>
-
-</dd>
-</dl>
-
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-06-15 16:31:11 </i>
+<i style="float:right;">Last updated 2019-07-08 18:14:24 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
