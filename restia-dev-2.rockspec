@@ -24,5 +24,13 @@ build = {
 	type = "builtin",
 	modules = {
 		['restia'] = 'restia/init.lua';
-	}
+		['restia.utils'] = 'restia/utils.lua';
+		['restia.commands'] = 'restia/commands.lua';
+		['restia.colors'] = 'restia/colors.lua';
+	};
+	install = {
+		bin = {
+			'bin/restia';
+		};
+	};
 }

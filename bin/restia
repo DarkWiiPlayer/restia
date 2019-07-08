@@ -1,0 +1,5 @@
+#!/usr/bin/env lua
+
+commands = require 'restia.commands'
+
+commands[...](select(2, ...))
