@@ -6,6 +6,6 @@
 -- @license Unlicense
 -- @script restia
 
-commands = require 'restia.commands'
+local commands = require 'restia.commands'
 
 commands[...](select(2, ...))

@@ -1,7 +1,7 @@
 local utils = require 'restia.utils'
 
 return {
-  new = function(name, ...)
+  new = function(name)
     name = name or 'application'
     utils.build_dir(nil, {
       [name] = {
