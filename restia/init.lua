@@ -189,7 +189,6 @@ function restia.template(template, cache)
 	if cache == nil then
 		cache = true
 	end
-	local result
 	if cache then
 		template_cache[template] = template_cache[template] or assert(ngx_html:loadmoonfile(template))
 		return template_cache[template]
@@ -210,7 +209,6 @@ function restia.markdown(document, cache)
 	document = document .. '.md' if cache == nil then
 		cache = true
 	end
-	local result
 	if cache then
 		markdown_cache[document] = markdown_cache[document] or parsemdfile(document)
 		return markdown_cache[document]
