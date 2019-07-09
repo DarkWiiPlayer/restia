@@ -1,0 +1,6 @@
+-- vim: set filetype=lua :miv --
+return {
+  _all = {
+    lpath = '?.lua;?/init.lua';
+  }
+}

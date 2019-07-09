@@ -1,5 +1,3 @@
-package.path = './?.lua;./?/init.lua;'..package.path
-
 restia = require 'restia'
 
 describe 'Restia', ->
