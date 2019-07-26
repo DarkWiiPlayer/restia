@@ -5,6 +5,7 @@ return {
     name = name or 'application'
     utils.build_dir(nil, {
       [name] = {
+        lua_modules = {};
         ['locations.conf'] = table.concat({
           'location = / {\n\tcontent_by_lua_file "controllers/front.lua";\n}';
           'location /static {\n\tdeny all;\n}';
