@@ -7,10 +7,10 @@ return {
       [name] = {
         ['.gitignore'] = table.concat({
           'lua_modules/*',
+          '.luarocks',
           '.secret/*',
         }, "\n");
         ['.secret'] = {};
-        lua_modules = {};
         ['locations.conf'] = table.concat({
           'location = / {\n\tcontent_by_lua_file "controllers/front.lua";\n}';
           'location /static {\n\tdeny all;\n}';
@@ -25,6 +25,10 @@ return {
         };
         models = {};
         lib = {};
+
+        -- Create local rock tree
+        ['.luarocks'] = {};
+        lua_modules = { lib = {} };
       };
     })
   end
