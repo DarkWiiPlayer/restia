@@ -14,7 +14,7 @@ description = {
 	 }
 }
 dependencies = {
-	"lua ~> 5.1";
+	"lua ~> 5";
 	"moonxml >= 3.2, < 4";
 	"xhmoon >= 1.2.0 < 2";
 	"moonscript";
