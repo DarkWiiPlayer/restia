@@ -7,7 +7,9 @@ return {
       [name] = {
         ['.gitignore'] = table.concat({
           'lua_modules/*',
+          '.secret/*',
         }, "\n");
+        ['.secret'] = {};
         lua_modules = {};
         ['locations.conf'] = table.concat({
           'location = / {\n\tcontent_by_lua_file "controllers/front.lua";\n}';
