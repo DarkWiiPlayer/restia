@@ -179,27 +179,32 @@ ngx_html.environment.restia = restia
 
 local template_cache = {}
 
---- Renders a template in moonhtml format
+--- Renders a template in moonhtml format.
 -- @tparam string template Template file (without extension) to load
 -- @tparam[opt=true] boolean cache Whether to cache the template
 -- @usage
--- 	restia.template('layout')('argument 1', 'argument 2', 'etc.')
-function restia.template(template, cache)
-	template = template .. '.moonhtml'
-	if cache == nil then
-		cache = true
+-- 	restia.template('layout', 'argument 1', 'argument 2', 'etc.')
+-- @todo: return values
+function restia.template(template, ...)
+	local buff = {}
+	local _print = ngx_html.environment.print
+
+	template_cache[template] = template_cache[template] or assert(ngx_html:loadmoonfile(template .. '.moonhtml'))
+
+	ngx_html.environment.print = function(...)
+		for i=1,select('#', ...) do
+			table.insert(buff, (select(i, ...)))
+		end
 	end
-	if cache then
-		template_cache[template] = template_cache[template] or assert(ngx_html:loadmoonfile(template))
-		return template_cache[template]
-	else
-		return assert(ngx_html:loadmoonfile(template))
-	end
+	template_cache[template](...)
+	ngx.print(table.concat(buff))
+
+	ngx_html.environment.print = _print 
 end
 
 local markdown_cache = {}
 
---- Renders a markdown file
+--- Renders a markdown file.
 -- @fixme Do caching properly
 -- @tparam string document Markdown file (without extension) to load
 -- @tparam[opt=true] boolean cache Whether to cache the template
