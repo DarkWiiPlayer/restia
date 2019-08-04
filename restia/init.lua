@@ -68,7 +68,7 @@ local ngx_html = moonxml.html:derive(function(_ENV)
 	-- @usage
 	-- 	html5()
 	function html5()
-		print('<!doctype html5>')
+		print('<!doctype html>')
 	end
 
 	--- Renders an unordered list.
