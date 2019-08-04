@@ -87,6 +87,7 @@ Changelog
 
 ### Development
 
+- Rewrite template loading to use buffer and render instantly
 - Add executable for scaffolding, etc.
 - Switch to moonxml initializers
 - Add `ttable` function for more complex tables
