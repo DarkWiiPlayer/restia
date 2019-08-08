@@ -197,7 +197,7 @@ function restia.template(template, ...)
 		end
 	end
 	template_cache[template](...)
-	ngx.print(table.concat(buff))
+	ngx.print(buff)
 
 	ngx_html.environment.print = _print 
 end
