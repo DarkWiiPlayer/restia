@@ -19,7 +19,7 @@ function commands.new(name)
 				'location ~ ^/(styles|javascript|images)/(.*) {\n\talias static/$1/$2;\n}';
 			}, '\n\n');
 			controllers = {
-				['front.lua'] = 'local restia = require "restia"\n\nrestia.template "views/front" ()';
+				['front.lua'] = 'local restia = require "restia"\n\nrestia.template "views/front"';
 			};
 			views = {
 				['front.moonhtml'] = 'h1 "Hello World!"';
