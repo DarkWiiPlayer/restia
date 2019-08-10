@@ -44,11 +44,18 @@ local ngx_html = moonxml.html:derive(function(_ENV)
 
 	--- Embeds a stylesheet into the document.
 	-- @tparam string uri The URI to the stylesheet
+	-- @tparam boolean async Load the stylesheet asynchronously and apply it once it's loaded
 	-- @function stylesheet
 	-- @usage
 	-- 	stylesheet 'styles/site.css'
-	stylesheet = function(uri)
-		link({rel='stylesheet', href=uri, type='text/css'})
+	-- 	stylesheet 'styles/form.css', true
+	stylesheet = function(uri, async)
+		if async then
+			link({rel='stylesheet', href=uri, type='text/css'})
+		else
+			--link({rel='preload', href=uri, type='text/css', onload='this.rel="stylesheet"'})
+			link({rel='stylesheet', href=uri, type='text/css', media='print', onload='this.media="all"'})
+		end
 	end
 
 	--- Renders an object into the document.
