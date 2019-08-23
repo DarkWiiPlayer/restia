@@ -19,6 +19,7 @@ dependencies = {
 	"xhmoon >= 1.2.0 < 2";
 	"moonscript";
 	"lunamark";
+	"luafilesystem";
 }
 build = {
 	type = "builtin",
