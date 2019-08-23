@@ -67,9 +67,12 @@ function commands.run()
 	os.execute(nginx)
 end
 
+commands.listing = {}
 local idx = 1
 for name, value in pairs(commands) do
-	commands[idx] = name
-	idx = idx + 1
+	if type(value)=='function' then
+		commands.listing[idx] = name
+		idx = idx + 1
+	end
 end
 return commands

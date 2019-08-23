@@ -14,7 +14,7 @@ Restia Commandline Utility
 --------------------------
 
 Available commands:
-]]..table.concat(commands, '\n')
+]]..table.concat(commands.listing, '\n')
 
 local command = commands[...]
 
