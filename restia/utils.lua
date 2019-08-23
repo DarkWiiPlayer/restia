@@ -5,6 +5,24 @@ local utils = {}
 local lfs = require 'lfs'
 local colors = require 'restia.colors'
 
+local function files(dir, func)
+	for path in lfs.dir(dir) do
+		if path:sub(1, 1) ~= '.' then
+			name = dir .. '/' .. path
+			mode = lfs.attributes(name, 'mode')
+			if mode == 'directory' then
+				files(name, func)
+			elseif mode == 'file' then
+				func(name)
+			end
+		end
+	end
+end
+
+function utils.files(dir)
+	return coroutine.wrap(files), dir, coroutine.yield
+end
+
 function utils.delete(path)
 	path = path:gsub('/+$', '')
 	local mode = lfs.attributes(path, 'mode')
