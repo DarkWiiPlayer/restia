@@ -56,8 +56,19 @@ function commands.new(name)
 	})
 end
 
+function commands.test()
+	os.execute(nginx..'-t')
+	print()
+	os.execute('luacheck -q .')
+	os.execute('busted')
+end
+
+function commands.run()
+	os.execute(nginx)
+end
+
 local idx = 1
-for name in pairs(commands) do
+for name, value in pairs(commands) do
 	commands[idx] = name
 	idx = idx + 1
 end
