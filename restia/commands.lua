@@ -25,6 +25,7 @@ function commands.new(name)
 				'lua_modules/*',
 				'.luarocks',
 				'.secret/*',
+				'logs/*',
 			}, "\n");
 			['.secret'] = {};
 			['locations.conf'] = table.concat({
