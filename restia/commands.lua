@@ -26,6 +26,7 @@ function commands.new(name)
 				'.luarocks',
 				'.secret/*',
 				'logs/*',
+				'*.pid',
 			}, "\n");
 			['.secret'] = {};
 			['locations.conf'] = table.concat({
