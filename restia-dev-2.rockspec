@@ -28,6 +28,7 @@ build = {
 		['restia.utils'] = 'restia/utils.lua';
 		['restia.commands'] = 'restia/commands.lua';
 		['restia.colors'] = 'restia/colors.lua';
+		['restia.contributors'] = 'contributors.lua';
 	};
 	install = {
 		bin = {
