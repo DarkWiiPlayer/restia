@@ -51,7 +51,7 @@ function commands.new(name)
 
 			-- Create local rock tree
 			['.luarocks'] = {};
-			lua_modules = { lib = {} };
+			lua_modules = {};
 		};
 	})
 end
