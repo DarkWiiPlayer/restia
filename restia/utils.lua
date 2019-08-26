@@ -87,6 +87,7 @@ function utils.build_dir(prefix, tab)
 			)
 			local file = io.open(path,'w')
 			file:write(value)
+			file:write('\n')
 			file:close()
 
 		elseif value==false then
