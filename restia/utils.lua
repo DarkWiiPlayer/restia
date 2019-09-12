@@ -8,8 +8,8 @@ local colors = require 'restia.colors'
 local function files(dir, func)
 	for path in lfs.dir(dir) do
 		if path:sub(1, 1) ~= '.' then
-			name = dir .. '/' .. path
-			mode = lfs.attributes(name, 'mode')
+			local name = dir .. '/' .. path
+			local mode = lfs.attributes(name, 'mode')
 			if mode == 'directory' then
 				files(name, func)
 			elseif mode == 'file' then
