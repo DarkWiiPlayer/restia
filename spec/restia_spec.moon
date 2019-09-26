@@ -11,6 +11,13 @@ describe 'Restia', ->
 		it 'should call ngx.print', ->
 			assert.has_no_errors -> restia.template 'spec/template'
 			assert.stub(ngx.print).was_called.with{'<!doctype html>'}
+
+	describe 'compiled templates', ->
+		it 'should not error for simple cases', ->
+			assert.has_no_errors -> restia.template 'spec/ctemplate'
+		it 'should call ngx.print', ->
+			assert.has_no_errors -> restia.template 'spec/ctemplate'
+			assert.stub(ngx.print).was_called.with{'<!doctype html>'}
 	
 	describe 'markdown', ->
 		it 'should work', ->
