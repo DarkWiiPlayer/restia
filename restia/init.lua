@@ -184,29 +184,54 @@ ngx_html.environment.restia = restia
 -- General functionality of restia.
 -- @section functions
 
-local template_cache = {}
+restia.templates = setmetatable({}, {__index = function(self, name)
+  if rawget(self, '__prefix') then
+    name = tostring(self.__prefix)..name
+  end
+
+  local file, template, err
+  file = io.open(name .. '.moonhtml.lua')
+  if file then
+    template, err = ngx_html:loadlua(file:read('*a'), tostring(name)..'.moonhtml.lua')
+  else
+    file = io.open(name .. '.moonhtml')
+    if file then
+      template, err = ngx_html:loadmoon(file:read('*a'), name..'.moonhtml')
+    end
+  end
+
+  if not template and err then
+    print("Error loading template "..name..": "..tostring(err))
+    return nil
+  end
+
+  rawset(self, name, function(...)
+    local buff = {}
+    local _print = ngx_html.environment.print
+
+    ngx_html.environment.print = function(...)
+      for i=1,select('#', ...) do
+        table.insert(buff, (select(i, ...)))
+      end
+    end
+    template(...)
+
+    ngx.print(buff)
+    ngx_html.environment.print = _print 
+  end)
+
+  return rawget(self, name)
+end})
 
 --- Renders a template in moonhtml format.
+-- This function is DEPRECATED and `restia.templates` should be used instead.
 -- @tparam string template Template file (without extension) to load
 -- @tparam[opt=true] boolean cache Whether to cache the template
 -- @usage
 -- 	restia.template('layout', 'argument 1', 'argument 2', 'etc.')
 -- @todo: return values
 function restia.template(template, ...)
-	local buff = {}
-	local _print = ngx_html.environment.print
-
-	template_cache[template] = template_cache[template] or assert(ngx_html:loadmoonfile(template .. '.moonhtml'))
-
-	ngx_html.environment.print = function(...)
-		for i=1,select('#', ...) do
-			table.insert(buff, (select(i, ...)))
-		end
-	end
-	template_cache[template](...)
-	ngx.print(buff)
-
-	ngx_html.environment.print = _print 
+  restia.templates[template](...)
 end
 
 local markdown_cache = {}
