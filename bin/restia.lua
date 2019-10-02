@@ -116,18 +116,20 @@ commands:add('new <directory>', [[
 	})
 end)
 
-commands:add('test <configuration>', [[
+commands:add('test <lua> <configuration>', [[
 	Runs several tests:
 	- 'nginx -t' to check the nginx configuration
 	- 'luacheck' for static analisys of the projects Lua files
 	- 'busted'   to run the projects tests
-	<configuration> defaults to openresty.conf
-]], function(configuration)
+	<lua> is the lua version to run busted with. default is 'luajit'.
+	<configuration> defaults to 'openresty.conf'.
+]], function(lua, configuration)
+	lua = lua or 'luajit'
 	configuration = configuration or 'openresty.conf'
 	os.execute(nginx:gsub('openresty.conf', configuration)..'-t')
 	print()
 	os.execute('luacheck -q .')
-	os.execute('busted')
+	os.execute('busted --lua '..lua..' .')
 end)
 
 commands:add('run <configuration>', [[
