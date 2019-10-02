@@ -21,43 +21,45 @@ If you want to use Restia for your own project,
 be warned that API changes are likely to happen unannounced during the
 zero-versions (`0.x.y`).
 
+Building the Documentation
+--------------------------------------------------------------------------------
+
+Lua doesn't install its documentation with luarocks, so it has to be built
+manually or read online. To build it, simply install [ldoc](ldoc), clone the
+restia repository and run `ldoc .` in its top level directory. The docs will
+be generated in the `doc` folder by default.
+
 Usage
 --------------------------------------------------------------------------------
 
-Currently there are only two functions in the module:
+### Executable
 
-- `restia.template`
-Renders a template in [MoonXML][moonxml] format (similar to lapis builder syntax)
-- `restia.markdown`
-Renders a markdown file (using [Lunamark][lunamark])
+To get an overview of the available commands, run `restia help`.
+
+The fastest way to get started is to just run
+
+	restia new app
+	cd app
+	restia test
+	restia run
+
+This will create some scaffolding for a web application and start the server.
+
+### Library
+
+Currently the library doesn't do all that much:
+
+-	`restia.templates`
+	A table that lazy-loads templates when indexed with a path.
+	When called, it returns a function that renders a template in
+	[MoonXML][moonxml] format (similar to lapis builder syntax).
+	The special index `__prefix` can be used to set a search path
+	for the moonthml files.
+-	`restia.markdown`
+	Renders a markdown file directly (using [Lunamark][lunamark])
 
 Restia also adds a few utility functions to the MoonXML environment.
-
-### A simple example setup
-
-In your openresty configuration:
-
-	location = / {
-		content_from_lua_file 'controllers/front.lua';
-	}
-
-and then, in `controllers/front.lua`
-
-	restia.template('views/front')
-
-in `views/front.moonhtml`:
-
-	html5!
-	html ->
-		head ->
-			stylesheet 'css/page.css'
-		body ->
-			header -> h1 'My Website'
-			main ->
-				h2 'I have content here'
-				restia.markdown 'views/front'
-
-and `views/front.md` contains some text in markdown format.
+A full list can be found in the documentation.
 
 Planned features
 --------------------------------------------------------------------------------
@@ -87,8 +89,9 @@ Changelog
 
 ### Development
 
+- Rewrite template loading to use a table and render on demand ;)
 - Rewrite template loading to use buffer and render instantly
-- Add executable for scaffolding, etc.
+- Add executable for scaffolding, running tests, starting a server, etc.
 - Switch to moonxml initializers
 - Add `ttable` function for more complex tables
 - Add `vtable` function for vertical tables
