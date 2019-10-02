@@ -60,7 +60,8 @@ http {
 	charset utf-8;
 
 	init_by_lua_block {
-		require 'restia'
+		local restia = require 'restia'
+		restia.templates.__prefix = 'views/'
 	}
 
 	server {
@@ -94,7 +95,7 @@ commands:add('new <directory>', [[
 					..'\nlocation ~ ^/(styles|javascript|images)/(.*) {\n\talias static/$1/$2;\n}';
 			};
 			controllers = {
-				['front.lua'] = 'local restia = require "restia"\n\nrestia.templates["views/front"]()';
+				['front.lua'] = 'local restia = require "restia"\n\nrestia.templates["front"]()';
 			};
 			views = {
 				['front.moonhtml'] = 'h1 "Hello World!"';
