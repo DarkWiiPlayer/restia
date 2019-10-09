@@ -89,6 +89,7 @@ Changelog
 
 ### Development
 
+- Add `config` module
 - Rewrite template loading to use a table and render on demand ;)
 - Rewrite template loading to use buffer and render instantly
 - Add executable for scaffolding, running tests, starting a server, etc.
