@@ -127,10 +127,12 @@ commands:add('test <lua> <configuration>', [[
 ]], function(lua, configuration)
 	lua = lua or 'luajit'
 	configuration = configuration or 'openresty.conf'
-	os.execute(nginx:gsub('openresty.conf', configuration)..'-t')
-	print()
-	os.execute('luacheck -q .')
-	os.execute('busted --lua '..lua..' .')
+  os.exit(
+    os.execute(nginx:gsub('openresty.conf', configuration)..'-t')
+    and os.execute('luacheck -q .')
+    and os.execute('busted --lua '..lua..' .')
+    or 1
+  )
 end)
 
 commands:add('run <configuration>', [[
