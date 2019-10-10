@@ -6,6 +6,8 @@
 
 local restia = {}
 
+restia.config = require 'restia.config'
+
 local moonxml = require "moonxml"
 local lunamark = require "lunamark"
 
