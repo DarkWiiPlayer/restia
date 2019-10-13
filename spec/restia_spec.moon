@@ -7,18 +7,20 @@ describe 'Restia', ->
 	
 	describe 'templates', ->
 		it 'should not error for simple cases', ->
-			assert.has_no_errors -> restia.template 'spec/template'
+			assert.has_no_errors -> restia.templates['spec/template']()
 		it 'should call ngx.print', ->
-			assert.has_no_errors -> restia.template 'spec/template'
+			assert.has_no_errors -> restia.templates['spec/template']()
 			assert.stub(ngx.print).was_called.with{'<!doctype html>'}
 
 	describe 'compiled templates', ->
 		it 'should not error for simple cases', ->
-			assert.has_no_errors -> restia.template 'spec/ctemplate'
+			assert.has_no_errors -> restia.templates['spec/ctemplate']()
 		it 'should call ngx.print', ->
-			assert.has_no_errors -> restia.template 'spec/ctemplate'
+			assert.has_no_errors -> restia.templates['spec/ctemplate']()
 			assert.stub(ngx.print).was_called.with{'<!doctype html>'}
 	
-	describe 'markdown', ->
-		it 'should work', ->
-			assert.is.string restia.markdown 'spec/template'
+	describe 'markdown module', ->
+		it 'should parse strings', ->
+			assert.is.truthy restia.markdown.parse('## foo')\match '<h2>foo</h2>'
+		it 'should load files', ->
+			assert.is.string restia.markdown.load 'spec/template'
