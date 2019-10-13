@@ -29,7 +29,7 @@ describe 'View', ->
 	for file in utils.files 'views'
 		describe file, ->
 			it 'should load', ->
-				restia.template file\gsub('%..-$', '')
+				restia.templates[file\gsub('%..-$', '')]
 ]===========]
 
 local openresty_conf =
