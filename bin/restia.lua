@@ -61,7 +61,9 @@ http {
 
 	init_by_lua_block {
 		local restia = require 'restia'
+		local config = require 'restia.config'
 		restia.templates.__prefix = 'views/'
+		package.loaded.config = config.bind 'config'
 	}
 
 	server {
@@ -95,16 +97,21 @@ commands:add('new <directory>', [[
 					..'\nlocation ~ ^/(styles|javascript|images)/(.*) {\n\talias static/$1/$2;\n}';
 			};
 			controllers = {
-				['front.lua'] = 'local restia = require "restia"\n\nrestia.templates["front"]()';
+				['front.lua'] = 'local restia = require "restia"\n\nrestia.templates["front"](require("config").i18n["en"])';
 			};
 			views = {
-				['front.moonhtml'] = 'h1 "Hello World!"';
+				['front.moonhtml'] = 'strings = ...\n\nh1 strings.title';
 			};
 			models = {};
 			lib = {};
 			spec = {
 				views = {
 					['load_spec.moon'] = test_views_load;
+				};
+			};
+			config = {
+				i18n = {
+					['en.yaml'] = 'title: My Website';
 				};
 			};
 
