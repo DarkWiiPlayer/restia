@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "restia"
-version = "dev-2"
+version = "dev-3"
 source = {
 	url = "git://github.com/DarkWiiPlayer/restia.git";
 }
