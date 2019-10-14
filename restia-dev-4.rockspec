@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "restia"
-version = "dev-3"
+version = "dev-4"
 source = {
 	url = "git://github.com/DarkWiiPlayer/restia.git";
 }
@@ -15,8 +15,8 @@ description = {
 }
 dependencies = {
 	"lua ~> 5";
-	"moonxml >= 3.2, < 4";
-	"xhmoon >= 1.2.0 < 2";
+	"moonxml";
+	"xhmoon";
 	"moonscript";
 	"lunamark";
 	"luafilesystem";
