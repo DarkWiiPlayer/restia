@@ -136,7 +136,7 @@ commands:add('test <lua> <configuration>', [[
 	configuration = configuration or 'openresty.conf'
   os.exit(
     os.execute(nginx:gsub('openresty.conf', configuration)..'-t')
-    and os.execute('luacheck -q .')
+    and os.execute('luacheck --exclude-files lua_modules/* -q .')
     and os.execute('busted --lua '..lua..' .')
     or 1
   )
