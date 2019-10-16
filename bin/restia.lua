@@ -46,8 +46,8 @@ events {
 http {
 	lua_code_cache off; # Change this for production
 
-	lua_package_path 'lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua;;';
-	lua_package_cpath 'lua_modules/lib/lua/5.1/?.so;lua_modules/lib/lua/5.1/?/init.so;;';
+	lua_package_path 'lib/?.lua;lib/?/init.lua;lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua;;';
+	lua_package_cpath 'lib/?.so;lib/?/init.so;lua_modules/lib/lua/5.1/?.so;lua_modules/lib/lua/5.1/?/init.so;;';
 
 	log_format  main '$remote_addr - $remote_user [$time_local] "$request" '
 	                 '$status $body_bytes_sent "$http_referer" '
