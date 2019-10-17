@@ -150,6 +150,14 @@ commands:add('run <configuration>', [[
 	os.execute(nginx:gsub('openresty.conf', config))
 end)
 
+commands:add('reload <configuration>', [[
+	Reload the configuration of a running server.
+	Default for <configuration> is 'openresty.conf'.
+]], function(config)
+	config = config or 'openresty.conf'
+	os.execute(nginx:gsub('openresty.conf', config)..'-s reload')
+end)
+
 commands:add('help', [[
 	Prints this help and exits.
 ]], function()
