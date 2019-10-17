@@ -9,6 +9,40 @@ local templates = {}
 
 local restia_html
 
+local template = {}
+local __template = {
+	__index = template;
+	__call=function(self, ...)
+		local meta = getmetatable(self) -- effectively, this very table
+		local old_call = meta.__call -- aka. this function
+		meta.__call = meta.__call2 or old_call -- see below
+		self:print(...)
+		meta.__call = old_call -- reset to original
+	end;
+	__call2=function(self, ...)
+		return self.raw(...)
+	end;
+}
+
+function template:render(...)
+	local buff = {}
+	local _print = restia_html.environment.print
+
+	restia_html.environment.print = function(...)
+		for i=1,select('#', ...) do
+			table.insert(buff, (select(i, ...)))
+		end
+	end
+	self.raw(...)
+	restia_html.environment.print = _print
+
+	return buff
+end
+
+function template:print(...)
+	ngx.print(self:render(...))
+end
+
 setmetatable(templates, {__index = function(self, name)
 	if rawget(self, '__prefix') then
 		name = tostring(self.__prefix)..name
@@ -30,20 +64,7 @@ setmetatable(templates, {__index = function(self, name)
 		return nil
 	end
 
-	rawset(self, name, function(...)
-		local buff = {}
-		local _print = restia_html.environment.print
-
-		restia_html.environment.print = function(...)
-			for i=1,select('#', ...) do
-				table.insert(buff, (select(i, ...)))
-			end
-		end
-		template(...)
-
-		ngx.print(buff)
-		restia_html.environment.print = _print
-	end)
+	rawset(self, name, setmetatable({raw=template}, __template))
 
 	return rawget(self, name)
 end})
