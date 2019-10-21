@@ -157,7 +157,7 @@ commands:add('run <configuration>', [[
 	Default for <configuration> is 'openresty.conf'.
 ]], function(config)
 	config = config or 'openresty.conf'
-	os.execute(nginx:gsub('openresty.conf', config))
+	os.execute(nginx:gsub('openresty.conf', config)..' -q')
 end)
 
 commands:add('reload <configuration>', [[
