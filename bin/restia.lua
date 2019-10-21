@@ -118,7 +118,7 @@ commands:add('new <directory>', [[
 			logs = {};
 
 			-- Create local rock tree
-			['.luarocks'] = {};
+			['.luarocks'] = {default-lua-version.lua = 'return "5.1"'};
 			lua_modules = {};
 		};
 	})
