@@ -74,6 +74,15 @@ http {
 }
 ]===========]
 
+local busted_conf = [==========[
+return {
+  _all = {
+    lpath = 'lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua';
+    cpath = 'lua_modules/lib/lua/5.1/?.lua;lua_modules/lib/lua/5.1/?/init.lua';
+  };
+}
+]==========]
+
 commands:add('new <directory>', [[
 	Creates a new application in the selected directory.
 	The default <directory> is 'application'.
@@ -114,6 +123,7 @@ commands:add('new <directory>', [[
 					['en.yaml'] = 'title: My Website';
 				};
 			};
+			['.busted'] = busted_conf;
 
 			logs = {};
 
