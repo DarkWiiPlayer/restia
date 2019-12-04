@@ -91,9 +91,7 @@ commands:add('new <directory>', [[
 	utils.build_dir(nil, {
 		[name] = {
 			['.gitignore'] = table.concat({
-				'lua_modules/*',
-				'.luarocks',
-				'.secret/*',
+				'.*',
 				'logs/*',
 				'*.pid',
 			}, "\n");
@@ -129,7 +127,7 @@ commands:add('new <directory>', [[
 
 			-- Create local rock tree
 			['.luarocks'] = {['default-lua-version.lua'] = 'return "5.1"'};
-			lua_modules = {};
+			lua_modules = {['.gitignore'] = '*'};
 		};
 	})
 end)
