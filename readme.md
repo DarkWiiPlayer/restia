@@ -3,10 +3,46 @@ Restia
 
 Restia is a library that aims to make developing web-applications in Lua easier.
 
-It differs from frameworks like Lapis or Rails in that it is less opinionated and
-does not provide any inversion of control;
-the user still decides when to call restia and when not to, allowing for easier
-integration into existing systems.
+### What do I need to get started?
+
+	restia new .
+	restia run &
+
+That's it. You can now open it in your browser at localhost:8080 or start
+hacking the code right away :)
+
+### What makes it different?
+
+Unlike with frameworks like Rails or Lapis, the developer stays in control.
+
+Restia is your tool, not your overlord.
+It aims to help where it can, without forcing the shape of your final product.
+
+You might have heared about "convention over configuration".
+But that's not really true; the configuration is there, it's just encoded as
+defaults in the framework itself, making it harder to customize.
+
+Restia keeps this *convention* part out of the library and, instead, generates
+configurations that represent these conventions.
+The effect is the same, but it makes it easier to change things.
+
+I call this aproach
+
+> "Convention encoded in generated configuration over headache"
+
+### What makes it *special*?
+
+**Simplicity** — Restia is built to be simple, which makes it easy to extend
+
+**Control** — Restia doesn't tell you what to do; it gives you its idea of a
+project layout and lets you do whatever you want with it.
+
+**Modularity** — Not everything is a web app; maybe you just need the
+templating? or the config loading? no problem, it's split into modules!
+
+**Self-Contained** — Thanks to Luarocks being awesome, installing restia
+separately for just the project is trivial. The template project makes it even
+easier!
 
 Work in Progress
 --------------------------------------------------------------------------------
@@ -32,34 +68,43 @@ be generated in the `doc` folder by default.
 Usage
 --------------------------------------------------------------------------------
 
+### Getting started
+
+If you're on the fence about installing restia system-wide, you can do the
+following:
+
+	mkdir trying_out_restia && cd trying_out_restia
+	mkdir .luarocks lua_modules
+	luarocks
+	# Confirm the default rock-tree is now lua_modules
+	luarocks --lua-version 5.1 install restia --dev
+	restia new .
+	restia run &
+
+After that you will have a template project in the current directory and restia
+running in the background.
+
+You can now start looking at the project directory, make changes and reload
+restia with
+
+	restia test
+	restia reload
+
 ### Executable
+
+The `restia` executable is a convenient script that takes care of generating new
+project trees and running them, as well as some simple helper functionalities
+like running tests, reloading the server, etc.
 
 To get an overview of the available commands, run `restia help`.
 
-The fastest way to get started is to just run
-
-	restia new app
-	cd app
-	restia test
-	restia run
-
-This will create some scaffolding for a web application and start the server.
-
 ### Library
 
-Currently the library doesn't do all that much:
+Restias main features as of now are:
+- Integration of moonhtml templates
+- A very generic config loader with optional support for json, yaml, etc.
 
--	`restia.templates`
-	A table that lazy-loads templates when indexed with a path.
-	When called, it returns a function that renders a template in
-	[MoonXML][moonxml] format (similar to lapis builder syntax).
-	The special index `__prefix` can be used to set a search path
-	for the moonthml files.
--	`restia.markdown`
-	Renders a markdown file directly (using [Lunamark][lunamark])
-
-Restia also adds a few utility functions to the MoonXML environment.
-A full list can be found in the documentation.
+See the documentation for more information on this.
 
 Planned features
 --------------------------------------------------------------------------------
@@ -89,6 +134,7 @@ Changelog
 
 ### Development
 
+- Integrate templates with config
 - Add `config` module
 - Rewrite template loading to use a table and render on demand ;)
 - Rewrite template loading to use buffer and render instantly
