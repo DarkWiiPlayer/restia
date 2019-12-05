@@ -61,9 +61,9 @@ http {
 
 	init_by_lua_block {
 		local restia = require 'restia'
-		local config = require 'restia.config'
 		restia.templates.__prefix = 'views/'
-		package.loaded.config = config.bind 'config'
+		package.loaded.config = restia.config.bind 'config'
+		package.loaded.config.secret = restia.config.bind '.secret'
 	}
 
 	server {
