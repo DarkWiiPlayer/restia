@@ -51,6 +51,13 @@ function config.bind(dir)
 	end})
 end
 
+config.finders:insert(readfile)
+
+config.finders:insert(function(name)
+	local f = loadfile(name..'.lua')
+	return f and f() or nil
+end)
+
 local json = try_require 'cjson'
 if json then
 	config.finders:insert(function(file)
