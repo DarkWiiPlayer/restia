@@ -29,7 +29,7 @@ describe 'View', ->
 	for file in utils.files 'views'
 		describe file, ->
 			it 'should load', ->
-				assert.truthy restia.templates[file\gsub('%..-$', '')]
+				assert.truthy require("templates")[file\gsub('%..-$', '')]
 ]===========]
 
 local openresty_conf =
@@ -61,7 +61,7 @@ http {
 
 	init_by_lua_block {
 		local restia = require 'restia'
-		restia.templates.__prefix = 'views/'
+		package.loaded.templates = restia.config.bind 'views'
 		package.loaded.config = restia.config.bind 'config'
 		package.loaded.config.secret = restia.config.bind '.secret'
 	}
@@ -104,7 +104,7 @@ commands:add('new <directory>', [[
 					..'\nlocation ~ ^/(styles|javascript|images)/(.*) {\n\talias static/$1/$2;\n}';
 			};
 			controllers = {
-				['front.lua'] = 'local restia = require "restia"\n\nrestia.templates["front"](require("config").i18n["en"])';
+				['front.lua'] = 'local restia = require "restia"\n\nrequire("templates")["front"](require("config").i18n["en"])';
 			};
 			views = {
 				['front.moonhtml'] = 'strings = ...\n\nh1 strings.title';

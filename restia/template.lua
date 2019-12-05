@@ -1,15 +1,15 @@
 --- Template module.
 -- Sets up an xhMoon environment and adds the utility functions.
--- @module restia
+-- @module restia.template
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
+local template = {}
+
 local moonxml = require "moonxml"
-local templates = {}
 
 local restia_html
 
-local template = {}
 local __template = {
 	__index = template;
 	__call=function(self, ...)
@@ -24,6 +24,28 @@ local __template = {
 	end;
 }
 
+--- Loads a template from lua code.
+-- The code may be compiled bytecode.
+function template.loadlua(code, filename)
+	local template, err = restia_html:loadlua(code, filename)
+	if template then
+		return setmetatable({raw=template}, __template)
+	else
+		return nil, err
+	end
+end
+
+--- Loads a template from moonscript code.
+function template.loadmoon(code, filename)
+	local template, err = restia_html:loadmoon(code, filename)
+	if template then
+		return setmetatable({raw=template}, __template)
+	else
+		return nil, err
+	end
+end
+
+--- Renders the template to a buffer table
 function template:render(...)
 	local buff = {}
 	local _print = restia_html.environment.print
@@ -39,35 +61,10 @@ function template:render(...)
 	return buff
 end
 
+--- Renders a table and directly sends it to nginx
 function template:print(...)
 	ngx.print(self:render(...))
 end
-
-setmetatable(templates, {__index = function(self, name)
-	if rawget(self, '__prefix') then
-		name = tostring(self.__prefix)..name
-	end
-
-	local file, template, err
-	file = io.open(name .. '.moonhtml.lua')
-	if file then
-		template, err = restia_html:loadlua(file:read('*a'), tostring(name)..'.moonhtml.lua')
-	else
-		file = io.open(name .. '.moonhtml')
-		if file then
-			template, err = restia_html:loadmoon(file:read('*a'), name..'.moonhtml')
-		end
-	end
-
-	if not template and err then
-		print("Error loading template "..name..": "..tostring(err))
-		return nil
-	end
-
-	rawset(self, name, setmetatable({raw=template}, __template))
-
-	return rawget(self, name)
-end})
 
 --- HTML Builder Environment.
 -- Automatically has access to the Restia library in the global variable 'restia'.
@@ -213,4 +210,4 @@ restia_html = moonxml.html:derive(function(_ENV)
 	end
 end)
 
-return templates
+return template

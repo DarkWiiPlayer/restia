@@ -1,26 +1,26 @@
 restia = require 'restia'
 
+readfile = =>
+	file = io.open(@)
+	content = file\read "*a"
+	file\close!
+	content
+
 describe 'Restia', ->
 	setup ->
 		_G.ngx = { print: stub.new! }
 		-- Normal globals doesn't work, since busted sanboxes those and restia already has a reference to the real global env
-	
-	describe 'templates', ->
+
+	describe 'uncompiled templates', ->
 		it 'should not error for simple cases', ->
-			assert.has_no_errors -> restia.templates['spec/template']()
+			assert.has_no_errors -> restia.template.loadmoon(readfile('spec/template.moonhtml'), 'foo')()
 		it 'should call ngx.print', ->
-			assert.has_no_errors -> restia.templates['spec/template']()
+			assert.has_no_errors -> restia.template.loadmoon(readfile('spec/template.moonhtml'), 'foo')()
 			assert.stub(ngx.print).was_called.with{'<!doctype html>'}
 
 	describe 'compiled templates', ->
 		it 'should not error for simple cases', ->
-			assert.has_no_errors -> restia.templates['spec/ctemplate']()
+			assert.has_no_errors -> restia.template.loadlua(readfile('spec/ctemplate.moonhtml.lua'), 'foo')()
 		it 'should call ngx.print', ->
-			assert.has_no_errors -> restia.templates['spec/ctemplate']()
+			assert.has_no_errors -> restia.template.loadlua(readfile('spec/ctemplate.moonhtml.lua'), 'foo')()
 			assert.stub(ngx.print).was_called.with{'<!doctype html>'}
-	
-	describe 'markdown module', ->
-		it 'should parse strings', ->
-			assert.is.truthy restia.markdown.parse('## foo')\match '<h2>foo</h2>'
-		it 'should load files', ->
-			assert.is.string restia.markdown.load 'spec/template'

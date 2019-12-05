@@ -81,6 +81,22 @@ if lfs then
 	end)
 end
 
+local template = try_require 'restia.template'
+if template then
+	config.finders:insert(function(name)
+		local file = io.open(name .. '.moonhtml.lua')
+		if file then
+			return assert(template.loadlua(file:read("*a"), tostring(name)..'.moonhtml.lua'))
+		else
+			file = io.open(name .. '.moonhtml')
+			if file then
+				return assert(template.loadmoon(file:read("*a"), tostring(name)..'.moonhtml'))
+			end
+		end
+		return nil
+	end)
+end
+
 config.finders:insert(readfile)
 
 return config
