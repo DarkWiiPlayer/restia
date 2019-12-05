@@ -92,6 +92,7 @@ commands:add('new <directory>', [[
 		[name] = {
 			['.gitignore'] = table.concat({
 				'.*',
+				'*_temp',
 				'logs/*',
 				'*.pid',
 			}, "\n");
