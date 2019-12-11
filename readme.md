@@ -134,6 +134,8 @@ Changelog
 
 ### Development
 
+- Add support for moonhtml+cosmo multistage templates
+- Add support for cosmo templates
 - Integrate templates with config
 - Add `config` module
 - Rewrite template loading to use a table and render on demand ;)

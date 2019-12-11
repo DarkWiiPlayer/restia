@@ -88,19 +88,66 @@ if lfs then
 	end)
 end
 
+-- This returns the plain cosmo template, which has to be
+-- manually printed to the client with ngx.say
+local cosmo = try_require 'cosmo'
+if cosmo then
+	config.finders:insert(function(name)
+		name = tostring(name) .. '.cosmo.lua'
+		local file = io.open(name)
+		if file then
+			return assert(cosmo.compile(file:read("*a"), name))
+		else
+			return nil
+		end
+	end)
+end
+
 local template = try_require 'restia.template'
 if template then
-	config.finders:insert(function(name)
-		local file = io.open(name .. '.moonhtml.lua')
-		if file then
-			return assert(template.loadlua(file:read("*a"), tostring(name)..'.moonhtml.lua'))
-		else
-			file = io.open(name .. '.moonhtml')
+	-- Multistage templates
+	if cosmo then
+		config.finders:insert(function(name)
+			name = tostring(name) .. '.cosmo.moonhtml.lua'
+			local file = io.open(name)
 			if file then
-				return assert(template.loadmoon(file:read("*a"), tostring(name)..'.moonhtml'))
+				local prerendered = table.concat(assert(template.loadlua(file:read("*a"), name)):render())
+				return assert(cosmo.compile(prerendered))
+			else
+				return nil
 			end
+		end)
+
+		config.finders:insert(function(name)
+			name = tostring(name) .. '.cosmo.moonhtml'
+			local file = io.open(name)
+			if file then
+				local prerendered = table.concat(assert(template.loadmoon(file:read("*a"), name)):render())
+				return assert(cosmo.compile(prerendered))
+			else
+				return nil
+			end
+		end)
+	end
+
+	config.finders:insert(function(name)
+		name = tostring(name) .. '.moonhtml.lua'
+		local file = io.open(name)
+		if file then
+			return assert(template.loadlua(file:read("*a"), name))
+		else
+			return nil
 		end
-		return nil
+	end)
+
+	config.finders:insert(function(name)
+		name = tostring(name) .. '.moonhtml'
+		local file = io.open(name)
+		if file then
+			return assert(template.loadmoon(file:read("*a"), name))
+		else
+			return nil
+		end
 	end)
 end
 
