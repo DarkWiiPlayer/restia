@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Restia</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Restia</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Local_Functions">Local Functions</a></li>
+<li><a href="#Config_finders">Config finders </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>restia.config</strong></li>
+  <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
+  <li><a href="../modules/restia.template.html">restia.template</a></li>
+  <li><a href="../modules/restia.utils.html">restia.utils</a></li>
+</ul>
+<h2>Scripts</h2>
+<ul class="nowrap">
+  <li><a href="../scripts/restia.html">restia</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/readme.md.html">readme</a></li>
+  <li><a href="../topics/license.md.html">license</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>restia.config</code></h1>
+<p>Loads configurations from files on demand.</p>
+<p>
+
+</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: Unlicense</li>
+        <li><strong>Author</strong>: DarkWiiPlayer</li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#bind">bind (Path)</a></td>
+	<td class="summary">Binds a table to a config directory.</td>
+	</tr>
+</table>
+<h2><a href="#Local_Functions">Local Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#try_require">try_require (modname)</a></td>
+	<td class="summary">Tries requiring a module.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#readfile">readfile (path)</a></td>
+	<td class="summary">Reads a file.</td>
+	</tr>
+</table>
+<h2><a href="#Config_finders">Config finders </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#readfile">readfile (name)</a></td>
+	<td class="summary">Loads a file as plain text.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loadlua">loadlua (name)</a></td>
+	<td class="summary">Loads and runs a Lua file and returns its result.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cjson">cjson (name)</a></td>
+	<td class="summary">Loads a JSON document and returns it as a table using cjson.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#lyaml">lyaml (name)</a></td>
+	<td class="summary">Loads a YAML file and returns it as a table using lyaml.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#lfs">lfs (name)</a></td>
+	<td class="summary">Binds a subdirectory</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cosmo">cosmo (name)</a></td>
+	<td class="summary">Loads a cosmo template.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cosmo_moonhtml_lua">cosmo_moonhtml_lua (name)</a></td>
+	<td class="summary">Multistage template for compiled moonhtml + cosmo.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cosmo_moonhtml">cosmo_moonhtml (name)</a></td>
+	<td class="summary">Multistage template for uncompiled moonhtml + cosmo.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#moonhtml_lua">moonhtml_lua (name)</a></td>
+	<td class="summary">Loads a preompiled moonhtml template.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#moonhtml">moonhtml (name)</a></td>
+	<td class="summary">Loads a moonhtml template.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "bind"></a>
+    <strong>bind (Path)</strong>
+    </dt>
+    <dd>
+    Binds a table to a config directory.
+ The returned table maps keys to configurations, which are handled by different "finders". Finders are handlers that try loading a config entry in a certain format and are tried  sequentially until one succeeds. If no finder matches, nil is returned.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">Path</span>
+            <span class="types"><span class="type">dir</span></span>
+         to the directory to look in.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        config A table that maps to the config directory
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> main_config = config.bind <span class="string">'configurations'</span>
+main_config.foo.bar
+<span class="comment">-- Loads some file like foo.json or foo.yaml
+</span><span class="comment">-- in the configurations directory</span></pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "try_require"></a>
+    <strong>try_require (modname)</strong>
+    </dt>
+    <dd>
+    Tries requiring a module.
+ Returns the module if successful or nil otherwise.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">modname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of the module as would be passed to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-require">require</a>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "readfile"></a>
+    <strong>readfile (path)</strong>
+    </dt>
+    <dd>
+    Reads a file.
+ Returns the files contents if successful or nil otherwise.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The path to the file to read
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Config_finders"></a>Config finders </h2>
+
+          <div class="section-description">
+           Functions that turn the entry name into a filename and attempt to load with some specific mechanism.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "readfile"></a>
+    <strong>readfile (name)</strong>
+    </dt>
+    <dd>
+    Loads a file as plain text.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Used as is without extension.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loadlua"></a>
+    <strong>loadlua (name)</strong>
+    </dt>
+    <dd>
+    Loads and runs a Lua file and returns its result.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The extension <code>.lua</code> is added.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cjson"></a>
+    <strong>cjson (name)</strong>
+    </dt>
+    <dd>
+    Loads a JSON document and returns it as a table using cjson.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The extension <code>.json</code> is added.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "lyaml"></a>
+    <strong>lyaml (name)</strong>
+    </dt>
+    <dd>
+    Loads a YAML file and returns it as a table using lyaml.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The extensions <code>.yaml</code> and <code>.yml</code> are both tried.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "lfs"></a>
+    <strong>lfs (name)</strong>
+    </dt>
+    <dd>
+    Binds a subdirectory
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Treated as a directory name as is
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cosmo"></a>
+    <strong>cosmo (name)</strong>
+    </dt>
+    <dd>
+    Loads a cosmo template.
+ This returns the plain cosmo template, which has to be
+ manually printed to the client with <code>ngx.say</code>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The extension <code>.cosmo</code> is added.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cosmo_moonhtml_lua"></a>
+    <strong>cosmo_moonhtml_lua (name)</strong>
+    </dt>
+    <dd>
+    Multistage template for compiled moonhtml + cosmo.
+ Loads and renders a precompiled moonhtml template, then compiles the resulting string as a cosmo template.
+ The resulting template renders a string which has to manually be sent to the client with <code>ngx.say</code>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The extension <code>.cosmo.moonhtml.lua</code> is added.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cosmo_moonhtml"></a>
+    <strong>cosmo_moonhtml (name)</strong>
+    </dt>
+    <dd>
+    Multistage template for uncompiled moonhtml + cosmo.
+ Loads and renders a moonhtml template, then compiles the resulting string as a cosmo template.
+ The resulting template renders a string which has to manually be sent to the client with <code>ngx.say</code>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The extension <code>.cosmo.moonhtml</code> is added.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "moonhtml_lua"></a>
+    <strong>moonhtml_lua (name)</strong>
+    </dt>
+    <dd>
+    Loads a preompiled moonhtml template.
+ Loads the file as a Lua file with the moonhtml environment using <a href="../modules/restia.template.html#">restia.template</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The extension <code>.moonhtml.lua</code> is added.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "moonhtml"></a>
+    <strong>moonhtml (name)</strong>
+    </dt>
+    <dd>
+    Loads a moonhtml template.
+ Loads the file as a Moonscript file with the moonhtml environment using <a href="../modules/restia.template.html#">restia.template</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The extension <code>.moonhtml</code> is added.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-12-12 15:58:26 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

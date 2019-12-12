@@ -39,9 +39,10 @@
 </ul>
 <h2>Modules</h2>
 <ul class="nowrap">
-  <li><a href="../modules/config.html">config</a></li>
-  <li><a href="../modules/restia.html">restia</a></li>
-  <li><a href="../modules/utils.html">utils</a></li>
+  <li><a href="../modules/restia.config.html">restia.config</a></li>
+  <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
+  <li><a href="../modules/restia.template.html">restia.template</a></li>
+  <li><a href="../modules/restia.utils.html">restia.utils</a></li>
 </ul>
 <h2>Scripts</h2>
 <ul class="nowrap">
@@ -57,10 +58,51 @@
 
 <p>Restia is a library that aims to make developing web-applications in Lua easier.</p>
 
-<p>It differs from frameworks like Lapis or Rails in that it is less opinionated and
-does not provide any inversion of control;
-the user still decides when to call restia and when not to, allowing for easier
-integration into existing systems.</p>
+<h3>What do I need to get started?</h3>
+
+
+<pre>
+restia new .
+restia run &amp;
+</pre>
+
+<p>That's it. You can now open it in your browser at localhost:8080 or start
+hacking the code right away :)</p>
+
+<h3>What makes it different?</h3>
+
+<p>Unlike with frameworks like Rails or Lapis, the developer stays in control.</p>
+
+<p>Restia is your tool, not your overlord.
+It aims to help where it can, without forcing the shape of your final product.</p>
+
+<p>You might have heared about "convention over configuration".
+But that's not really true; the configuration is there, it's just encoded as
+defaults in the framework itself, making it harder to customize.</p>
+
+<p>Restia keeps this <em>convention</em> part out of the library and, instead, generates
+configurations that represent these conventions.
+The effect is the same, but it makes it easier to change things.</p>
+
+<p>I call this aproach</p>
+
+<blockquote>
+    <p>"Convention encoded in generated configuration over headache"</p>
+</blockquote>
+
+<h3>What makes it <em>special</em>?</h3>
+
+<p><strong>Simplicity</strong> — Restia is built to be simple, which makes it easy to extend</p>
+
+<p><strong>Control</strong> — Restia doesn't tell you what to do; it gives you its idea of a
+project layout and lets you do whatever you want with it.</p>
+
+<p><strong>Modularity</strong> — Not everything is a web app; maybe you just need the
+templating? or the config loading? no problem, it's split into modules!</p>
+
+<p><strong>Self-Contained</strong> — Thanks to Luarocks being awesome, installing restia
+separately for just the project is trivial. The template project makes it even
+easier!</p>
 
 <h2>Work in Progress</h2>
 
@@ -83,46 +125,61 @@ be generated in the <code>doc</code> folder by default.</p>
 
 <h2>Usage</h2>
 
+<h3>Getting started</h3>
+
+<p>If you're on the fence about installing restia system-wide, you can do the
+following:</p>
+
+
+<pre>
+mkdir trying_out_restia &amp;&amp; cd trying_out_restia
+mkdir .luarocks lua_modules
+luarocks
+# Confirm the default rock-tree is now lua_modules
+luarocks <span class="comment">--lua-version 5.1 install restia --dev
+</span>restia new .
+restia run &amp;
+</pre>
+
+<p>After that you will have a template project in the current directory and restia
+running in the background.</p>
+
+<p>You can now start looking at the project directory, make changes and reload
+restia with</p>
+
+
+<pre>
+restia test
+restia reload
+</pre>
+
 <h3>Executable</h3>
+
+<p>The <a href="../scripts/restia.html#">restia</a> executable is a convenient script that takes care of generating new
+project trees and running them, as well as some simple helper functionalities
+like running tests, reloading the server, etc.</p>
 
 <p>To get an overview of the available commands, run <code>restia help</code>.</p>
 
-<p>The fastest way to get started is to just run</p>
-
-
-<pre>
-restia new app
-cd app
-restia test
-restia run
-</pre>
-
-<p>This will create some scaffolding for a web application and start the server.</p>
-
 <h3>Library</h3>
 
-<p>Currently the library doesn't do all that much:</p>
+<p>Restias main features as of now are:
+- Integration of moonhtml templates
+- A very generic config loader with optional support for json, yaml, etc.</p>
 
-<ul>
-    <li><code>restia.templates</code>
+<p>See the documentation for more information on this.</p>
 
-<pre>
-A <span class="global">table</span> that lazy-loads templates when indexed with a path.
-When called, it returns a <span class="keyword">function</span> that renders a template <span class="keyword">in</span>
-[MoonXML][moonxml] format (similar to lapis builder syntax).
-The special index <span class="backtick"><code>__prefix</code></span> can be used to set a search path
-<span class="keyword">for</span> the moonthml files.
-</pre>
-</li>
-    <li><code>restia.markdown</code>
+<h2>Modules</h2>
 
-<pre>
-Renders a markdown file directly (using [Lunamark][lunamark])
-</pre>
+<h3>Config</h3>
 
-Restia also adds a few utility functions to the MoonXML environment.
-A full list can be found in the documentation.</li>
-</ul>
+<p>The <a href="../modules/restia.config.html#">restia.config</a> module takes care of everything configuration-relatedi.
+Its main function is <code>bind</code>, which binds a directory to a table.
+Indexing the returned table will iterate through a series of loader functions,
+which each attempt to load the config entry in a certain way, like loading a
+yaml file or binding a subdirectory.</p>
+
+<p>See the documentation of the <a href="../modules/restia.config.html#">restia.config</a> module for more information.</p>
 
 <h2>Planned features</h2>
 
@@ -154,7 +211,10 @@ generate documentation, so its format should be used.</p>
 <h3>Development</h3>
 
 <ul>
-    <li>Add <a href="../modules/config.html#">config</a> module</li>
+    <li>Add support for moonhtml+cosmo multistage templates</li>
+    <li>Add support for cosmo templates</li>
+    <li>Integrate templates with config</li>
+    <li>Add <code>config</code> module</li>
     <li>Rewrite template loading to use a table and render on demand ;)</li>
     <li>Rewrite template loading to use buffer and render instantly</li>
     <li>Add executable for scaffolding, running tests, starting a server, etc.</li>
@@ -179,7 +239,7 @@ generate documentation, so its format should be used.</p>
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-10-09 22:06:19 </i>
+<i style="float:right;">Last updated 2019-12-12 15:58:26 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
