@@ -106,6 +106,19 @@ Restias main features as of now are:
 
 See the documentation for more information on this.
 
+Modules
+--------------------------------------------------------------------------------
+
+### Config
+
+The `restia.config` module takes care of everything configuration-relatedi.
+Its main function is `bind`, which binds a directory to a table.
+Indexing the returned table will iterate through a series of loader functions,
+which each attempt to load the config entry in a certain way, like loading a
+yaml file or binding a subdirectory.
+
+See the documentation of the `restia.config` module for more information.
+
 Planned features
 --------------------------------------------------------------------------------
 

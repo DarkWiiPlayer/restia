@@ -1,5 +1,4 @@
 --- Loads configurations from files on demand.
--- @module config
 
 -- vim: set noexpandtab :miv --
 
@@ -51,13 +50,26 @@ function config.bind(dir)
 	end})
 end
 
+--- Config finders.
+-- Functions that turn the entry name into a filename and attempt to load with some specific mechanism.
+-- @section finders
+
+--- Loads a file as plain text.
+-- @function readfile
+-- @tparam string name Used as is without extension.
 config.finders:insert(readfile)
 
+--- Loads and runs a Lua file and returns its result.
+-- @function loadlua
+-- @tparam string name The extension `.lua` is added.
 config.finders:insert(function(name)
 	local f = loadfile(name..'.lua')
 	return f and f() or nil
 end)
 
+--- Loads a JSON document and returns it as a table using cjson.
+-- @function cjson
+-- @tparam string name The extension `.json` is added.
 local json = try_require 'cjson'
 if json then
 	config.finders:insert(function(file)
@@ -68,6 +80,9 @@ if json then
 	end)
 end
 
+--- Loads a YAML file and returns it as a table using lyaml.
+-- @function lyaml
+-- @tparam string name The extensions `.yaml` and `.yml` are both tried.
 local yaml = try_require 'lyaml'
 if yaml then
 	config.finders:insert(function(file)
@@ -78,6 +93,9 @@ if yaml then
 	end)
 end
 
+--- Binds a subdirectory
+-- @function lfs
+-- @tparam string name Treated as a directory name as is
 local lfs = try_require 'lfs'
 if lfs then
 	config.finders:insert(function(dir)
@@ -88,8 +106,11 @@ if lfs then
 	end)
 end
 
+--- Loads a cosmo template.
 -- This returns the plain cosmo template, which has to be
--- manually printed to the client with ngx.say
+-- manually printed to the client with `ngx.say`.
+-- @function cosmo
+-- @tparam string name The extension `.cosmo` is added.
 local cosmo = try_require 'cosmo'
 if cosmo then
 	config.finders:insert(function(name)
@@ -105,8 +126,12 @@ end
 
 local template = try_require 'restia.template'
 if template then
-	-- Multistage templates
 	if cosmo then
+		--- Multistage template for compiled moonhtml + cosmo.
+		-- Loads and renders a precompiled moonhtml template, then compiles the resulting string as a cosmo template.
+		-- The resulting template renders a string which has to manually be sent to the client with `ngx.say`.
+		-- @function cosmo_moonhtml_lua
+		-- @tparam string name The extension `.cosmo.moonhtml.lua` is added.
 		config.finders:insert(function(name)
 			name = tostring(name) .. '.cosmo.moonhtml.lua'
 			local file = io.open(name)
@@ -118,6 +143,11 @@ if template then
 			end
 		end)
 
+		--- Multistage template for uncompiled moonhtml + cosmo.
+		-- Loads and renders a moonhtml template, then compiles the resulting string as a cosmo template.
+		-- The resulting template renders a string which has to manually be sent to the client with `ngx.say`.
+		-- @function cosmo_moonhtml
+		-- @tparam string name The extension `.cosmo.moonhtml` is added.
 		config.finders:insert(function(name)
 			name = tostring(name) .. '.cosmo.moonhtml'
 			local file = io.open(name)
@@ -130,6 +160,10 @@ if template then
 		end)
 	end
 
+	--- Loads a preompiled moonhtml template.
+	-- Loads the file as a Lua file with the moonhtml environment using `restia.template`.
+	-- @function moonhtml_lua
+	-- @tparam string name The extension `.moonhtml.lua` is added.
 	config.finders:insert(function(name)
 		name = tostring(name) .. '.moonhtml.lua'
 		local file = io.open(name)
@@ -140,6 +174,10 @@ if template then
 		end
 	end)
 
+	--- Loads a moonhtml template.
+	-- Loads the file as a Moonscript file with the moonhtml environment using `restia.template`.
+	-- @function moonhtml
+	-- @tparam string name The extension `.moonhtml` is added.
 	config.finders:insert(function(name)
 		name = tostring(name) .. '.moonhtml'
 		local file = io.open(name)
@@ -150,7 +188,5 @@ if template then
 		end
 	end)
 end
-
-config.finders:insert(readfile)
 
 return config
