@@ -2,6 +2,7 @@
 ----------
 -- ## Restia on the command line.
 -- Generates scaffolding for new projects.
+-- Call `restia help` to get a detailed list of commands.
 -- @author DarkWiiPlayer
 -- @license Unlicense
 -- @script restia

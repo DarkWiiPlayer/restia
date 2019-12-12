@@ -1,4 +1,7 @@
 --- Loads configurations from files on demand.
+-- @module restia.config
+-- @author DarkWiiPlayer
+-- @license Unlicense
 
 -- vim: set noexpandtab :miv --
 

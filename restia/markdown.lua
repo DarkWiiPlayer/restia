@@ -1,6 +1,6 @@
 --- Markdown auxiliary module.
 -- Allows rendering markdown files directly into the document.
--- @module restia
+-- @module restia.markdown
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
