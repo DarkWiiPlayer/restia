@@ -20,11 +20,21 @@ local function files(dir, func)
 	end
 end
 
+local function random(n)
+	if n > 0 then
+		return math.random(256)-1, random(n-1)
+	end
+end
+
+--- Returns a random hexadecimal string with N bytes
+function utils.randomhex(n)
+	return string.format(string.rep("%03x", n), random(n))
+end
+
 --- Returns an iterator over all the files in a directory and subdirectories
 -- @tparam string dir The directory to look in
 -- @treturn function Iterator over the file names
--- @usage
--- 	for file in utils.files 'views' do
+-- @usage -- 	for file in utils.files 'views' do
 -- 		print('found view: ', file)
 -- 	end
 function utils.files(dir)

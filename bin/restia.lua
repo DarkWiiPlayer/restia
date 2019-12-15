@@ -7,6 +7,8 @@
 -- @license Unlicense
 -- @script restia
 
+math.randomseed(os.time())
+
 local commands = require 'restia.commands'
 local utils = require 'restia.utils'
 local c = require 'restia.colors'
@@ -97,7 +99,9 @@ commands:add('new <directory>', [[
 				'logs/*',
 				'*.pid',
 			}, "\n");
-			['.secret'] = {};
+			['.secret'] = {
+				key = utils.randomhex(64)
+			};
 			['openresty.conf'] = openresty_conf;
 			routes = {
 				root = 'location = / {\n\tcontent_by_lua_file "controllers/front.lua";\n}';

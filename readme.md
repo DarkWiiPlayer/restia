@@ -119,6 +119,12 @@ yaml file or binding a subdirectory.
 
 See the documentation of the `restia.config` module for more information.
 
+### Secret
+
+The `restia.secret` module is a config table bound to the `.secret` directory
+with some additional functions for encryption/decryption. It assumes a special
+`key` file to exist in `.secret`, which should contain the servers secret key.
+
 Planned features
 --------------------------------------------------------------------------------
 
@@ -147,21 +153,21 @@ Changelog
 
 ### Development
 
+- Add `restia.secret` module
 - Add support for moonhtml+cosmo multistage templates
 - Add support for cosmo templates
 - Integrate templates with config
-- Add `config` module
+- Add `restia.config` module
 - Rewrite template loading to use a table and render on demand ;)
 - Rewrite template loading to use buffer and render instantly
 - Add executable for scaffolding, running tests, starting a server, etc.
 - Switch to moonxml initializers
-- Add `ttable` function for more complex tables
-- Add `vtable` function for vertical tables
-- Add `olist` function for ordered lists
-- Add `ulist` function for unordered lists
-- Add `html5` function for html 5 doctype
-- Add `template` function for MoonHTML templates
-- Add `markdown` function for Markdown Templates (using [Lunamark][lunamark])
+- Add `restia.template` module
+	- Add `ttable` function for more complex tables
+	- Add `vtable` function for vertical tables
+	- Add `olist` function for ordered lists
+	- Add `ulist` function for unordered lists
+	- Add `html5` function for html 5 doctype
 
 ----
 

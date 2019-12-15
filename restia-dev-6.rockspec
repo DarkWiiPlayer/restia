@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "restia"
-version = "dev-5"
+version = "dev-6"
 source = {
 	url = "git://github.com/DarkWiiPlayer/restia.git";
 }
@@ -31,6 +31,7 @@ build = {
 		['restia.colors'] = 'restia/colors.lua';
 		['restia.template'] = 'restia/template.lua';
 		['restia.markdown'] = 'restia/markdown.lua';
+		['restia.secret'] = 'restia/secret.lua';
 		['restia.contributors'] = 'contributors.lua';
 	};
 	install = {
