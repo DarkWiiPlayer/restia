@@ -52,9 +52,10 @@ http {
 	lua_package_path 'lib/?.lua;lib/?/init.lua;lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua;;';
 	lua_package_cpath 'lib/?.so;lib/?/init.so;lua_modules/lib/lua/5.1/?.so;lua_modules/lib/lua/5.1/?/init.so;;';
 
-	log_format  main '$remote_addr - $remote_user [$time_local] "$request" '
-	                 '$status $body_bytes_sent "$http_referer" '
-	                 '"$http_user_agent" "$http_x_forwarded_for"';
+	log_format  main
+		'$remote_addr - $remote_user [$time_local] "$request" '
+		'$status $body_bytes_sent "$http_referer" '
+		'"$http_user_agent" "$http_x_forwarded_for"';
 
 	access_log logs/access.log main;
 	keepalive_timeout 65;
