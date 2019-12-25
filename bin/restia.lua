@@ -72,6 +72,7 @@ http {
 	server {
 		listen 8080;
 
+		include config/*.conf;
 		include routes/*;
 	}
 }
@@ -110,7 +111,7 @@ commands:add('new <directory>', [[
 					..'\nlocation ~ ^/(styles|javascript|images)/(.*) {\n\talias static/$1/$2;\n}';
 			};
 			controllers = {
-				['front.lua'] = 'require("templates")["front"](require("config").i18n["en"])';
+				['front.lua'] = 'require("templates")["front"](require("config").i18n[ngx.var.lang])';
 			};
 			views = {
 				['front.moonhtml'] = 'strings = ...\n\nh1 strings.title';
@@ -126,6 +127,7 @@ commands:add('new <directory>', [[
 				i18n = {
 					['en.yaml'] = 'title: My Website';
 				};
+				['settings.conf'] = [[set $lang en;]]
 			};
 			['.busted'] = busted_conf;
 
