@@ -43,6 +43,7 @@ local config = {
 -- 	-- in the configurations directory
 function config.bind(dir)
 	return setmetatable({__dir=dir}, {__index = function(self, index)
+		if type(index)~="string" then return nil end
 		for i, finder in ipairs(config.finders) do
 			local result = finder(self.__dir..'/'..index)
 			if result then
