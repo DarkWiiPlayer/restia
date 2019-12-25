@@ -84,10 +84,10 @@ restia_html = moonxml.html:derive(function(_ENV)
 	-- 	stylesheet 'styles/form.css', true
 	stylesheet = function(uri, async)
 		if async then
-			link({rel='stylesheet', href=uri, type='text/css'})
+			link({rel='stylesheet', href=uri, type='text/css', media='print', onload='this.media=`all`'})
 		else
 			--link({rel='preload', href=uri, type='text/css', onload='this.rel="stylesheet"'})
-			link({rel='stylesheet', href=uri, type='text/css', media='print', onload='this.media="all"'})
+			link({rel='stylesheet', href=uri, type='text/css'})
 		end
 	end
 
