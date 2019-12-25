@@ -106,7 +106,8 @@ commands:add('new <directory>', [[
 			};
 			['openresty.conf'] = openresty_conf;
 			routes = {
-				root = 'location = / {\n\tcontent_by_lua_file "controllers/front.lua";\n}';
+				root = 'location = / { content_by_lua_file "controllers/front.lua"; }\n'
+				..'location ~ ^/(.*) { content_by_lua_file controllers/$1.lua; }';
 				static = 'location /static {\n\tdeny all;\n}'
 					..'\nlocation /favicon.png {\n\talias static/favicon.png;\n}'
 					..'\nlocation ~ ^/(styles|javascript|images)/(.*) {\n\talias static/$1/$2;\n}';
