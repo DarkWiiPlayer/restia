@@ -108,9 +108,9 @@ commands:add('new <directory>', [[
 			routes = {
 				root = 'location = / { content_by_lua_file "controllers/front.lua"; }\n'
 				..'location ~ ^/(.*) { content_by_lua_file controllers/$1.lua; }';
-				static = 'location /static {\n\tdeny all;\n}'
-					..'\nlocation /favicon.png {\n\talias static/favicon.png;\n}'
-					..'\nlocation ~ ^/(styles|javascript|images)/(.*) {\n\talias static/$1/$2;\n}';
+				static =
+					'\nlocation /favicon.png {\n\talias src/favicon.png;\n}' ..
+					'\nlocation ^~ /src/ {\n\tdeny all;\n\talias static;\n\tlocation ~ ^/src/(css|js|img)/ {\n\t\tallow all;\n\t}\n}'
 			};
 			controllers = {
 				['front.lua'] = 'require("templates")["front"](require("config").i18n[ngx.var.lang])';
