@@ -110,27 +110,28 @@ if lfs then
 	end)
 end
 
---- Loads a cosmo template.
--- This returns the plain cosmo template, which has to be
--- manually printed to the client with `ngx.say`.
--- @function cosmo
--- @tparam string name The extension `.cosmo` is added.
 local cosmo = try_require 'cosmo'
-if cosmo then
-	config.finders:insert(function(name)
-		name = tostring(name) .. '.cosmo.lua'
-		local file = io.open(name)
-		if file then
-			return assert(cosmo.compile(file:read("*a"), name))
-		else
-			return nil
-		end
-	end)
-end
-
 local template = try_require 'restia.template'
 if template then
 	if cosmo then
+		--- Loads a cosmo template.
+		-- This returns the plain cosmo template, which has to be
+		-- manually printed to the client with `ngx.say`.
+		-- @function cosmo
+		-- @tparam string name The extension `.cosmo` is added.
+		config.finders:insert(function(name)
+			name = tostring(name) .. '.cosmo.lua'
+			local file = io.open(name)
+			if file then
+				return setmetatable(
+					{raw=assert(cosmo.compile(file:read("*a"), name))},
+					template.metatable
+				)
+			else
+				return nil
+			end
+		end)
+
 		--- Multistage template for compiled moonhtml + cosmo.
 		-- Loads and renders a precompiled moonhtml template, then compiles the resulting string as a cosmo template.
 		-- The resulting template renders a string which has to manually be sent to the client with `ngx.say`.
@@ -141,7 +142,10 @@ if template then
 			local file = io.open(name)
 			if file then
 				local prerendered = table.concat(assert(template.loadlua(file:read("*a"), name)):render())
-				return assert(cosmo.compile(prerendered))
+				return setmetatable(
+					{raw=assert(cosmo.compile(prerendered))},
+					template.metatable
+				)
 			else
 				return nil
 			end
@@ -157,7 +161,10 @@ if template then
 			local file = io.open(name)
 			if file then
 				local prerendered = table.concat(assert(template.loadmoon(file:read("*a"), name)):render())
-				return assert(cosmo.compile(prerendered))
+				return setmetatable(
+					{raw=assert(cosmo.compile(prerendered))},
+					template.metatable
+				)
 			else
 				return nil
 			end

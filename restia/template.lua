@@ -10,7 +10,7 @@ local moonxml = require "moonxml"
 
 local restia_html
 
-local __template = {
+template.metatable = {
 	__index = template;
 	__call=function(self, ...)
 		local meta = getmetatable(self) -- effectively, this very table
@@ -27,9 +27,9 @@ local __template = {
 --- Loads a template from lua code.
 -- The code may be compiled bytecode.
 function template.loadlua(code, filename)
-	local template, err = restia_html:loadlua(code, filename)
-	if template then
-		return setmetatable({raw=template}, __template)
+	local temp, err = restia_html:loadlua(code, filename)
+	if temp then
+		return setmetatable({raw=temp}, template.metatable)
 	else
 		return nil, err
 	end
@@ -37,9 +37,9 @@ end
 
 --- Loads a template from moonscript code.
 function template.loadmoon(code, filename)
-	local template, err = restia_html:loadmoon(code, filename)
-	if template then
-		return setmetatable({raw=template}, __template)
+	local temp, err = restia_html:loadmoon(code, filename)
+	if temp then
+		return setmetatable({raw=temp}, template.metatable)
 	else
 		return nil, err
 	end
@@ -55,7 +55,8 @@ function template:render(...)
 			table.insert(buff, (select(i, ...)))
 		end
 	end
-	self.raw(...)
+	local res = self.raw(...)
+	if res then table.insert(buff, res) end
 	restia_html.environment.print = _print
 
 	return buff
