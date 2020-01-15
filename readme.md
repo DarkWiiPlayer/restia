@@ -78,8 +78,8 @@ following:
 	luarocks
 	# Confirm the default rock-tree is now lua_modules
 	luarocks --lua-version 5.1 install restia --dev
-	restia new .
-	restia run &
+	lua_modules/bin/restia new .
+	lua_modules/bin/restia run &
 
 After that you will have a template project in the current directory and restia
 running in the background.
@@ -87,8 +87,8 @@ running in the background.
 You can now start looking at the project directory, make changes and reload
 restia with
 
-	restia test
-	restia reload
+	lua_modules/bin/restia test
+	lua_modules/bin/restia reload
 
 ### Executable
 
