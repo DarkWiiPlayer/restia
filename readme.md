@@ -125,6 +125,11 @@ The `restia.secret` module is a config table bound to the `.secret` directory
 with some additional functions for encryption/decryption. It assumes a special
 `key` file to exist in `.secret`, which should contain the servers secret key.
 
+### Template
+
+The `restia.template` module wraps the `moonxml` templating library and adds a
+series of convenient functions for common HTML structures.
+
 Docker
 --------------------------------------------------------------------------------
 
