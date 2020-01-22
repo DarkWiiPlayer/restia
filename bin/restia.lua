@@ -104,6 +104,8 @@ commands:add('new <directory>', [[
 		[name] = {
 			['.gitignore'] = table.concat({
 				'.*',
+        '!.busted',
+        '!.luacheckrc',
 				'*_temp',
 				'logs/*',
 				'*.pid',
