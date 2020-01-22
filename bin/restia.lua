@@ -118,7 +118,8 @@ commands:add('new <directory>', [[
 				root = 'location = / { content_by_lua_file "controllers/front.lua"; }\n'
 				..'location ~ ^/(.*) { content_by_lua_file controllers/$1.lua; }';
 				static =
-					'\nlocation /favicon.png {\n\talias src/favicon.png;\n}' ..
+					'\nlocation /favicon.png {\n\talias static/img/favicon.png;\n}' ..
+					'\nlocation /favicon.ico {\n\talias static/img/favicon.ico;\n}' ..
 					'\nlocation ^~ /src/ {\n\tdeny all;\n\talias static;\n\tlocation ~ ^/src/(css|js|img)/ {\n\t\tallow all;\n\t}\n}'
 			};
 			controllers = {
