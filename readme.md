@@ -125,6 +125,31 @@ The `restia.secret` module is a config table bound to the `.secret` directory
 with some additional functions for encryption/decryption. It assumes a special
 `key` file to exist in `.secret`, which should contain the servers secret key.
 
+Docker
+--------------------------------------------------------------------------------
+
+The repository includes a dockerfile and a convenient script `containerize` that
+generates a docker image based on alpine linux.
+
+A simple dockerfile to turn a restia application into a docker image could look
+like this:
+
+	# Build a minimal restia image
+	from alpine
+	# Necessary requirements
+	run apk add curl openssh git linux-headers perl pcre libgcc openssl yaml
+	# Pull openresty, luarocks, restia, etc. from the restia image
+	copy --from=restia /usr/local /usr/local
+	# Copy the restia application
+	copy application /etc/application
+	workdir /etc/application
+	cmd restia run
+
+Assuming that the application is in the `application` folder.
+
+Note that the `containerize` script uses podman instead of docker; but it should
+be possible to just replace it with `docker` and run the script.
+
 Planned features
 --------------------------------------------------------------------------------
 
