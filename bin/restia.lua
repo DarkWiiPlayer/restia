@@ -79,7 +79,8 @@ http {
 }
 ]===========]
 
-local busted_conf = [==========[
+local busted_conf =
+[==========[
 return {
   _all = {
     lpath = 'lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua';
@@ -87,6 +88,12 @@ return {
   };
 }
 ]==========]
+
+local luacheck_conf =
+[==========[
+std = 'ngx_lua'
+]==========]
+
 
 commands:add('new <directory>', [[
 	Creates a new application in the selected directory.
@@ -132,6 +139,7 @@ commands:add('new <directory>', [[
 				['settings.conf'] = [[set $lang en;]]
 			};
 			['.busted'] = busted_conf;
+			['.luacheckrc'] = luacheck_conf;
 
 			logs = {};
 

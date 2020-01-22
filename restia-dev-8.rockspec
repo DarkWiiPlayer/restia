@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "restia"
-version = "dev-7"
+version = "dev-8"
 source = {
 	url = "git://github.com/DarkWiiPlayer/restia.git";
 }
@@ -22,6 +22,8 @@ dependencies = {
 	"luafilesystem";
 	"lyaml";
 	"cosmo";
+	"busted";
+	"luacheck";
 }
 build = {
 	type = "builtin",
