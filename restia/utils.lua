@@ -26,6 +26,20 @@ local function random(n)
 	end
 end
 
+--- Returns a list containing
+function utils.stack(level)
+	local stack = {}
+	for i=level+1, math.huge do
+		local info = debug.getinfo(i)
+		if info then
+			table.insert(stack, info)
+		else
+			break
+		end
+	end
+	return stack
+end
+
 --- Returns a random hexadecimal string with N bytes
 function utils.randomhex(n)
 	return string.format(string.rep("%03x", n), random(n))
