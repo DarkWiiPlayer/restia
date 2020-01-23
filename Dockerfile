@@ -5,7 +5,7 @@ run apk add pcre-dev openssl-dev make gcc libzip-dev libaio-dev musl-dev
 
 # OpenResty
 workdir /tmp
-run wget https://openresty.org/download/openresty-1.15.8.2.tar.gz
+copy https://openresty.org/download/openresty-1.15.8.2.tar.gz openresty-1.15.8.2.tar.gz
 run tar -xzf openresty-*.tar.gz
 workdir openresty-1.15.8.2
 run ./configure \
@@ -30,7 +30,7 @@ run rm -rf /tmp/*
 
 # LuaJIT
 workdir /tmp
-run wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
+copy http://luajit.org/download/LuaJIT-2.0.4.tar.gz LuaJIT-2.0.4.tar.gz
 run tar -xzf LuaJIT-*.tar.gz
 workdir LuaJIT-2.0.4
 run make -j $(nproc) && make install
@@ -40,7 +40,7 @@ run rm -rf /tmp/*
 # Luarocks
 workdir /tmp
 run apk add unzip
-run wget http://luarocks.github.io/luarocks/releases/luarocks-3.2.1.tar.gz
+copy http://luarocks.github.io/luarocks/releases/luarocks-3.2.1.tar.gz luarocks-3.2.1.tar.gz
 run tar -xzf luarocks-*.tar.gz
 workdir luarocks-3.2.1
 run ./configure && make bootstrap
