@@ -1,4 +1,4 @@
-from alpine as build
+from alpine
 
 run apk add curl openssl openssh git linux-headers perl pcre
 run apk add pcre-dev openssl-dev make gcc libzip-dev libaio-dev musl-dev
