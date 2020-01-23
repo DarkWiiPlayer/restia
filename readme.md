@@ -162,6 +162,44 @@ Assuming that the application is in the `application` folder.
 Note that the `containerize` script uses podman instead of docker; but it should
 be possible to just replace it with `docker` and run the script.
 
+Known Issues
+--------------------------------------------------------------------------------
+
+> attempt to yield across C-call boundary
+
+This error occurs under certain conditions:
+
+1. The code being run is being (directly or indirectly) `require`d
+2. The code is running inside an openresty event that has replaced LuaJITs
+	builtin `coroutine` module with openrestys custom versions of those
+	functions.
+3. Somewhere in the code a coroutine yields, no matter where it yields to (it
+	doesn't have to yield outside the `require` call, which would understandably
+	not work, but anywhere within the code being executed by `require`)
+
+Note that this problem not only happens with `require`, but also custom message
+handlers passed to `xpcall` when an error happens, but this is less likely to
+happen, as error handlers usually shouldn't have any complex code that could
+lead to more errors and thus shouldn't be running coroutines in the first place.
+
+This problem isn't a bug in restia; it can be reproduced in vanilla openresty.
+
+Typical situations when this happens:
+
+- Moonscripts compiler makes use of coroutines, thus compiling moonscript code
+  (for example, precompiling a cosmo-moonhtml template) in a module that gets
+  `require`d.
+
+Typical workarounds:
+
+- Wrap code that uses coroutines in an init function and call `require
+	'mymodule'.init()` (Sadly, this unavoidably leads to very ugly APIs)
+- Preload cosmo-moonhtml templates in `init_by_lua`, which runs before 2. happens
+- Precompile cosmo-moonscript templates so they don't need to be compiled when
+  `require`ing a module
+
+OpenResty issue: https://github.com/openresty/lua-nginx-module/issues/1292
+
 Planned features
 --------------------------------------------------------------------------------
 
