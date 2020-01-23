@@ -130,6 +130,13 @@ with some additional functions for encryption/decryption. It assumes a special
 The `restia.template` module wraps the `moonxml` templating library and adds a
 series of convenient functions for common HTML structures.
 
+### Controller
+
+The `restia.controller` module provides a simple helper function that accepts
+the main controller code and an error handler. It acts very similar to `xpcall`,
+but in case of error, it runs the message handler and instantly terminates the
+request.
+
 Docker
 --------------------------------------------------------------------------------
 

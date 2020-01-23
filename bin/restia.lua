@@ -22,6 +22,34 @@ Available commands:
 
 local nginx = [[nginx -p . -c openresty.conf -g 'daemon off;' ]]
 
+local front_controller =
+[===========[
+require('restia.controller')(function()
+	local views = require("templates")
+	local config = require("config")
+	local secret = require("restia.secret")
+
+	local title = foo
+
+	return views.front(config.i18n[ngx.var.lang])
+end, require 'error')
+]===========]
+
+local error_handler =
+[===========[
+local templates = require 'templates'
+
+if templates.error then
+	return function(message)
+		ngx.status = 500
+		templates.error { code = ngx.status, message = message, description = debug.traceback(message, 4) }
+		return ngx.HTTP_INTERNAL_SERVER_ERROR
+	end
+else
+	return false
+end
+]===========]
+
 local test_views_load = [===========[
 restia = require 'restia'
 utils = require 'restia.utils'
@@ -82,10 +110,10 @@ http {
 local busted_conf =
 [==========[
 return {
-  _all = {
-    lpath = 'lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua';
-    cpath = 'lua_modules/lib/lua/5.1/?.lua;lua_modules/lib/lua/5.1/?/init.lua';
-  };
+	_all = {
+		lpath = 'lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua';
+		cpath = 'lua_modules/lib/lua/5.1/?.lua;lua_modules/lib/lua/5.1/?/init.lua';
+	};
 }
 ]==========]
 
@@ -104,8 +132,8 @@ commands:add('new <directory>', [[
 		[name] = {
 			['.gitignore'] = table.concat({
 				'.*',
-        '!.busted',
-        '!.luacheckrc',
+				'!.busted',
+				'!.luacheckrc',
 				'*_temp',
 				'logs/*',
 				'*.pid',
@@ -122,8 +150,9 @@ commands:add('new <directory>', [[
 					'\nlocation /favicon.ico {\n\talias static/img/favicon.ico;\n}' ..
 					'\nlocation ^~ /src/ {\n\tdeny all;\n\talias static;\n\tlocation ~ ^/src/(css|js|img)/ {\n\t\tallow all;\n\t}\n}'
 			};
+			['error.lua'] = error_handler;
 			controllers = {
-				['front.lua'] = 'require("templates")["front"](require("config").i18n[ngx.var.lang])';
+				['front.lua'] = front_controller;
 			};
 			views = {
 				['front.moonhtml'] = 'strings = ...\n\nh1 strings.title';
@@ -166,12 +195,12 @@ commands:add('test <lua> <configuration>', [[
 ]], function(lua, configuration)
 	lua = lua or 'luajit'
 	configuration = configuration or 'openresty.conf'
-  os.exit(
-    os.execute(nginx:gsub('openresty.conf', configuration)..'-t')
-    and os.execute('luacheck --exclude-files lua_modules/* --exclude-files .luarocks/* -q .')
-    and os.execute('busted --lua '..lua..' .')
-    or 1
-  )
+	os.exit(
+		os.execute(nginx:gsub('openresty.conf', configuration)..'-t')
+		and os.execute('luacheck --exclude-files lua_modules/* --exclude-files .luarocks/* -q .')
+		and os.execute('busted --lua '..lua..' .')
+		or 1
+	)
 end)
 
 commands:add('run <configuration>', [[

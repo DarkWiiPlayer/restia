@@ -35,6 +35,7 @@ build = {
 		['restia.config'] = 'restia/config.lua';
 		['restia.colors'] = 'restia/colors.lua';
 		['restia.template'] = 'restia/template.lua';
+		['restia.controller'] = 'restia/controller.lua';
 		['restia.markdown'] = 'restia/markdown.lua';
 		['restia.secret'] = 'restia/secret.lua';
 		['restia.contributors'] = 'contributors.lua';
