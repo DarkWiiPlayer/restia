@@ -25,7 +25,7 @@ local nginx = [[nginx -p . -c openresty.conf -g 'daemon off;' ]]
 local front_controller =
 [===========[
 require('restia.controller').xpcall(function()
-	local views = require("templates")
+	local views = require("views")
 	local config = require("config")
 	local secret = require("restia.secret")
 
@@ -37,20 +37,17 @@ end, require 'error')
 
 local error_handler =
 [===========[
-local templates = require 'templates'
+local views = require 'views'
 
-if templates.error then
-	return function(message)
-		ngx.status = 500
-		templates.error { code = ngx.status, message = message, description = debug.traceback(message, 3) }
-		return ngx.HTTP_INTERNAL_SERVER_ERROR
-	end
-else
-	return function(message)
-		ngx.status = 500
-    ngx.say('error '..tostring(ngx.status))
-		return ngx.HTTP_INTERNAL_SERVER_ERROR
+return function(message)
+  ngx.status = 500
+  ngx.log(ngx.ERR, debug.traceback(message))
+  if views.error then
+    views.error { code = ngx.status, message = message, description = debug.traceback(message, 3) }
+  else
+  ngx.say('error '..tostring(ngx.status))
   end
+  return ngx.HTTP_INTERNAL_SERVER_ERROR
 end
 ]===========]
 
@@ -69,9 +66,7 @@ describe 'View', ->
 
 local openresty_conf =
 [===========[
-error_log logs/error.log;
-error_log logs/error.log  notice;
-error_log logs/error.log  info;
+error_log logs/error.log	info;
 pid openresty.pid;
 
 events {
@@ -84,7 +79,7 @@ http {
 	lua_package_path 'lib/?.lua;lib/?/init.lua;lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua;;';
 	lua_package_cpath 'lib/?.so;lib/?/init.so;lua_modules/lib/lua/5.1/?.so;lua_modules/lib/lua/5.1/?/init.so;;';
 
-	log_format  main
+	log_format	main
 		'$remote_addr - $remote_user [$time_local] "$request" '
 		'$status $body_bytes_sent "$http_referer" '
 		'"$http_user_agent" "$http_x_forwarded_for"';
@@ -96,10 +91,14 @@ http {
 	charset utf-8;
 
 	init_by_lua_block {
-		local restia = require 'restia'
-		package.loaded.templates = restia.config.bind 'views'
-		package.loaded.config = restia.config.bind 'config'
-		package.loaded.config.secret = restia.config.bind '.secret'
+    -- Preload modules
+		require 'restia'
+    require 'config'
+    require 'views'
+
+    -- Error view to be preloaded lest the error handler fails
+    -- (Openresty bug related to coroutines)
+    local _ = require('views').error
 	}
 
 	server {
@@ -160,9 +159,25 @@ commands:add('new <directory>', [[
 			};
 			views = {
 				['front.moonhtml'] = 'strings = ...\n\nh1 strings.title';
+				['error.cosmo.moonhtml'] = table.concat({
+					'h1 "ERROR $code"';
+					'h2 "$message"';
+					'p -> pre "$description"';
+				}, '\n');
 			};
 			models = {};
-			lib = {};
+			lib = {
+				['views.lua'] = table.concat({
+					'local restia = require "restia"';
+					'return restia.config.bind "views"';
+				}, "\n");
+				['config.lua'] = table.concat({
+					'local restia = require "restia"';
+					'local config = restia.config.bind "config"';
+					'config.secret = restia.config.bind ".secret"';
+					'return config';
+				}, "\n");
+			};
 			spec = {
 				views = {
 					['load_spec.moon'] = test_views_load;
@@ -193,7 +208,7 @@ commands:add('test <lua> <configuration>', [[
 	Runs several tests:
 	- 'nginx -t' to check the nginx configuration
 	- 'luacheck' for static analisys of the projects Lua files
-	- 'busted'   to run the projects tests
+	- 'busted'	 to run the projects tests
 	<lua> is the lua version to run busted with. default is 'luajit'.
 	<configuration> defaults to 'openresty.conf'.
 ]], function(lua, configuration)
