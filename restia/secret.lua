@@ -1,5 +1,7 @@
 --- Handles secret information
 -- @module restia.secret
+-- @author DarkWiiPlayer
+-- @license Unlicense
 
 local config = require 'restia.config'
 local cipher = require 'openssl.cipher'

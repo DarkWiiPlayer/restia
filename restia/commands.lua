@@ -1,3 +1,8 @@
+--- Glorified table to save CLI commands
+-- @module restia.commands
+-- @author DarkWiiPlayer
+-- @license Unlicense
+
 local utils = require 'restia.utils'
 
 local commands = {}

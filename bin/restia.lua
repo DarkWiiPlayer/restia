@@ -24,7 +24,7 @@ local nginx = [[nginx -p . -c openresty.conf -g 'daemon off;' ]]
 
 local front_controller =
 [===========[
-require('restia.controller')(function()
+require('restia.controller').xpcall(function()
 	local views = require("templates")
 	local config = require("config")
 	local secret = require("restia.secret")
@@ -42,11 +42,15 @@ local templates = require 'templates'
 if templates.error then
 	return function(message)
 		ngx.status = 500
-		templates.error { code = ngx.status, message = message, description = debug.traceback(message, 4) }
+		templates.error { code = ngx.status, message = message, description = debug.traceback(message, 3) }
 		return ngx.HTTP_INTERNAL_SERVER_ERROR
 	end
 else
-	return false
+	return function(message)
+		ngx.status = 500
+    ngx.say('error '..tostring(ngx.status))
+		return ngx.HTTP_INTERNAL_SERVER_ERROR
+  end
 end
 ]===========]
 

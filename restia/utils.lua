@@ -1,5 +1,7 @@
 --- Utility functions for Restia
 -- @module restia.utils
+-- @author DarkWiiPlayer
+-- @license Unlicense
 
 local utils = {}
 
