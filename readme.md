@@ -13,20 +13,22 @@ hacking the code right away :)
 
 ### What makes it different?
 
-Unlike with frameworks like Rails or Lapis, the developer stays in control.
+Compared to other frameworks like Rails or Lapis,
+restia tries less to offer a complete package,
+but a good base to plug existing modules into.
 
-Restia is your tool, not your overlord.
+**Restia is your tool, not your overlord.**
 It aims to help where it can, without forcing the shape of your final product.
 
-You might have heared about "convention over configuration".
-But that's not really true; the configuration is there, it's just encoded as
-defaults in the framework itself, making it harder to customize.
+Many modern frameworks claim to do "convention over configuration".
+But that name is misleading; the configuration is there,
+it's just hidden within framework defaults.
 
-Restia keeps this *convention* part out of the library and, instead, generates
-configurations that represent these conventions.
-The effect is the same, but it makes it easier to change things.
+Restia keeps this *convention* part out of the library
+and, instead, generates configurations that represent these conventions.
+The effect is almost the same, but it makes it easier to change things.
 
-I call this aproach
+I (jokingly) call this aproach
 
 > "Convention encoded in generated configuration over headache"
 
@@ -132,10 +134,12 @@ series of convenient functions for common HTML structures.
 
 ### Controller
 
-The `restia.controller` module provides a simple helper function that accepts
-the main controller code and an error handler. It acts very similar to `xpcall`,
-but in case of error, it runs the message handler and instantly terminates the
-request.
+The `restia.controller` module provides a simple helper function
+that accepts the main controller code and an error handler.
+It acts very similar to `xpcall`,
+but in case of error,
+it runs the message handler
+and instantly terminates the request.
 
 Docker
 --------------------------------------------------------------------------------
@@ -161,6 +165,13 @@ Assuming that the application is in the `application` folder.
 
 Note that the `containerize` script uses podman instead of docker; but it should
 be possible to just replace it with `docker` and run the script.
+
+Manpage
+--------------------------------------------------------------------------------
+
+For Linux\* users, there's 
+
+\* Not just GNU/Linux, but also all the weird minimalist musl+busybox setups :)
 
 Known Issues
 --------------------------------------------------------------------------------
@@ -228,6 +239,7 @@ Changelog
 
 ### Development
 
+- Add `restia.controller` module
 - Add `restia.secret` module
 - Add support for moonhtml+cosmo multistage templates
 - Add support for cosmo templates
