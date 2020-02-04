@@ -137,6 +137,7 @@ commands:add('new <directory>', [[
 				'.*',
 				'!.busted',
 				'!.luacheckrc',
+				'!.luarocks',
 				'*_temp',
 				'logs/*',
 				'*.pid',
@@ -196,7 +197,7 @@ commands:add('new <directory>', [[
 
 			-- Create local rock tree
 			['.luarocks'] = {['default-lua-version.lua'] = 'return "5.1"'};
-			lua_modules = {['.gitignore'] = '*'};
+			lua_modules = {['.gitignore'] = '*\n!.gitignore'};
 
 			-- Shell script to install dependancies
 			dependancies = [[luarocks install restia --dev]];
