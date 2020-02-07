@@ -122,7 +122,7 @@ restia_html = moonxml.html:derive(function(_ENV)
 	-- 	ulist {
 	-- 		'Hello'
 	-- 		'World'
-  -- 		->
+	-- 		->
 	-- 			br 'foo'
 	-- 			print 'bar'
 	-- 		'That was a list'

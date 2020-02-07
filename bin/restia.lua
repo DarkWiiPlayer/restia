@@ -40,14 +40,14 @@ local error_handler =
 local views = require 'views'
 
 return function(message)
-  ngx.status = 500
-  ngx.log(ngx.ERR, debug.traceback(message))
-  if views.error then
-    views.error { code = ngx.status, message = message, description = debug.traceback(message, 3) }
-  else
-  ngx.say('error '..tostring(ngx.status))
-  end
-  return ngx.HTTP_INTERNAL_SERVER_ERROR
+	ngx.status = 500
+	ngx.log(ngx.ERR, debug.traceback(message))
+	if views.error then
+		views.error { code = ngx.status, message = message, description = debug.traceback(message, 3) }
+	else
+	ngx.say('error '..tostring(ngx.status))
+	end
+	return ngx.HTTP_INTERNAL_SERVER_ERROR
 end
 ]===========]
 
@@ -91,14 +91,14 @@ http {
 	charset utf-8;
 
 	init_by_lua_block {
-    -- Preload modules
+		-- Preload modules
 		require 'restia'
-    require 'config'
-    require 'views'
+		require 'config'
+		require 'views'
 
-    -- Error view to be preloaded lest the error handler fails
-    -- (Openresty bug related to coroutines)
-    local _ = require('views').error
+		-- Error view to be preloaded lest the error handler fails
+		-- (Openresty bug related to coroutines)
+		local _ = require('views').error
 	}
 
 	server {
