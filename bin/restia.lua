@@ -37,17 +37,38 @@ end, require 'error')
 
 local error_handler =
 [===========[
+local json = require 'cjson'
 local views = require 'views'
 
 return function(message)
-	ngx.status = 500
-	ngx.log(ngx.ERR, debug.traceback(message))
-	if views.error then
-		views.error { code = ngx.status, message = message, description = debug.traceback(message, 3) }
-	else
-	ngx.say('error '..tostring(ngx.status))
-	end
-	return ngx.HTTP_INTERNAL_SERVER_ERROR
+   ngx.log(ngx.ERR, debug.traceback(message))
+   ngx.status = 500
+
+   local err if ngx.var.dev=="true" then
+      err = {
+         code = ngx.status;
+         message = message:match('^[^\n]+');
+         description = debug.traceback(message, 3);
+      }
+   else
+      err = {
+         code = ngx.status;
+         message = "There has been an error";
+         description = "Please contact a site administrator if this error persists";
+      }
+   end
+
+   local content_type = ngx.header['content-type']
+   if content_type == 'application/json' then
+      ngx.say(json.encode(err))
+   else
+      if views.error then
+         views.error(err)
+      else
+         ngx.say('error '..tostring(ngx.status))
+      end
+   end
+   return ngx.HTTP_INTERNAL_SERVER_ERROR
 end
 ]===========]
 
@@ -188,7 +209,7 @@ commands:add('new <directory>', [[
 				i18n = {
 					['en.yaml'] = 'title: My Website';
 				};
-				['settings.conf'] = [[set $lang en;]]
+				['settings.conf'] = [[set $lang en; set $dev true;]]
 			};
 			['.busted'] = busted_conf;
 			['.luacheckrc'] = luacheck_conf;
