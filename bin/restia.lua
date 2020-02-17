@@ -126,7 +126,7 @@ http {
 		listen 8080;
 
 		include config/*.conf;
-		include routes/*;
+		include locations/*;
 	}
 }
 ]===========]
@@ -167,9 +167,9 @@ commands:add('new <directory>', [[
 				key = utils.randomhex(64)
 			};
 			['openresty.conf'] = openresty_conf;
-			routes = {
+			locations = {
 				root = 'location = / { content_by_lua_file "controllers/front.lua"; }\n'
-				..'location ~ ^/(.*) { content_by_lua_file controllers/$1.lua; }';
+				..'location / {\n\tlocation ~ ^/(.*) { content_by_lua_file controllers/$1.lua; }\n}';
 				static =
 					'\nlocation /favicon.png {\n\talias static/img/favicon.png;\n}' ..
 					'\nlocation /favicon.ico {\n\talias static/img/favicon.ico;\n}' ..
