@@ -209,7 +209,7 @@ commands:add('new <directory>', [[
 				i18n = {
 					['en.yaml'] = 'title: My Website';
 				};
-				['settings.conf'] = [[set $lang en; set $dev true;]]
+				['settings.conf'] = "set $lang en;\nset $dev true;"
 			};
 			['.busted'] = busted_conf;
 			['.luacheckrc'] = luacheck_conf;
