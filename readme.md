@@ -169,7 +169,8 @@ be possible to just replace it with `docker` and run the script.
 Manpage
 --------------------------------------------------------------------------------
 
-For Linux\* users, there's 
+For Linux\* users, there's a script to generate a manpage in the `manpage/`
+directory in the project tree.
 
 \* Not just GNU/Linux, but also all the weird minimalist musl+busybox setups :)
 
