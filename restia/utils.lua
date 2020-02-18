@@ -8,6 +8,14 @@ local utils = {}
 local lfs = require 'lfs'
 local colors = require 'restia.colors'
 
+--- Removes excessive indentation from a block of text
+function utils.normalize_indent(block)
+	local indent = '^'..block:match("^%s+")
+	return block:gsub('[^\n]+', function(line)
+		return line:gsub(indent, '')
+	end)
+end
+
 local function files(dir, func)
 	for path in lfs.dir(dir) do
 		if path:sub(1, 1) ~= '.' then
