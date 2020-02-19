@@ -120,7 +120,7 @@ if template then
 		-- @function cosmo
 		-- @tparam string name The extension `.cosmo` is added.
 		config.finders:insert(function(name)
-			name = tostring(name) .. '.cosmo.lua'
+			name = tostring(name) .. '.cosmo'
 			local file = io.open(name)
 			if file then
 				return setmetatable(
