@@ -140,7 +140,7 @@ commands:add('new <directory>', [[
 						ngx.say(json.encode(err))
 				 else
 						if views.error then
-							 views.error(err)
+							 views.error:print(err)
 						else
 							 ngx.say('error '..tostring(ngx.status))
 						end
