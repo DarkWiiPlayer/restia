@@ -103,10 +103,10 @@ commands:add('new <directory>', [[
 				location /favicon.ico {
 					alias static/img/favicon.ico;
 				}
-				location ^~ /src/ {
+				location /src {
 					deny all;
 					alias static;
-					location ~ ^/src/(css|js|img)/ {
+					location ~ /src/(css|img|js) {
 						allow all;
 					}
 				}
