@@ -209,6 +209,31 @@ restia_html = moonxml.html:derive(function(_ENV)
 			end
 		end)
 	end
+
+	--- Renders a script tag from Lua code to be used by fengari.
+	-- @tparam string code The content of the script tag (Lua code).
+	-- @function lua
+	-- @usage
+	-- 	lua [[
+	-- 		print "Hello, World!"
+	-- 	]]
+	function lua(code)
+		script(function() print(code) end, {type = 'application/lua'})
+	end
+
+	--- Renders a script tag from Moonscript code to be used by fengari.
+	-- The code is first stripped of additional indentation and converted to Lua.
+	-- @tparam string code The content of the script tag (Moonscript code).
+	-- @function moon
+	-- @usage
+	-- 	lua [[
+	-- 		print "Hello, World!"
+	-- 	]]
+	function moon(code)
+		local utils = require 'restia.utils'
+		local moonscript = require 'moonscript.base'
+		lua(assert(moonscript.to_lua(utils.normalize_indent(code))))
+	end
 end)
 
 return template
