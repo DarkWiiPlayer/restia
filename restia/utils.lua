@@ -10,10 +10,10 @@ local colors = require 'restia.colors'
 
 --- Removes excessive indentation from a block of text
 function utils.normalize_indent(block)
-	local indent = '^'..block:match("^%s+")
-	return block:gsub('[^\n]+', function(line)
+	local indent = '^'..(block:match("^%s+") or '')
+	return (block:gsub('[^\n]+', function(line)
 		return line:gsub(indent, '')
-	end)
+	end))
 end
 
 local function files(dir, func)
