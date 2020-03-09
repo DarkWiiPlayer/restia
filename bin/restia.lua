@@ -101,12 +101,12 @@ commands:add('new <directory>', [[
 				location /favicon.ico {
 					alias static/img/favicon.ico;
 				}
-				location /src {
-					deny all;
-					alias static;
-					location ~ /src/(css|img|js) {
-						allow all;
+				location /static {
+					types { # Or just include nginx' default types file :D
+						text/css css;
+						application/js js;
 					}
+					alias static;
 				}
 			]];
 		};
