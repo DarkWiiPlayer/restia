@@ -91,9 +91,7 @@ commands:add('new <directory>', [[
 					content_by_lua_file "controllers/front.lua";
 				}
 				location / {
-					location ~ ^/(.*) {
-						content_by_lua_file controllers/$1.lua;
-					}
+					content_by_lua_file controllers/$uri.lua;
 				}
 			]];
 			static = I[[
