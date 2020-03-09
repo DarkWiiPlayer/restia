@@ -116,34 +116,37 @@ commands:add('new <directory>', [[
 			local views = require 'views'
 
 			return function(message)
-				 ngx.log(ngx.ERR, debug.traceback(message))
-				 ngx.status = 500
+				ngx.log(ngx.ERR, debug.traceback(message))
+				ngx.status = 500
+				if not message
+				then message = '(No error message given)'
+				end
 
-				 local err if ngx.var.dev=="true" then
-						err = {
-							 code = ngx.status;
-							 message = message:match('^[^\n]+');
-							 description = debug.traceback(message, 3);
-						}
-				 else
-						err = {
-							 code = ngx.status;
-							 message = "There has been an error";
-							 description = "Please contact a site administrator if this error persists";
-						}
-				 end
+				local err if ngx.var.dev=="true" then
+					err = {
+						code = ngx.status;
+						message = message:match('^[^\n]+');
+						description = debug.traceback(message, 3);
+					}
+				else
+					err = {
+						code = ngx.status;
+						message = "There has been an error";
+						description = "Please contact a site administrator if this error persists";
+					}
+				end
 
-				 local content_type = ngx.header['content-type']
-				 if content_type == 'application/json' then
-						ngx.say(json.encode(err))
-				 else
-						if views.error then
-							 views.error:print(err)
-						else
-							 ngx.say('error '..tostring(ngx.status))
-						end
-				 end
-				 return ngx.HTTP_INTERNAL_SERVER_ERROR
+				local content_type = ngx.header['content-type']
+				if content_type == 'application/json' then
+					ngx.say(json.encode(err))
+				else
+					if views.error then
+						views.error:print(err)
+					else
+						ngx.say('error '..tostring(ngx.status))
+					end
+				end
+				return ngx.HTTP_INTERNAL_SERVER_ERROR
 			end
 		]===========];
 		controllers = {
