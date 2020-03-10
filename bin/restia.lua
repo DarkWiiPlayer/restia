@@ -35,8 +35,8 @@ commands:add('new <directory>', [[
 			'!.busted',
 			'!.luacheckrc',
 			'!.luarocks',
+			'!.logs'
 			'*_temp',
-			'logs/*',
 			'*.pid',
 		]============];
 		['.secret'] = { key = utils.randomhex(64) };
@@ -241,7 +241,7 @@ commands:add('new <directory>', [[
 		]==========];
 		['.luacheckrc'] = [[std = 'ngx_lua']];
 
-		logs = {};
+		logs = { ['.gitignore'] = "*" };
 
 		-- Create local rock tree
 		['.luarocks'] = {['default-lua-version.lua'] = 'return "5.1"'};
