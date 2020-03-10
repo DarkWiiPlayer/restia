@@ -172,6 +172,29 @@ commands:add('new <directory>', [[
 			]];
 		};
 		models = {};
+		['readme.md'] = I[[
+			Restia Application
+			================================================================================
+
+			<!-- Start writing your project description here -->
+		]];
+		['license.md'] = I[[
+			All rights reserved
+			<!-- TODO: Make project open source :D -->
+		]];
+		['config.ld'] = I[[
+			title = "Restia Application"
+			project = "Restia Application"
+			format = 'discount'
+			topics = {
+				'readme.md',
+				'license.md',
+			}
+			file = {
+				'lib';
+			}
+			all = true
+		]];
 		lib = {
 			['views.lua'] = I[[
 				local restia = require "restia"
