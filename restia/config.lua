@@ -3,6 +3,8 @@
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
+local utils = require 'restia.utils'
+
 -- vim: set noexpandtab :miv --
 
 --- Tries requiring a module.
@@ -141,7 +143,7 @@ if template then
 			name = tostring(name) .. '.cosmo.moonhtml.lua'
 			local file = io.open(name)
 			if file then
-				local prerendered = table.concat(assert(template.loadlua(file:read("*a"), name)):render())
+				local prerendered = utils.rconcat(assert(template.loadlua(file:read("*a"), name)):render())
 				return setmetatable(
 					{raw=assert(cosmo.compile(prerendered))},
 					template.metatable
@@ -160,7 +162,7 @@ if template then
 			name = tostring(name) .. '.cosmo.moonhtml'
 			local file = io.open(name)
 			if file then
-				local prerendered = table.concat(assert(template.loadmoon(file:read("*a"), name)):render())
+				local prerendered = utils.rconcat(assert(template.loadmoon(file:read("*a"), name)):render())
 				return setmetatable(
 					{raw=assert(cosmo.compile(prerendered))},
 					template.metatable

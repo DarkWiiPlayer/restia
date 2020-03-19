@@ -36,6 +36,18 @@ local function random(n)
 	end
 end
 
+--- Recursively concatenates a table
+function utils.rconcat(tab, separator)
+	for key, value in ipairs(tab) do
+		if type(value)=="table" then
+			tab[key]=utils.rconcat(value, separator)
+		else
+			tab[key]=tostring(value)
+		end
+	end
+	return table.concat(tab, separator)
+end
+
 --- Returns a list containing
 function utils.stack(level)
 	local stack = {}
