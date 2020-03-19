@@ -31,13 +31,13 @@ commands:add('new <directory>', [[
 	local dir = {
 		['.gitignore'] =
 		I[============[
-			'.*',
-			'!.busted',
-			'!.luacheckrc',
-			'!.luarocks',
-			'!.logs'
-			'*_temp',
-			'*.pid',
+			.*
+			!.busted
+			!.luacheckrc
+			!.luarocks
+			!.logs
+			*_temp
+			*.pid
 		]============];
 		['.secret'] = { key = utils.randomhex(64) };
 		['openresty.conf'] =
