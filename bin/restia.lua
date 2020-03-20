@@ -152,13 +152,11 @@ commands:add('new <directory>', [[
 		controllers = {
 			['front.lua'] =
 			I[===========[
+				local views = require("views")
+				local config = require("config")
+				local secret = require("restia.secret")
+
 				require('restia.controller').xpcall(function()
-					local views = require("views")
-					local config = require("config")
-					local secret = require("restia.secret")
-
-					local title = foo
-
 					return views.front(config.i18n[ngx.var.lang])
 				end, require 'error')
 			]===========];
