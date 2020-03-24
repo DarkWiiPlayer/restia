@@ -24,6 +24,29 @@ template.metatable = {
 	end;
 }
 
+template.loaded = {}
+function template.require(modname)
+  ngx.log(ngx.INFO, '🎆 Trying to require '..modname)
+  if not template.loaded[modname] then
+    local filename = modname:gsub('%.', package.config:sub(1,1))
+    for path in package.path:gmatch('[^;]+') do
+      ngx.log(ngx.INFO, 'Trying '..path)
+      local filepath = path:gsub("?", filename)
+      local f = io.open(filepath)
+      if f then
+        f:close()
+        local module = restia_html:loadluafile(filepath)
+        template.loaded[modname] = module() or true
+        break
+      end
+    end
+    if not template.loaded[modname] then
+      error("Could not require modul "..modname)
+    end
+  end
+  return template.loaded[modname]
+end
+
 --- Loads a template from lua code.
 -- The code may be compiled bytecode.
 function template.loadlua(code, filename)
