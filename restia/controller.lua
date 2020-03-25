@@ -3,8 +3,6 @@
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
--- vim: set noexpandtab :miv --
-
 local controller = {}
 
 --- Handles the result of xpcall. Exits on error.
@@ -19,11 +17,12 @@ end
 --- Similar to Luas `xpcall`, but exits the nginx request in case of error.
 -- A custom message handler takes care of logging and rendering an error message.
 -- This function is still very much work in progress and its behavior may change.
--- @tparam function code The code that should run in "protected" mode
--- @tparam function handler The error handler, which may return a HTTP error code
-function controller.xpcall(fn, handler)
+-- @tparam function action The code that should run in "protected" mode to handle the request.
+-- @tparam function handler The error handler, which may return a HTTP error code.
+-- @return The return value of the action function.
+function controller.xpcall(action, handler)
 	return exit_on_failure(xpcall(function()
-		return fn(ngx.req.get_method())
+		return action(ngx.req.get_method())
 	end, handler))
 end
 
