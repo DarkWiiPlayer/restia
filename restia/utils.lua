@@ -12,7 +12,7 @@ local colors = require 'restia.colors'
 function utils.normalize_indent(block)
 	local indent = '^'..(block:match("^%s+") or '')
 	return (block:gsub('[^\n]+', function(line)
-		return line:gsub(indent, '')
+		return line:gsub(indent, ''):gsub('[\t ]+$', ''):gsub("^%s*$", '')
 	end))
 end
 
