@@ -24,7 +24,16 @@ template.metatable = {
 	end;
 }
 
+--- Stores required modules just like `package.loaded` does for normal Lua modules.
 template.loaded = {}
+
+--- Requires a module in a similar way to Luas `require` function,
+-- but evaluates the code in the MoonXML language environment.
+-- This allows writing specialized MoonHTML macros to avoid
+-- code duplication in views. As with `requier`, `package.path` is
+-- used to look for Lua modules.
+-- @tparam string modname The name of the module.
+-- @return module The loaded module. In other words, the return value of the evaluated Lua file.
 function template.require(modname)
   ngx.log(ngx.INFO, '🎆 Trying to require '..modname)
   if not template.loaded[modname] then

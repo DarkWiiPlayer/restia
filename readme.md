@@ -240,6 +240,7 @@ Changelog
 
 ### Development
 
+- Add `restia.template.require` function
 - Add `restia.controller` module
 - Add `restia.secret` module
 - Add support for moonhtml+cosmo multistage templates
