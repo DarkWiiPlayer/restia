@@ -1,5 +1,4 @@
-Restia
-[![License](https://img.shields.io/github/license/darkwiiplayer/restia)](https://unlicense.org/)
+![Restia](logo.svg) [![License](https://img.shields.io/github/license/darkwiiplayer/restia)](https://unlicense.org/)
 ================================================================================
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
