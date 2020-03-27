@@ -37,17 +37,31 @@ I (jokingly) call this aproach
 
 ### What makes it *special*?
 
-**Simplicity** — Restia is built to be simple, which makes it easy to extend
+<details>
+<summary>Simplicity</summary>
+Restia is built to be simple, which makes it easy to extend.
+</details>
 
-**Control** — Restia doesn't tell you what to do; it gives you its idea of a
+
+<details>
+<summary>Control</summary>
+Restia doesn't tell you what to do; it gives you its idea of a
 project layout and lets you do whatever you want with it.
+</details>
 
-**Modularity** — Not everything is a web app; maybe you just need the
+
+<details>
+<summary>Modularity</summary>
+Not everything is a web app; maybe you just need the
 templating? or the config loading? no problem, it's split into modules!
+</details>
 
-**Self-Contained** — Thanks to Luarocks being awesome, installing restia
-separately for just the project is trivial. The template project makes it even
-easier!
+
+<details>
+<summary>Self-Contained</summary>
+Thanks to Luarocks being awesome, installing restia separately for just
+the project is trivial. The template project makes it even easier!
+</details>
 
 Work in Progress
 --------------------------------------------------------------------------------
