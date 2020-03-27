@@ -16,51 +16,66 @@ hacking the code right away :)
 
 ### What makes it different?
 
-Compared to other frameworks like Rails or Lapis,
-restia tries less to offer a complete package,
-but a good base to plug existing modules into.
+The key features that set restia apart from other frameworks like Rails or Lapis
+are:
+
+*Simplicity* —
+Restia has a small codebase,
+making it easy to understand and adapt.
+
+*Modularity* —
+The core library is modular.
+That doesn't just mean it's split into files as one expects from any project;
+all of the modules depend on as few other modules as possible,
+allowing most of them to be included into completely unrelated projects.
+
+Like the config loader? just throw it into your CLI application
+that's not even related to web applications.
+
+Like the HTML Templating engine? again, just plug it into your project and use
+it.
+
+*No Magic (Maybe some sorcery though)* —
+Nothing in the core library happens "on its own"
+as it does in other frameworks.
+Restia encourages automation to be written out somewhere in the project,
+making it easier to modify and reason about.
+
+*Power* —
+Restia was built to exist within the growing ecosystem of Lua and Openresty.
+Instead of implementing everything from scratch,
+it makes it easy to include components that already exist out there.
+*Todo / Work in Progress: Documented API for custom config loaders*
+
+And most importantly:
 
 **Restia is your tool, not your overlord.**
-It aims to help where it can, without forcing the shape of your final product.
 
-Many modern frameworks claim to do "convention over configuration".
-But that name is misleading; the configuration is there,
-it's just hidden within framework defaults.
-
-Restia keeps this *convention* part out of the library
-and, instead, generates configurations that represent these conventions.
-The effect is almost the same, but it makes it easier to change things.
-
+<!--
 I (jokingly) call this aproach
 
 > "Convention encoded in generated configuration over headache"
+-->
 
 ### What makes it *special*?
 
 <details>
-<summary>Simplicity</summary>
-Restia is built to be simple, which makes it easy to extend.
+<summary>Powerful Templating</summary>
+Making use of MoonXML, a templating engine very similar to that of the great Lapis
+framework in combination with the very fast cosmo templating engine,
+writing HTML has never been easier.
+At the cost of some sligtly increased complexity,
+multistage templates allow rendering MoonXML into a cosmo template
+on startup for a combination of convenient development and performant runtime.
 </details>
 
-
 <details>
-<summary>Control</summary>
-Restia doesn't tell you what to do; it gives you its idea of a
-project layout and lets you do whatever you want with it.
-</details>
-
-
-<details>
-<summary>Modularity</summary>
-Not everything is a web app; maybe you just need the
-templating? or the config loading? no problem, it's split into modules!
-</details>
-
-
-<details>
-<summary>Self-Contained</summary>
-Thanks to Luarocks being awesome, installing restia separately for just
-the project is trivial. The template project makes it even easier!
+<summary>Flexible Configuration</summary>
+Making use of metatables to dynamically load files in different formats at
+runtime and making them available as table keys
+allows the developer to forget about folders, files and file structure.
+One can simply index through folders into files and their structure as if they
+had always been just a tree of nested Lua tables.
 </details>
 
 Work in Progress
