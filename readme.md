@@ -1,5 +1,9 @@
 Restia
+[![License](https://img.shields.io/github/license/darkwiiplayer/restia)](https://unlicense.org/)
 ================================================================================
+
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/uses-badges.svg)](https://forthebadge.com)
 
 Restia is a library that aims to make developing web-applications in Lua easier.
 
