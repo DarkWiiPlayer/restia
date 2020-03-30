@@ -45,6 +45,7 @@ commands:add('new <directory>', [[
 			error_log logs/error.log	info;
 			pid openresty.pid;
 
+      worker_processes auto;
 			events {
 				worker_connections	1024;
 			}
