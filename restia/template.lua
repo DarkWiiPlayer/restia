@@ -24,6 +24,14 @@ template.metatable = {
 	end;
 }
 
+--- Allows injecting code directly into the language environment.
+-- This should only be used for very short snippets;
+-- using `template.require` is preferred.
+-- @tparam function fn A function that gets called with the language environment.
+function template.inject(fn)
+	fn(restia_html.environment)
+end
+
 --- Stores required modules just like `package.loaded` does for normal Lua modules.
 template.loaded = {}
 
@@ -122,18 +130,6 @@ restia_html = moonxml.html:derive(function(_ENV)
 			--link({rel='preload', href=uri, type='text/css', onload='this.rel="stylesheet"'})
 			link({rel='stylesheet', href=uri, type='text/css'})
 		end
-	end
-
-	--- Renders an object into the document.
-	-- If the object is a function, it is called with the additional arguments to render.
-	-- If the object is anything else, it is converted to a string and printed.
-	-- @param object The object to render
-	-- @function render
-	-- @usage
-	-- 	render(restia.template 'hello') -- Renders a function
-	-- 	render(restia.markdown 'world') -- Renders a string
-	function render(object, ...)
-		return type(object)=='function' and object(...) or print(tostring(object))
 	end
 
 	--- Renders a HTML5 doctype in place.
