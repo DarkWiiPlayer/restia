@@ -45,7 +45,7 @@ commands:add('new <directory>', [[
 			error_log logs/error.log	info;
 			pid openresty.pid;
 
-      worker_processes auto;
+			worker_processes auto;
 			events {
 				worker_connections	1024;
 			}
@@ -197,7 +197,16 @@ commands:add('new <directory>', [[
 		lib = {
 			['views.lua'] = I[[
 				local restia = require "restia"
-				return restia.config.bind "views"
+				local views = restia.config.bind "views"
+
+				restia.template.inject(function(_ENV)
+					setfenv(1, _ENV)
+					function render(name, ...)
+						print(restia.utils.deep_index(views, name):render(...))
+					end
+				end)
+
+				return views
 			]];
 			['config.lua'] = I[[
 				local restia = require "restia"
