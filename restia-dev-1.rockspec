@@ -38,6 +38,7 @@ build = {
 		['restia.controller'] = 'restia/controller.lua';
 		['restia.markdown'] = 'restia/markdown.lua';
 		['restia.secret'] = 'restia/secret.lua';
+		['restia.callsign'] = 'restia/callsign.lua';
 		['restia.contributors'] = 'contributors.lua';
 	};
 	install = {
