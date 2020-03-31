@@ -16,6 +16,15 @@ function utils.normalize_indent(block)
 	end))
 end
 
+--- Indexes tables recursively with a chain of string keys
+function utils.deep_index(object, keys)
+	for key in keys:gmatch('[^.]+') do
+		object = object[key]
+		if not object then return nil end
+	end
+	return object
+end
+
 local function files(dir, func)
 	for path in lfs.dir(dir) do
 		if path:sub(1, 1) ~= '.' then
