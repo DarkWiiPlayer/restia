@@ -223,18 +223,50 @@ commands:add('new <directory>', [[
 					utils = require 'restia.utils'
 
 					describe 'View', ->
-					before_each ->
-					_G.ngx = {print: ->}
-					for file in utils.files 'views'
-						describe file, ->
-						it 'should load', ->
-						assert.truthy require("restia.config").bind('views')[file\gsub('^views/', '')\gsub('%..-$', '')]
+						before_each ->
+						_G.ngx = {print: ->}
+						for file in utils.files 'views'
+							describe file, ->
+							it 'should load', ->
+							assert.truthy require("restia.config").bind('views')[file\gsub('^views/', '')\gsub('%..-$', '')]
+				]===========];
+			};
+			i18n = {
+				['locale_spec.moon'] =
+				I[===========[
+					default = 'en'
+					additional = { 'de', 'es' }
+
+					i18n	= require('restia').config.bind("config/i18n")
+
+					describe "Default locale", ->
+						it "should exist", ->
+							assert i18n[default]
+
+					rsub = (subset, superset={}, prefix='') ->
+						for key in pairs(subset)
+							switch type(subset[key])
+								when "string"
+									it "Should contain the key "..prefix..tostring(key), ->
+										assert.is.string superset[key]
+								when "table"
+									rsub subset[key], superset[key], prefix..tostring(key)..'.'
+
+
+					describe "Additional locale #i18n", ->
+						for name in *additional
+							describe '"'..name..'"', ->
+								locale = i18n[name]
+								it "should exist", -> assert.is.table locale
+								rsub(i18n[default], locale)
 				]===========];
 			};
 		};
 		config = {
 			i18n = {
 				['en.yaml'] = 'title: My Website';
+				['de.yaml'] = 'title: Meine Webseite';
+				['es.yaml'] = 'title: Mi Pagina Web';
 			};
 			['settings.conf'] = "set $lang en;\nset $dev true;"
 		};
