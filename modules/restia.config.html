@@ -33,14 +33,18 @@
 <h2>Contents</h2>
 <ul>
 <li><a href="#Functions">Functions</a></li>
+<li><a href="#Tables">Tables</a></li>
 <li><a href="#Local_Functions">Local Functions</a></li>
-<li><a href="#Config_finders">Config finders </a></li>
+<li><a href="#Config_loaders">Config loaders </a></li>
 </ul>
 
 
 <h2>Modules</h2>
 <ul class="nowrap">
+  <li><a href="../modules/callsign.html">callsign</a></li>
+  <li><a href="../modules/restia.commands.html">restia.commands</a></li>
   <li><strong>restia.config</strong></li>
+  <li><a href="../modules/restia.controller.html">restia.controller</a></li>
   <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
   <li><a href="../modules/restia.secret.html">restia.secret</a></li>
   <li><a href="../modules/restia.template.html">restia.template</a></li>
@@ -75,8 +79,15 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#bind">bind (Path)</a></td>
+	<td class="name" nowrap><a href="#bind">bind (dir, loaders)</a></td>
 	<td class="summary">Binds a table to a config directory.</td>
+	</tr>
+</table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#loaders">loaders</a></td>
+	<td class="summary">A list containing the default loaders.</td>
 	</tr>
 </table>
 <h2><a href="#Local_Functions">Local Functions</a></h2>
@@ -90,10 +101,10 @@
 	<td class="summary">Reads a file.</td>
 	</tr>
 </table>
-<h2><a href="#Config_finders">Config finders </a></h2>
+<h2><a href="#Config_loaders">Config loaders </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#readfile">readfile (name)</a></td>
+	<td class="name" nowrap><a href="#raw">raw (name)</a></td>
 	<td class="summary">Loads a file as plain text.</td>
 	</tr>
 	<tr>
@@ -101,15 +112,15 @@
 	<td class="summary">Loads and runs a Lua file and returns its result.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#cjson">cjson (name)</a></td>
+	<td class="name" nowrap><a href="#json">json (name)</a></td>
 	<td class="summary">Loads a JSON document and returns it as a table using cjson.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#lyaml">lyaml (name)</a></td>
+	<td class="name" nowrap><a href="#yaml">yaml (name)</a></td>
 	<td class="summary">Loads a YAML file and returns it as a table using lyaml.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#lfs">lfs (name)</a></td>
+	<td class="name" nowrap><a href="#dir">dir (name)</a></td>
 	<td class="summary">Binds a subdirectory</td>
 	</tr>
 	<tr>
@@ -117,15 +128,15 @@
 	<td class="summary">Loads a cosmo template.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#cosmo_moonhtml_lua">cosmo_moonhtml_lua (name)</a></td>
+	<td class="name" nowrap><a href="#lua_moonhtml_cosmo">lua_moonhtml_cosmo (name)</a></td>
 	<td class="summary">Multistage template for compiled moonhtml + cosmo.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#cosmo_moonhtml">cosmo_moonhtml (name)</a></td>
+	<td class="name" nowrap><a href="#moonhtml_cosmo">moonhtml_cosmo (name)</a></td>
 	<td class="summary">Multistage template for uncompiled moonhtml + cosmo.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#moonhtml_lua">moonhtml_lua (name)</a></td>
+	<td class="name" nowrap><a href="#lua_moonhtml">lua_moonhtml (name)</a></td>
 	<td class="summary">Loads a preompiled moonhtml template.</td>
 	</tr>
 	<tr>
@@ -143,18 +154,22 @@
     <dl class="function">
     <dt>
     <a name = "bind"></a>
-    <strong>bind (Path)</strong>
+    <strong>bind (dir, loaders)</strong>
     </dt>
     <dd>
     Binds a table to a config directory.
- The returned table maps keys to configurations, which are handled by different "finders". Finders are handlers that try loading a config entry in a certain format and are tried  sequentially until one succeeds. If no finder matches, nil is returned.
+ The returned table maps keys to configurations, which are handled by different "loaders". loaders are handlers that try loading a config entry in a certain format and are tried  sequentially until one succeeds. If no loader matches, nil is returned.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">Path</span>
-            <span class="types"><span class="type">dir</span></span>
-         to the directory to look in.
+        <li><span class="parameter">dir</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Path to the directory to look in.
+        </li>
+        <li><span class="parameter">loaders</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         A table of loaders to use when attempting to load a configuration entry.
         </li>
     </ul>
 
@@ -174,6 +189,27 @@ main_config.foo.bar
 <span class="comment">-- Loads some file like foo.json or foo.yaml
 </span><span class="comment">-- in the configurations directory</span></pre>
     </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "loaders"></a>
+    <strong>loaders</strong>
+    </dt>
+    <dd>
+    A list containing the default loaders.
+ Each loader is also saved with a string key describing it;
+ this allows more easily copying a selection of default loaders
+ into a custom loader chain or wrap them in filters.
+
+
+
+
+
+
 
 </dd>
 </dl>
@@ -225,15 +261,15 @@ main_config.foo.bar
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Config_finders"></a>Config finders </h2>
+    <h2 class="section-header has-description"><a name="Config_loaders"></a>Config loaders </h2>
 
           <div class="section-description">
            Functions that turn the entry name into a filename and attempt to load with some specific mechanism.
           </div>
     <dl class="function">
     <dt>
-    <a name = "readfile"></a>
-    <strong>readfile (name)</strong>
+    <a name = "raw"></a>
+    <strong>raw (name)</strong>
     </dt>
     <dd>
     Loads a file as plain text.
@@ -274,8 +310,8 @@ main_config.foo.bar
 
 </dd>
     <dt>
-    <a name = "cjson"></a>
-    <strong>cjson (name)</strong>
+    <a name = "json"></a>
+    <strong>json (name)</strong>
     </dt>
     <dd>
     Loads a JSON document and returns it as a table using cjson.
@@ -295,8 +331,8 @@ main_config.foo.bar
 
 </dd>
     <dt>
-    <a name = "lyaml"></a>
-    <strong>lyaml (name)</strong>
+    <a name = "yaml"></a>
+    <strong>yaml (name)</strong>
     </dt>
     <dd>
     Loads a YAML file and returns it as a table using lyaml.
@@ -316,8 +352,8 @@ main_config.foo.bar
 
 </dd>
     <dt>
-    <a name = "lfs"></a>
-    <strong>lfs (name)</strong>
+    <a name = "dir"></a>
+    <strong>dir (name)</strong>
     </dt>
     <dd>
     Binds a subdirectory
@@ -360,8 +396,8 @@ main_config.foo.bar
 
 </dd>
     <dt>
-    <a name = "cosmo_moonhtml_lua"></a>
-    <strong>cosmo_moonhtml_lua (name)</strong>
+    <a name = "lua_moonhtml_cosmo"></a>
+    <strong>lua_moonhtml_cosmo (name)</strong>
     </dt>
     <dd>
     Multistage template for compiled moonhtml + cosmo.
@@ -383,8 +419,8 @@ main_config.foo.bar
 
 </dd>
     <dt>
-    <a name = "cosmo_moonhtml"></a>
-    <strong>cosmo_moonhtml (name)</strong>
+    <a name = "moonhtml_cosmo"></a>
+    <strong>moonhtml_cosmo (name)</strong>
     </dt>
     <dd>
     Multistage template for uncompiled moonhtml + cosmo.
@@ -406,8 +442,8 @@ main_config.foo.bar
 
 </dd>
     <dt>
-    <a name = "moonhtml_lua"></a>
-    <strong>moonhtml_lua (name)</strong>
+    <a name = "lua_moonhtml"></a>
+    <strong>lua_moonhtml (name)</strong>
     </dt>
     <dd>
     Loads a preompiled moonhtml template.
@@ -456,7 +492,7 @@ main_config.foo.bar
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-12-15 13:26:58 </i>
+<i style="float:right;">Last updated 2020-04-03 10:26:45 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

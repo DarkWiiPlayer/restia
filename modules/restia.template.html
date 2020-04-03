@@ -33,13 +33,17 @@
 <h2>Contents</h2>
 <ul>
 <li><a href="#Functions">Functions</a></li>
+<li><a href="#Tables">Tables</a></li>
 <li><a href="#HTML_Builder_Environment">HTML Builder Environment </a></li>
 </ul>
 
 
 <h2>Modules</h2>
 <ul class="nowrap">
+  <li><a href="../modules/callsign.html">callsign</a></li>
+  <li><a href="../modules/restia.commands.html">restia.commands</a></li>
   <li><a href="../modules/restia.config.html">restia.config</a></li>
+  <li><a href="../modules/restia.controller.html">restia.controller</a></li>
   <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
   <li><a href="../modules/restia.secret.html">restia.secret</a></li>
   <li><strong>restia.template</strong></li>
@@ -72,6 +76,15 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
+	<td class="name" nowrap><a href="#inject">inject (fn)</a></td>
+	<td class="summary">Allows injecting code directly into the language environment.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#require">require (modname)</a></td>
+	<td class="summary">Requires a module in a similar way to Luas <a href="../modules/restia.template.html#require">require</a> function,
+ but evaluates the code in the MoonXML language environment.</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#loadlua">loadlua (code, filename)</a></td>
 	<td class="summary">Loads a template from lua code.</td>
 	</tr>
@@ -88,15 +101,18 @@
 	<td class="summary">Renders a table and directly sends it to nginx</td>
 	</tr>
 </table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#loaded">loaded</a></td>
+	<td class="summary">Stores required modules just like <a href="https://www.lua.org/manual/5.3/manual.html#pdf-package.loaded">package.loaded</a> does for normal Lua modules.</td>
+	</tr>
+</table>
 <h2><a href="#HTML_Builder_Environment">HTML Builder Environment </a></h2>
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#stylesheet">stylesheet (uri, async)</a></td>
 	<td class="summary">Embeds a stylesheet into the document.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#render">render (object)</a></td>
-	<td class="summary">Renders an object into the document.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#html5">html5 ()</a></td>
@@ -118,6 +134,14 @@
 	<td class="name" nowrap><a href="#ttable">ttable (opt, ...)</a></td>
 	<td class="summary">Renders a table.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#lua">lua (code)</a></td>
+	<td class="summary">Renders a script tag from Lua code to be used by fengari.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#moon">moon (code)</a></td>
+	<td class="summary">Renders a script tag from Moonscript code to be used by fengari.</td>
+	</tr>
 </table>
 
 <br/>
@@ -127,6 +151,59 @@
     <h2 class="section-header "><a name="Functions"></a>Functions</h2>
 
     <dl class="function">
+    <dt>
+    <a name = "inject"></a>
+    <strong>inject (fn)</strong>
+    </dt>
+    <dd>
+    Allows injecting code directly into the language environment.
+ This should only be used for very short snippets;
+ using <a href="../modules/restia.template.html#require">template.require</a> is preferred.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">fn</span>
+            <span class="types"><span class="type">function</span></span>
+         A function that gets called with the language environment.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "require"></a>
+    <strong>require (modname)</strong>
+    </dt>
+    <dd>
+    Requires a module in a similar way to Luas <a href="../modules/restia.template.html#require">require</a> function,
+ but evaluates the code in the MoonXML language environment.
+ This allows writing specialized MoonHTML macros to avoid
+ code duplication in views. As with <code>requier</code>, <a href="https://www.lua.org/manual/5.3/manual.html#pdf-package.path">package.path</a> is
+ used to look for Lua modules.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">modname</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of the module.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        module The loaded module. In other words, the return value of the evaluated Lua file.
+    </ol>
+
+
+
+
+</dd>
     <dt>
     <a name = "loadlua"></a>
     <strong>loadlua (code, filename)</strong>
@@ -227,6 +304,24 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "loaded"></a>
+    <strong>loaded</strong>
+    </dt>
+    <dd>
+    Stores required modules just like <a href="https://www.lua.org/manual/5.3/manual.html#pdf-package.loaded">package.loaded</a> does for normal Lua modules.
+
+
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header has-description"><a name="HTML_Builder_Environment"></a>HTML Builder Environment </h2>
 
           <div class="section-description">
@@ -260,33 +355,6 @@
     <ul>
         <pre class="example">stylesheet <span class="string">'styles/site.css'</span>
 stylesheet <span class="string">'styles/form.css'</span>, <span class="keyword">true</span></pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "render"></a>
-    <strong>render (object)</strong>
-    </dt>
-    <dd>
-    Renders an object into the document.
- If the object is a function, it is called with the additional arguments to render.
- If the object is anything else, it is converted to a string and printed.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">object</span>
-         The object to render
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">render(restia.template <span class="string">'hello'</span>) <span class="comment">-- Renders a function
-</span>render(restia.markdown <span class="string">'world'</span>) <span class="comment">-- Renders a string</span></pre>
     </ul>
 
 </dd>
@@ -428,6 +496,61 @@ stylesheet <span class="string">'styles/form.css'</span>, <span class="keyword">
     </ul>
 
 </dd>
+    <dt>
+    <a name = "lua"></a>
+    <strong>lua (code)</strong>
+    </dt>
+    <dd>
+    Renders a script tag from Lua code to be used by fengari.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The content of the script tag (Lua code).
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">lua <span class="string">[[
+	print "Hello, World!"
+]]</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "moon"></a>
+    <strong>moon (code)</strong>
+    </dt>
+    <dd>
+    Renders a script tag from Moonscript code to be used by fengari.
+ The code is first stripped of additional indentation and converted to Lua.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The content of the script tag (Moonscript code).
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">lua <span class="string">[[
+	print "Hello, World!"
+]]</span></pre>
+    </ul>
+
+</dd>
 </dl>
 
 
@@ -435,7 +558,7 @@ stylesheet <span class="string">'styles/form.css'</span>, <span class="keyword">
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-12-15 13:26:58 </i>
+<i style="float:right;">Last updated 2020-04-03 10:26:45 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
