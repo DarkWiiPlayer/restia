@@ -61,7 +61,8 @@ end
 --- Picks a value from a content-type -> value map respecting an accept header.
 -- @tparam string accept A full HTTP Accept header
 -- @tparam table available A map from content-types to values
-function negotiator.pick(accept, available)
+-- @param default A default value to return when nothing matches
+function negotiator.pick(accept, available, default)
 	for i, entry in ipairs(negotiator.patterns(accept)) do
 		for name, value in pairs(available) do
 			if name:find(entry.pattern) then
@@ -69,7 +70,7 @@ function negotiator.pick(accept, available)
 			end
 		end
 	end
-	return nil, 'None of the available options matches any of the accepted types'
+	return default
 end
 
 return negotiator
