@@ -43,10 +43,10 @@ describe("Content negotiator", function()
 	end)
 
 	it("Should pick the prefered option", function()
-		assert.equal("FOO", negotiator.pick('text/*', {
+		assert.same({"text/html", "FOO"}, {negotiator.pick('text/*', {
 			['application/js'] = "BAR";
 			['text/html'] = "FOO";
 			['image/png'] = "BAZ";
-		}))
+		})})
 	end)
 end)

@@ -67,24 +67,24 @@ end
 --  restia.negotiator.pick(headers.accept, { {'text/plain', "Hello!"}, {'text/html', "<h1>Hello!</h1>"} })
 --  -- Check out of order and use first match
 --  restia.negotiator.pick(headers.accept, { ['text/html'] = "<h1>Hello!</h1>", ['text/plain'] = "Hello!" })
-function negotiator.pick(accept, available, default)
+function negotiator.pick(accept, available, ...)
   for i, entry in ipairs(negotiator.patterns(accept)) do
     if available[1] then
       for j, pair in ipairs(available) do
         local name, value = unpack(pair)
         if name:find(entry.pattern) then
-          return value
+          return name, value
         end
       end
     else
       for name, value in pairs(available) do
         if name:find(entry.pattern) then
-          return value
+          return name, value
         end
       end
     end
   end
-	return default
+	return ...
 end
 
 return negotiator
