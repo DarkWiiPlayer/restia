@@ -272,6 +272,7 @@ Changelog
 
 ### Development
 
+- Add `restia.negotiator` template
 - Add `restia.template.require` function
 - Add `restia.controller` module
 - Add `restia.secret` module

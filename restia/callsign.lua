@@ -1,4 +1,7 @@
 --- A very simple helper function.
+-- @module restia.callsign
+-- @author DarkWiiPlayer
+-- @license Unlicense
 -- @usage
 -- 	local msg = restia.callsign ()
 --
