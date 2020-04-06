@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Restia</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Restia</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Local_Functions">Local Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/restia.callsign.html">restia.callsign</a></li>
+  <li><a href="../modules/restia.commands.html">restia.commands</a></li>
+  <li><a href="../modules/restia.config.html">restia.config</a></li>
+  <li><a href="../modules/restia.controller.html">restia.controller</a></li>
+  <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
+  <li><strong>restia.negotiator</strong></li>
+  <li><a href="../modules/restia.secret.html">restia.secret</a></li>
+  <li><a href="../modules/restia.template.html">restia.template</a></li>
+  <li><a href="../modules/restia.utils.html">restia.utils</a></li>
+</ul>
+<h2>Scripts</h2>
+<ul class="nowrap">
+  <li><a href="../scripts/restia.html">restia</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/readme.md.html">readme</a></li>
+  <li><a href="../topics/license.md.html">license</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>restia.negotiator</code></h1>
+<p>Handles content negotiation with the client.</p>
+<p>
+
+</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: Unlicense</li>
+        <li><strong>Author</strong>: DarkWiiPlayer</li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#parse">parse (accept)</a></td>
+	<td class="summary">Parses an "accept" header and returns its entries.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#patterns">patterns (accept)</a></td>
+	<td class="summary">Works like <a href="../modules/restia.negotiator.html#parse">negotiator.parse</a> but adds a <a href="../modules/restia.negotiator.html#pattern">pattern</a> field to them.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#pick">pick (accept, available)</a></td>
+	<td class="summary">Picks a value from a content-type -> value map respecting an accept header.</td>
+	</tr>
+</table>
+<h2><a href="#Local_Functions">Local Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#escape">escape (pattern)</a></td>
+	<td class="summary">Escapes all the special pattern characters in a string</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#pattern">pattern (accept)</a></td>
+	<td class="summary">Takes a content type string and turns the string into patterns to match said type(s)</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "parse"></a>
+    <strong>parse (accept)</strong>
+    </dt>
+    <dd>
+    Parses an "accept" header and returns its entries.
+ Values are returned as: <code>{q = &lt;Q-Value&gt;, s = &lt;Specificity&gt;, type = &lt;content type&gt;}</code>
+ where specificity can be 1 for <code><em>/</em></code>, 2 for <code>&lt;type&gt;/*</code> or 3 for <code>&lt;type&gt;/&lt;subtype&gt;</code>
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">accept</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The full HTTP Accept header
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "patterns"></a>
+    <strong>patterns (accept)</strong>
+    </dt>
+    <dd>
+    Works like <a href="../modules/restia.negotiator.html#parse">negotiator.parse</a> but adds a <a href="../modules/restia.negotiator.html#pattern">pattern</a> field to them.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">accept</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "pick"></a>
+    <strong>pick (accept, available)</strong>
+    </dt>
+    <dd>
+    Picks a value from a content-type -> value map respecting an accept header.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">accept</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         A full HTTP Accept header
+        </li>
+        <li><span class="parameter">available</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         A map from content-types to values
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "escape"></a>
+    <strong>escape (pattern)</strong>
+    </dt>
+    <dd>
+    Escapes all the special pattern characters in a string
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pattern</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         A string to escape
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "pattern"></a>
+    <strong>pattern (accept)</strong>
+    </dt>
+    <dd>
+    Takes a content type string and turns the string into patterns to match said type(s)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">accept</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         A single content-type
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-04-06 11:44:57 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
