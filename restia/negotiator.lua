@@ -60,16 +60,30 @@ end
 
 --- Picks a value from a content-type -> value map respecting an accept header.
 -- @tparam string accept A full HTTP Accept header
--- @tparam table available A map from content-types to values
+-- @tparam table available A map from content-types to values. Either as a plain key-value map or as a sequence of key-value pairs in the form of two-element sequences.
 -- @param default A default value to return when nothing matches
+-- @usage
+--  -- Check in order and use first match
+--  restia.negotiator.pick(headers.accept, { {'text/plain', "Hello!"}, {'text/html', "<h1>Hello!</h1>"} })
+--  -- Check out of order and use first match
+--  restia.negotiator.pick(headers.accept, { ['text/html'] = "<h1>Hello!</h1>", ['text/plain'] = "Hello!" })
 function negotiator.pick(accept, available, default)
-	for i, entry in ipairs(negotiator.patterns(accept)) do
-		for name, value in pairs(available) do
-			if name:find(entry.pattern) then
-				return value
-			end
-		end
-	end
+  for i, entry in ipairs(negotiator.patterns(accept)) do
+    if available[1] then
+      for j, pair in ipairs(available) do
+        local name, value = unpack(pair)
+        if name:find(entry.pattern) then
+          return value
+        end
+      end
+    else
+      for name, value in pairs(available) do
+        if name:find(entry.pattern) then
+          return value
+        end
+      end
+    end
+  end
 	return default
 end
 
