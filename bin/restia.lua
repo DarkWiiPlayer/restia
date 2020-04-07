@@ -111,14 +111,16 @@ commands:add('new <directory>', [[
 				}
 			]];
 		};
-		['error.lua'] =
+		['lib/error.lua'] =
 		I[===========[
 			local json = require 'cjson'
 			local views = require 'views'
 
 			return function(message)
 				ngx.log(ngx.ERR, debug.traceback(message))
-				ngx.status = 500
+        if ngx.status < 300 then
+          ngx.status = 500
+        end
 				if not message
 				then message = '(No error message given)'
 				end
