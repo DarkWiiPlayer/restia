@@ -104,7 +104,7 @@ end
 
 --- Renders a table and directly sends it to nginx
 function template:print(...)
-	ngx.print(self:render(...))
+	ngx.say(self:render(...))
 end
 
 --- HTML Builder Environment.
