@@ -115,12 +115,13 @@ commands:add('new <directory>', [[
 		I[===========[
 			local json = require 'cjson'
 			local views = require 'views'
+			local restia = require 'restia'
 
 			return function(message)
 				ngx.log(ngx.ERR, debug.traceback(message))
-        if ngx.status < 300 then
-          ngx.status = 500
-        end
+					  if ngx.status < 300 then
+						 ngx.status = 500
+					  end
 				if not message
 				then message = '(No error message given)'
 				end
@@ -142,8 +143,12 @@ commands:add('new <directory>', [[
 				local content_type = ngx.header['content-type']
 				if content_type == 'application/json' then
 					ngx.say(json.encode(err))
+				elseif content_type == 'text/plain' then
+					ngx.say("Error ",err.code,"\n---------\n",err.message,"\n",err.description)
 				else
 					if views.error then
+						err.message = restia.utils.escape(err.message)
+						err.description = restia.utils.escape(err.description)
 						views.error:print(err)
 					else
 						ngx.say('error '..tostring(ngx.status))
