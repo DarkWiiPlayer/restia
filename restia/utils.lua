@@ -8,6 +8,24 @@ local utils = {}
 local lfs = require 'lfs'
 local colors = require 'restia.colors'
 
+local escapes = {
+	['&'] = '&amp;',
+	['<'] = '&lt;',
+	['>'] = '&gt;',
+	['"'] = '&quot;',
+	["'"] = '&#039;',
+}
+do local buf = {}
+	for char in pairs(escapes) do
+		table.insert(buf, char)
+	end
+	escapes.pattern = "["..table.concat(buf).."]"
+end
+--- Escapes special HTML characters in a string
+function utils.escape(str)
+	return (tostring(str):gsub(escapes.pattern, escapes))
+end
+
 --- Removes excessive indentation from a block of text
 function utils.normalize_indent(block)
 	local indent = '^'..(block:match("^%s+") or '')
