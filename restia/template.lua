@@ -36,7 +36,6 @@ template.loaded = {}
 -- @tparam string modname The name of the module.
 -- @return module The loaded module. In other words, the return value of the evaluated Lua file.
 function template.require(modname)
-  ngx.log(ngx.INFO, '🎆 Trying to require '..modname)
   if not template.loaded[modname] then
     local filename = modname:gsub('%.', package.config:sub(1,1))
     for path in package.path:gmatch('[^;]+') do
