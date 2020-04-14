@@ -260,7 +260,7 @@ commands:add('new <directory>', [[
 									rsub subset[key], superset[key], prefix..tostring(key)..'.'
 
 
-					describe "Additional locale #i18n", ->
+					describe "Additional locale", ->
 						for name in *additional
 							describe '"'..name..'"', ->
 								locale = i18n[name]
