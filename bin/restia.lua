@@ -161,16 +161,17 @@ commands:add('new <directory>', [[
 			['front.lua'] =
 			I[===========[
 				local views = require("views")
-				local config = require("config")
-				local secret = require("restia.secret")
 
 				require('restia.controller').xpcall(function()
-					return views.front(config.i18n[ngx.var.lang])
+					return views.front()
 				end, require 'error')
 			]===========];
 		};
 		views = {
-			['front.moonhtml'] = 'strings = ...\n\nh1 strings.title';
+			['front.moonhtml'] = I[[
+				strings = require('config').i18n[ngx.var.lang]
+				h1 strings.title
+			]];
 			['error.cosmo.moonhtml'] = I[[
 				h1 "ERROR $code"
 				h2 "$message"
