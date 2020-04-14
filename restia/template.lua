@@ -13,14 +13,7 @@ local restia_html
 template.metatable = {
 	__index = template;
 	__call=function(self, ...)
-		local meta = getmetatable(self) -- effectively, this very table
-		local old_call = meta.__call -- aka. this function
-		meta.__call = meta.__call2 or old_call -- see below
-		self:print(...)
-		meta.__call = old_call -- reset to original
-	end;
-	__call2=function(self, ...)
-		return self.raw(...)
+		return self:render(...)
 	end;
 }
 

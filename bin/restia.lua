@@ -163,7 +163,7 @@ commands:add('new <directory>', [[
 				local views = require("views")
 
 				require('restia.controller').xpcall(function()
-					return views.front()
+					return ngx.say(views.front())
 				end, require 'error')
 			]===========];
 		};
