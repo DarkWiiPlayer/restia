@@ -58,23 +58,23 @@ end
 -- 		}
 -- 	}
 function utils.deepen(tab)
-  local res = {}
-  for key, value in pairs(tab) do
-    if type(key) == 'string' and key:find(".", 1, false) then
-      local tab = res
-      local name
-      local first, last = key:find("[^.]+")
-      repeat
-        name = key:sub(first, last); name = tonumber(name) or name
-        tab[name] = tab[name] or {}
-        first, last = key:find("[^.]+", last+1)
-        if first then tab = tab[name] end
-      until not first
-      tab[name] = value
-    else
-      res[key] = value end
-  end
-  return res
+	local res = {}
+	for key, value in pairs(tab) do
+		if type(key) == 'string' and key:find(".", 1, false) then
+			local tab = res
+			local name
+			local first, last = key:find("[^.]+")
+			repeat
+				name = key:sub(first, last); name = tonumber(name) or name
+				tab[name] = tab[name] or {}
+				first, last = key:find("[^.]+", last+1)
+				if first then tab = tab[name] end
+			until not first
+			tab[name] = value
+		else
+			res[key] = value end
+	end
+	return res
 end
 
 local function files(dir, func)
