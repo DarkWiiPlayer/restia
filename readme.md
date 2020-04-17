@@ -54,9 +54,9 @@ it makes it easy to include components that already exist out there.
 
 <details>
 <summary>Powerful Templating</summary>
-Making use of MoonXML, a templating engine very similar to that of the great Lapis
-framework in combination with the very fast cosmo templating engine,
-writing HTML has never been easier.
+The MoonXML templating engine, inspired by the Lapis web framework,
+reduces much of the complexity of writing HTML templates by hand.
+Meanwhile, cosmo templates, based on string interpolation, are blazing fast.
 At the cost of some sligtly increased complexity,
 multistage templates allow rendering MoonXML into a cosmo template
 on startup for a combination of convenient development and performant runtime.
@@ -69,6 +69,15 @@ runtime and making them available as table keys
 allows the developer to forget about folders, files and file structure.
 One can simply index through folders into files and their structure as if they
 had always been just a tree of nested Lua tables.
+</details>
+
+<details>
+<summary>No magical state transfer</summary>
+At a slight cost of convenience, Restia keeps state where the user puts it.
+If a user has to wonder "How did this data get from the controler to the view?",
+that's a sign that the user doesn't understand the flow of information.
+Restias main mechanism for passing state around is through function arguments.
+This makes data flow explicit without considerably impacting usability.
 </details>
 
 Work in Progress
