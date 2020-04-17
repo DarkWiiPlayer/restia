@@ -8,6 +8,7 @@ Restia is a library that aims to make developing web-applications in Lua easier.
 
 ### What do I need to get started?
 
+  luarocks install restia --dev --lua-version 5.1
 	restia new .
 	restia run &
 
@@ -28,10 +29,8 @@ The core library is modular.
 That doesn't just mean it's split into files as one expects from any project;
 all of the modules depend on as few other modules as possible,
 allowing most of them to be included into completely unrelated projects.
-
 Like the config loader? just throw it into your CLI application
 that's not even related to web applications.
-
 Like the HTML Templating engine? again, just plug it into your project and use
 it.
 
@@ -47,15 +46,9 @@ Instead of implementing everything from scratch,
 it makes it easy to include components that already exist out there.
 *Todo / Work in Progress: Documented API for custom config loaders*
 
-And most importantly:
+**And most importantly**:
 
-**Restia is your tool, not your overlord.**
-
-<!--
-I (jokingly) call this aproach
-
-> "Convention encoded in generated configuration over headache"
--->
+> Restia is your tool, not your overlord.
 
 ### What makes it *special*?
 
@@ -91,6 +84,17 @@ If you want to use Restia for your own project,
 be warned that API changes are likely to happen unannounced during the
 zero-versions (`0.x.y`).
 
+Getting started
+--------------------------------------------------------------------------------
+
+After creating your project with `restia new`, should you start?
+
+- Run your application in the background with `restia run &`
+- Open `/views/front.moonhtml` and play around with your front page
+- Open `/controllers/front.lua` and add some logic to it
+- Run tests with `restia test`; Restia created a bunch of them for you in `/spec`
+- Check out `getting-started.md` for more information :D
+
 Building the Documentation
 --------------------------------------------------------------------------------
 
@@ -98,47 +102,6 @@ Lua doesn't install its documentation with luarocks, so it has to be built
 manually or read online. To build it, simply install [ldoc](ldoc), clone the
 restia repository and run `ldoc .` in its top level directory. The docs will
 be generated in the `doc` folder by default.
-
-Usage
---------------------------------------------------------------------------------
-
-### Getting started
-
-If you're on the fence about installing restia system-wide, you can do the
-following:
-
-	mkdir trying_out_restia && cd trying_out_restia
-	mkdir .luarocks lua_modules
-	luarocks
-	# Confirm the default rock-tree is now lua_modules
-	luarocks --lua-version 5.1 install restia --dev
-	lua_modules/bin/restia new .
-	lua_modules/bin/restia run &
-
-After that you will have a template project in the current directory and restia
-running in the background.
-
-You can now start looking at the project directory, make changes and reload
-restia with
-
-	lua_modules/bin/restia test
-	lua_modules/bin/restia reload
-
-### Executable
-
-The `restia` executable is a convenient script that takes care of generating new
-project trees and running them, as well as some simple helper functionalities
-like running tests, reloading the server, etc.
-
-To get an overview of the available commands, run `restia help`.
-
-### Library
-
-Restias main features as of now are:
-- Integration of moonhtml templates
-- A very generic config loader with optional support for json, yaml, etc.
-
-See the documentation for more information on this.
 
 Modules
 --------------------------------------------------------------------------------
