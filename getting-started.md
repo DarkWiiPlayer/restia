@@ -56,9 +56,9 @@ with the following content:
 	end, require 'error')
 
 <details>
-<summary>Restia looks for controllers in `/controllers`</summary>
-The default location block found in `locations/root` sets it up so that OpenResty
-will search for controllers in the `controllers/` subdirectory automatically
+<summary>Restia looks for controllers in <code>/controllers</code></summary>
+The default location block found in <code>locations/root</code> sets it up so that OpenResty
+will search for controllers in the <code>controllers/</code> subdirectory automatically
 unless another location matches the request first.
 </details>
 

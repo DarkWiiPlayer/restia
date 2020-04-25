@@ -8,11 +8,11 @@ Restia is a library that aims to make developing web-applications in Lua easier.
 
 ### What do I need to get started?
 
-  luarocks install restia --dev --lua-version 5.1
+	luarocks install restia --dev --lua-version 5.1
 	restia new .
 	restia run &
 
-That's it. You can now open it in your browser at localhost:8080 or start
+That's it. You can now open it in your browser at `localhost:8080` or start
 hacking the code right away :)
 
 ### What makes it different?
@@ -46,9 +46,7 @@ Instead of implementing everything from scratch,
 it makes it easy to include components that already exist out there.
 *Todo / Work in Progress: Documented API for custom config loaders*
 
-**And most importantly**:
-
-> Restia is your tool, not your overlord.
+**And most importantly**: *Restia is your tool, not your overlord.*
 
 ### What makes it *special*?
 
