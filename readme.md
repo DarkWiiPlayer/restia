@@ -4,78 +4,67 @@
 [![Built with ♥](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![Uses Badges](https://forthebadge.com/images/badges/uses-badges.svg)](https://forthebadge.com)
 
+### What is Restia?
+
 Restia is a library that aims to make developing web-applications in Lua easier.
 
-### What do I need to get started?
+### How do I start?
 
 	luarocks install restia --dev --lua-version 5.1
-	restia new .
+	restia new application && cd application
 	restia run &
 
-That's it. You can now open it in your browser at `localhost:8080` or start
-hacking the code right away :)
+That's it.
+You can now open it in your browser at `localhost:8080`
+or start hacking the code right away :)
 
 ### What makes it different?
 
-The key features that set restia apart from other frameworks like Rails or Lapis
-are:
-
-*Simplicity* —
-Restia has a small codebase,
-making it easy to understand and adapt.
-
-*Modularity* —
-The core library is modular.
-That doesn't just mean it's split into files as one expects from any project;
-all of the modules depend on as few other modules as possible,
-allowing most of them to be included into completely unrelated projects.
-Like the config loader? just throw it into your CLI application
-that's not even related to web applications.
-Like the HTML Templating engine? again, just plug it into your project and use
-it.
-
-*No Magic (Maybe some sorcery though)* —
-Nothing in the core library happens "on its own"
-as it does in other frameworks.
-Restia encourages automation to be written out somewhere in the project,
-making it easier to modify and reason about.
-
-*Power* —
-Restia was built to exist within the growing ecosystem of Lua and Openresty.
-Instead of implementing everything from scratch,
-it makes it easy to include components that already exist out there.
-*Todo / Work in Progress: Documented API for custom config loaders*
-
-**And most importantly**: *Restia is your tool, not your overlord.*
+* **Simplicity**: Restia has a very small codebase.
+* **Modularity**: You can use the whole thing—or just a single function.
+* **No Magic**: Making things easy doesn't mean they can't be predictable.
+* **Performance**: Who would have guessed that less code runs in less time?
 
 ### What makes it *special*?
 
 <details>
 <summary>Powerful Templating</summary>
+
 The MoonXML templating engine, inspired by the Lapis web framework,
-reduces much of the complexity of writing HTML templates by hand.
-Meanwhile, cosmo templates, based on string interpolation, are blazing fast.
-At the cost of some sligtly increased complexity,
-multistage templates allow rendering MoonXML into a cosmo template
-on startup for a combination of convenient development and performant runtime.
+takes away much of the complexity of writing HTML templates by hand.
+
+[Cosmo][cosmo] templates, on the other hand, are blazing fast.
+
+You can even chain them as "multistage templates":
+Restia will load a MoonXML template once and interpret the result
+as a cosmo template that you can then render repeatedly.
+Convenient *and* performant!
+<hr>
 </details>
 
 <details>
 <summary>Flexible Configuration</summary>
-Making use of metatables to dynamically load files in different formats at
-runtime and making them available as table keys
-allows the developer to forget about folders, files and file structure.
-One can simply index through folders into files and their structure as if they
-had always been just a tree of nested Lua tables.
+
+In Lua, structured Data is represented in tables.
+
+Restia extends this pattern to your configuration data:
+Bind a directory and get a table that abstracts your complex file hierarchy
+and many different file types into one uniform structure that you already
+know how to use.
+<hr>
 </details>
 
 <details>
 <summary>No magical state transfer</summary>
-At a slight cost of convenience, Restia keeps state where the user puts it.
-If a user has to wonder "How did this data get from the controler to the view?",
-that's a sign that the user doesn't understand the flow of information.
-Restias main mechanism for passing state around is through function arguments.
-This makes data flow explicit without considerably impacting usability.
+
+Restia doesn't share any data between objects or contexts behind the scenes.
+This means that all data-transfer is explicit
+and happens in the form of function arguments.
+
+You stay in control of how the data flows through your application;
+and it's up to you to make everything global, rely heavily on lexical scoping
+or just pass your entire data around as long lists of arguments.
+<hr>
 </details>
 
 Work in Progress
@@ -84,34 +73,31 @@ Work in Progress
 In its current state, it should be obvious to anyone that Restia is still in
 development and nowhere near production ready.
 
-Currently this is mostly a personal project intended for my own use.
-Suggestions are still welcome, of course.
-
 If you want to use Restia for your own project,
 be warned that API changes are likely to happen unannounced during the
 zero-versions (`0.x.y`).
 
-Getting started
+How do I build cool stuff?
 --------------------------------------------------------------------------------
 
-After creating your project with `restia new`, should you start?
-
-- Run your application in the background with `restia run &`
-- Open `/views/front.moonhtml` and play around with your front page
-- Open `/controllers/front.lua` and add some logic to it
-- Run tests with `restia test`; Restia created a bunch of them for you in `/spec`
-- Check out `getting-started.md` for more information :D
+- Run your application in the background with `restia run &` as you code.
+- Check out `getting-started.md` in this repo for a detailed explanation.
+- Just inspect the source tree, specially `controllers`, `views` and `config`.
+- Read the documentation for detailed descriptions of what everything does.
+- Wear sunglasses. <!--Does this look like a tan trenchcoat situation to you?-->
 
 Building the Documentation
 --------------------------------------------------------------------------------
 
-Lua doesn't install its documentation with luarocks, so it has to be built
-manually or read online. To build it, simply install [ldoc](ldoc), clone the
-restia repository and run `ldoc .` in its top level directory. The docs will
+Restia doesn't install its documentation with luarocks, so it has to be built
+manually or read [online][doc]. To build it, simply install [ldoc](ldoc), clone
+the restia repository and run `ldoc .` in its top level directory. The docs will
 be generated in the `doc` folder by default.
 
 Modules
 --------------------------------------------------------------------------------
+
+These are the most important modules that get most of the work done:
 
 ### Config
 
@@ -122,12 +108,6 @@ which each attempt to load the config entry in a certain way, like loading a
 yaml file or binding a subdirectory.
 
 See the documentation of the `restia.config` module for more information.
-
-### Secret
-
-The `restia.secret` module is a config table bound to the `.secret` directory
-with some additional functions for encryption/decryption. It assumes a special
-`key` file to exist in `.secret`, which should contain the servers secret key.
 
 ### Template
 
@@ -142,6 +122,12 @@ It acts very similar to `xpcall`,
 but in case of error,
 it runs the message handler
 and instantly terminates the request.
+
+### Secret
+
+The `restia.secret` module is a config table bound to the `.secret` directory
+with some additional functions for encryption/decryption. It assumes a special
+`key` file to exist in `.secret`, which should contain the servers secret key.
 
 Docker
 --------------------------------------------------------------------------------
@@ -208,9 +194,10 @@ Typical workarounds:
 
 - Wrap code that uses coroutines in an init function and call `require
 	'mymodule'.init()` (Sadly, this unavoidably leads to very ugly APIs)
-- Preload cosmo-moonhtml templates in `init_by_lua`, which runs before 2. happens
+- Preload cosmo-moonhtml templates in `init_by_lua`, which runs before 2.
+	happens
 - Precompile cosmo-moonscript templates so they don't need to be compiled when
-  `require`ing a module
+	`require`ing a module
 
 OpenResty issue: https://github.com/openresty/lua-nginx-module/issues/1292
 
@@ -242,7 +229,8 @@ Changelog
 
 ### Development
 
-- Add `restia.negotiator` template
+- Add `restia.callsign` module (Name subject to future change)
+- Add `restia.negotiator` module
 - Add `restia.template.require` function
 - Add `restia.controller` module
 - Add `restia.secret` module
@@ -265,8 +253,9 @@ Changelog
 
 License: [The Unlicense][unlicense]
 
-[moonxml]:    https://github.com/darkwiiplayer/moonxml "MoonXML"
-[lunamark]:   https://github.com/jgm/lunamark "Lunamark"
-[unlicense]:  https://unlicense.org "The Unlicense"
+[doc]:        https://darkwiiplayer.github.io/restia "Restia Documentation"
 [ldoc]:       https://github.com/stevedonovan/LDoc, "LDoc - A Lua Documentation Tool"
-
+[lunamark]:   https://github.com/jgm/lunamark "Lunamark"
+[moonxml]:    https://github.com/darkwiiplayer/moonxml "MoonXML"
+[unlicense]:  https://unlicense.org "The Unlicense"
+[cosmo]:      http://www.cosmo.luaforge.net/ "Cosmo Templating Engine"
