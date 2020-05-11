@@ -69,9 +69,11 @@ commands:add('new <directory>', [[
 
 				init_by_lua_block {
 					-- Preload modules
-					require 'restia'
+					local restia = require 'restia'
 					require 'config'
 					require 'views'
+
+					restia.template.require 'template.cosmo'
 
 					-- Error view to be preloaded lest the error handler fails
 					-- (Openresty bug related to coroutines)
@@ -222,6 +224,15 @@ commands:add('new <directory>', [[
 				config.secret = restia.config.bind ".secret"
 				return config
 			]];
+			template = {
+				['cosmo.lua'] = I[==========[
+					function each(name, inner)
+						print(name.."[[")
+							inner()
+						print("]]")
+					end
+				]==========]
+			};
 		};
 		spec = {
 			views = {
