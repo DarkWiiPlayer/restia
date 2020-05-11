@@ -165,14 +165,15 @@ commands:add('new <directory>', [[
 				local views = require("views")
 
 				require('restia.controller').xpcall(function()
-					return ngx.say(views.front())
+					return ngx.say(views.front{ domain = ngx.var.host })
 				end, require 'error')
 			]===========];
 		};
 		views = {
-			['front.moonhtml'] = I[[
+			['front.cosmo.moonhtml'] = I[[
 				strings = require('config').i18n[ngx.var.lang]
 				h1 strings.title
+				h2 "$domain"
 			]];
 			['error.cosmo.moonhtml'] = I[[
 				h1 "ERROR $code"
