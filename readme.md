@@ -101,7 +101,7 @@ These are the most important modules that get most of the work done:
 
 ### Config
 
-The `restia.config` module takes care of everything configuration-relatedi.
+The `restia.config` module takes care of everything configuration-related.
 Its main function is `bind`, which binds a directory to a table.
 Indexing the returned table will iterate through a series of loader functions,
 which each attempt to load the config entry in a certain way, like loading a
