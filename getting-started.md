@@ -52,7 +52,7 @@ with the following content:
 	local views = require "views"
 
 	require('restia.controller').xpcall(function()
-		return views.greeter { name = "Restia" }
+		return ngx.say(views.greeter { name = "Restia" })
 	end, require 'error')
 
 <details>
