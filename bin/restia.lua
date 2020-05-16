@@ -32,6 +32,7 @@ commands:add('new <directory>', [[
 		['.gitignore'] =
 		I[============[
 			.*
+			!.gitignore
 			!.busted
 			!.luacheckrc
 			!.luarocks
@@ -301,7 +302,7 @@ commands:add('new <directory>', [[
 		]==========];
 		['.luacheckrc'] = [[std = 'ngx_lua']];
 
-		logs = { ['.gitignore'] = "*" };
+		logs = { ['.gitignore'] = "*\n!.gitignore" };
 
 		-- Create local rock tree
 		['.luarocks'] = {['default-lua-version.lua'] = 'return "5.1"'};
