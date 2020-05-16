@@ -57,9 +57,15 @@ with the following content:
 
 <details>
 <summary>Restia looks for controllers in <code>/controllers</code></summary>
-The default location block found in <code>locations/root</code> sets it up so that OpenResty
-will search for controllers in the <code>controllers/</code> subdirectory automatically
-unless another location matches the request first.
+
+The default location block found in <code>locations/root</code> sets nginx up so
+for any requested route <code>foo/bar</code> it looks for a controller in
+<code>controllers/foo/bar.lua</code> unless any other (more specific) location
+block matches first.
+
+Since <code>/</code> is the least specific location possible,
+this will always be tried last and gets overridden by anything that matches
+the route in question.
 <hr>
 </details>
 
