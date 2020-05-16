@@ -60,6 +60,7 @@ with the following content:
 The default location block found in <code>locations/root</code> sets it up so that OpenResty
 will search for controllers in the <code>controllers/</code> subdirectory automatically
 unless another location matches the request first.
+<hr>
 </details>
 
 We could write our code directly in the controller file,
