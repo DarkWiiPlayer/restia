@@ -10,6 +10,8 @@ Restia is a library that aims to make developing web-applications in Lua easier.
 
 ### How do I start?
 
+Assuming you have [openresty][openresty] installed:
+
 	luarocks install restia --dev --lua-version 5.1
 	restia new application && cd application
 	restia run &
@@ -253,9 +255,10 @@ Changelog
 
 License: [The Unlicense][unlicense]
 
+[cosmo]:      http://www.cosmo.luaforge.net/ "Cosmo Templating Engine"
 [doc]:        https://darkwiiplayer.github.io/restia "Restia Documentation"
 [ldoc]:       https://github.com/stevedonovan/LDoc, "LDoc - A Lua Documentation Tool"
 [lunamark]:   https://github.com/jgm/lunamark "Lunamark"
 [moonxml]:    https://github.com/darkwiiplayer/moonxml "MoonXML"
+[openresty]:  http://http://openresty.org/en/ "OpenResty"
 [unlicense]:  https://unlicense.org "The Unlicense"
-[cosmo]:      http://www.cosmo.luaforge.net/ "Cosmo Templating Engine"
