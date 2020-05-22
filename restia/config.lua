@@ -39,8 +39,8 @@ local config = {}
 config.loaders = {}
 
 function config.loaders:insert(name, func)
-  table.insert(self, func)
-  self[name] = func
+	table.insert(self, func)
+	self[name] = func
 end
 
 --- Binds a table to a config directory.
@@ -54,7 +54,7 @@ end
 -- 	-- Loads some file like foo.json or foo.yaml
 -- 	-- in the configurations directory
 function config.bind(dir, loaders)
-  loaders = loaders or config.loaders
+	loaders = loaders or config.loaders
 	return setmetatable({__dir=dir}, {__index = function(self, index)
 		if type(index)~="string" then return nil end
 		for i, loader in ipairs(loaders) do
