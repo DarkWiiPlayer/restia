@@ -137,7 +137,7 @@ if template then
 			local file = io.open(name)
 			if file then
 				return setmetatable(
-					{raw=assert(cosmo.compile(file:read("*a"), name))},
+					{raw=assert(cosmo.compile(file:read("*a"), name)), name=name},
 					template.metatable
 				)
 			else
@@ -156,7 +156,7 @@ if template then
 			if file then
 				local prerendered = utils.rconcat(assert(template.loadlua(file:read("*a"), name)):render())
 				return setmetatable(
-					{raw=assert(cosmo.compile(prerendered))},
+					{raw=assert(cosmo.compile(prerendered)), name=name:gsub('%.moonhtml%.lua$', '')},
 					template.metatable
 				)
 			else
@@ -175,7 +175,7 @@ if template then
 			if file then
 				local prerendered = utils.rconcat(assert(template.loadmoon(file:read("*a"), name)):render())
 				return setmetatable(
-					{raw=assert(cosmo.compile(prerendered))},
+					{raw=assert(cosmo.compile(prerendered)), name=name:gsub('%.moonhtml$', '')},
 					template.metatable
 				)
 			else

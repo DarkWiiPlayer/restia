@@ -49,7 +49,7 @@ end
 function template.loadlua(code, filename)
 	local temp, err = restia_html:loadlua(code, filename)
 	if temp then
-		return setmetatable({raw=temp}, template.metatable)
+		return setmetatable({raw=temp, name=filename}, template.metatable)
 	else
 		return nil, err
 	end
@@ -59,7 +59,7 @@ end
 function template.loadmoon(code, filename)
 	local temp, err = restia_html:loadmoon(code, filename)
 	if temp then
-		return setmetatable({raw=temp}, template.metatable)
+		return setmetatable({raw=temp, name=filename}, template.metatable)
 	else
 		return nil, err
 	end
@@ -69,6 +69,7 @@ end
 function template:render(...)
 	local buff = {}
 	local _print = restia_html.environment.print
+	local before = os.clock()
 
 	restia_html.environment.print = function(...)
 		for i=1,select('#', ...) do
@@ -78,6 +79,9 @@ function template:render(...)
 	local res = self.raw(...)
 	if res then table.insert(buff, res) end
 	restia_html.environment.print = _print
+
+	local after = os.clock()
+	-- print(string.format("Template <%s> rendered in: %.6f seconds", self.name or "nameless", after-before))
 
 	return buff
 end
