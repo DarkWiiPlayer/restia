@@ -82,11 +82,6 @@ function template:render(...)
 	return buff
 end
 
---- Renders a table and directly sends it to nginx
-function template:print(...)
-	ngx.say(self:render(...))
-end
-
 --- HTML Builder Environment.
 -- Automatically has access to the Restia library in the global variable 'restia'.
 -- @section moonxml
