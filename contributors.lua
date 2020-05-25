@@ -4,6 +4,15 @@
 -- Also, no side effects.
 -- print("Only I am allowed to do that ;P")
 
+-- By setting the field "license" to true, you confirm that you have
+-- read and understood the license and agree to make your contributions available
+-- under those same terms. This field is required for a contribution to be accepted.
+
+-- Required fields:
+-- name : your preferred name
+-- email : the email used in your commits
+-- license : see above
+
 return {
 	{
 		name = "DarkWiiPlayer";
@@ -13,5 +22,6 @@ return {
 			"master" -- etc.
 		};
 		message = "Lua is awesome ♥";
+		license = true;
 	},
 }
