@@ -3,6 +3,8 @@
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
+require 'warn'
+
 local utils = require 'restia.utils'
 
 -- vim: set noexpandtab :miv --
@@ -95,6 +97,8 @@ if json then
 			return json.decode(raw)
 		end
 	end)
+else
+	warn("Could not load cjson; all builtin json parsing disabled")
 end
 
 --- Loads a YAML file and returns it as a table using lyaml.
@@ -108,6 +112,8 @@ if yaml then
 			return yaml.load(raw)
 		end
 	end)
+else
+	warn("Could not load lyaml; all builtin yaml parsing disabled")
 end
 
 --- Binds a subdirectory
@@ -121,6 +127,8 @@ if lfs then
 			return config.bind(dir)
 		end
 	end)
+else
+	warn("Could not require lfs; directory recursion disabled")
 end
 
 local cosmo = try_require 'cosmo'
@@ -182,6 +190,8 @@ if template then
 				return nil
 			end
 		end)
+	else
+		warn("Could not load cosmo; All cosmo templating features disabled")
 	end
 
 	--- Loads a preompiled moonhtml template.
@@ -211,6 +221,8 @@ if template then
 			return nil
 		end
 	end)
+else
+	warn("Could not load restia.template; All builtin templating disabled")
 end
 
 return config

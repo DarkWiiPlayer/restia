@@ -24,7 +24,8 @@ dependencies = {
 	"cosmo";
 	"busted";
 	"luacheck";
-  "luaossl";
+	"luaossl";
+	"warn";
 }
 build = {
 	type = "builtin",
