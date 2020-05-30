@@ -92,22 +92,10 @@ commands:add('new <directory>', [[
 					content_by_lua_file "controllers/front.lua";
 				}
 				location / {
-					content_by_lua_file controllers/$uri.lua;
-				}
-			]];
-			static = I[[
-				location /favicon.png {
-					alias static/img/favicon.png;
-				}
-				location /favicon.ico {
-					alias static/img/favicon.ico;
-				}
-				location /static {
-					types { # Or just include nginx' default types file :D
-						text/css css;
-						application/js js;
-					}
-					alias static;
+					if (-f controllers/$uri.lua) { content_by_lua_file controllers/$uri.lua; }
+
+					root static;
+					try_files $uri =404;
 				}
 			]];
 		};
@@ -286,7 +274,14 @@ commands:add('new <directory>', [[
 				['de.yaml'] = 'title: Meine Webseite';
 				['es.yaml'] = 'title: Mi Pagina Web';
 			};
-			['settings.conf'] = "set $lang en;\nset $dev true;"
+			['settings.conf'] = "set $lang en;\nset $dev true;";
+			['types.conf'] = I[===[
+				types { # Or just include nginx' default types file :D
+					text/html html;
+					text/css css;
+					application/js js;
+				}
+			]===]
 		};
 		['.busted'] = 
 		I[==========[
