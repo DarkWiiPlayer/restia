@@ -41,6 +41,7 @@ build = {
 		['restia.secret'] = 'restia/secret.lua';
 		['restia.template'] = 'restia/template.lua';
 		['restia.utils'] = 'restia/utils.lua';
+		['restia.accessors'] = 'restia/accessors.lua';
 		['restia.contributors'] = 'contributors.lua';
 	};
 	install = {
