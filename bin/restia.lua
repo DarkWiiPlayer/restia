@@ -150,7 +150,7 @@ commands:add('new <directory>', [[
 			I[===========[
 				local views = require("views")
 
-				require('restia.controller').xpcall(function()
+				require('restia.controller').xpcall(function(req)
 					return ngx.say(views.front{ domain = ngx.var.host })
 				end, require 'error')
 			]===========];

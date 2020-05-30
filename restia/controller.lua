@@ -22,7 +22,7 @@ end
 -- @return The return value of the action function.
 function controller.xpcall(action, handler)
 	return exit_on_failure(xpcall(function()
-		return action(ngx.req.get_method())
+		return action(require('restia.request'))
 	end, handler))
 end
 

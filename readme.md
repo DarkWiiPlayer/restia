@@ -231,6 +231,7 @@ Changelog
 
 ### Development
 
+- Add `restia.request` module
 - Add `restia.accessors` module
 - Add `restia.callsign` module (Name subject to future change)
 - Add `restia.negotiator` module
