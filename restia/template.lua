@@ -180,17 +180,15 @@ restia_html = moonxml.html:derive(function(_ENV)
 	-- Additional options can also be passed into the first table.
 	-- Following arguments will be interpreted as key/value maps.
 	-- @tparam table opt A sequence containing the keys to be rendered.
-	-- @param ... A list of tables
+	-- @tparam table rows A sequence of tables that represent the table rows
 	-- @function ttable
 	-- @usage
-	-- 	ttable(
-	-- 		{'name', 'age', 'address', number: true, header: true, caption: -> h1 'People'}
+	-- 	ttable({'name', 'age', 'address', number: true, header: true, caption: -> h1 'People'}, {
 	-- 		{name: "John Doe", age: -> i 'unknown', address: -> i 'unknown'}
-	-- 	)
-	function ttable(opt, ...)
+	-- 	})
+	function ttable(opt, rows)
 		-- Header defaults to true
 		if opt.header==nil then opt.header=true end
-		local rows = {...}
 
 		node('table', function()
 			if opt.caption then
