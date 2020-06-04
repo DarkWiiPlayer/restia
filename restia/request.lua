@@ -23,13 +23,13 @@ local request = {}
 -- handler and sends the result to the client. See `restia.negotiator.pick` for
 -- how to pass the handlers.
 -- @tparam table available A map from content-types to handlers. Either as a plain key-value map or as a sequence of key-value pairs in the form of two-element sequences.
-function request:offer(available)
+function request:offer(available, ...)
 	local content_type, handler =
 		restia.negotiator.pick(self.headers.accept, available)
 
 	ngx.header["content-type"] = content_type
 	if handler then
-		return ngx.say(handler(self))
+		return ngx.say(handler(self, ...))
 	else
 		error("No suitable request handler found", 2)
 	end
