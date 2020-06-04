@@ -15,7 +15,27 @@
 
 local restia = require 'restia'
 
-local get, set, request = restia.accessors.new()
+local request = {}
+
+--- "Offers" a set of content types during content negotiation.
+-- Given a set of possible content types, it tries figuring out what the client
+-- wants and picks the most fitting content handler. Automatically runs the
+-- handler and sends the result to the client. See `restia.negotiator.pick` for
+-- how to pass the handlers.
+-- @tparam table available A map from content-types to handlers. Either as a plain key-value map or as a sequence of key-value pairs in the form of two-element sequences.
+function request:offer(available)
+	local content_type, handler =
+		restia.negotiator.pick(self.headers.accept, available)
+
+	ngx.header["content-type"] = content_type
+	if handler then
+		return ngx.say(handler(self))
+	else
+		error("No suitable request handler found", 2)
+	end
+end
+
+local get, set = restia.accessors.new(request)
 
 --- Getters
 -- @section getters
