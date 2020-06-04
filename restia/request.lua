@@ -1,10 +1,10 @@
-local accessors = require 'restia.accessors'
+local restia = require 'restia'
 
-local get, set, request = accessors.new()
+local get, set, request = restia.accessors.new()
 
 function get:params()
 	if not ngx.ctx.params then
-		ngx.ctx.params = ngx.req.get_uri_args()
+		ngx.ctx.params = restia.utils.deepen(ngx.req.get_uri_args())
 	end
 
 	return ngx.ctx.params
