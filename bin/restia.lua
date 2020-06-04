@@ -137,7 +137,7 @@ commands:add('new <directory>', [[
 					if views.error then
 						err.message = restia.utils.escape(err.message)
 						err.description = restia.utils.escape(err.description)
-						views.error:print(err)
+						ngx.say(views.error(err))
 					else
 						ngx.say('error '..tostring(ngx.status))
 					end
