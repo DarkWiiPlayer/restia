@@ -4,7 +4,18 @@ local get, set, request = restia.accessors.new()
 
 function get:params()
 	if not ngx.ctx.params then
-		ngx.ctx.params = restia.utils.deepen(ngx.req.get_uri_args())
+		if self.method == "GET" then
+			ngx.ctx.params = restia.utils.deepen(ngx.req.get_uri_args())
+		elseif self.method == "POST" then
+			if self.type == "application/json" then
+				local json = require 'cjson'
+				ngx.req.read_body()
+				ngx.ctx.params = json.decode(ngx.req.get_body_data())
+			else
+				ngx.req.read_body()
+				ngx.ctx.params = restia.utils.deepen(ngx.req.get_post_args())
+			end
+		end
 	end
 
 	return ngx.ctx.params
