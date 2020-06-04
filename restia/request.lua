@@ -14,4 +14,8 @@ function get:method()
 	return ngx.req.get_method()
 end
 
+function get:host()
+	return ngx.var.host
+end
+
 return request
