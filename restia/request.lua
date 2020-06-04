@@ -102,4 +102,11 @@ function get:host()
 	return ngx.var.host
 end
 
+--- Returns the path part of the current request URI
+-- @function path
+-- @treturn string Path part of the URI
+function get:path()
+	return ngx.var.uri
+end
+
 return request
