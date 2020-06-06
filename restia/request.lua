@@ -1,6 +1,7 @@
 --- A helper "object" that provides common request-related information as
--- attributes. Most functions are either fast or memoized, so the user does not
--- need to take care of caching values outside of very crytical code.
+-- attributes. Most functions are either reasonably fast or memoized, so the
+-- user does not need to take care of caching values outside of very critical
+-- code.
 -- @module restia.request
 -- @author DarkWiiPlayer
 -- @license Unlicense
@@ -14,6 +15,7 @@
 -- 	end
 
 local restia = require 'restia'
+local cookie = require 'resty.cookie'
 
 local request = {}
 
@@ -107,6 +109,17 @@ end
 -- @treturn string Path part of the URI
 function get:path()
 	return ngx.var.uri
+end
+
+--- Wraps the lua-resty-cookie module and returns a cookie object for the current request.
+-- @function cookie
+-- @return Cookie object
+function get:cookie()
+	if not ngx.ctx.cookie then
+		ngx.ctx.cookie = assert(cookie:new())
+	end
+
+	return ngx.ctx.cookie
 end
 
 return request

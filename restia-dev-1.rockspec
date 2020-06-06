@@ -15,34 +15,35 @@ description = {
 }
 dependencies = {
 	"lua ~> 5";
-	"moonxml";
-	"xhmoon";
-	"moonscript";
-	"lunamark";
-	"luafilesystem";
-	"lyaml";
-	"cosmo";
 	"busted";
+	"cosmo";
+	"lua-resty-cookie";
 	"luacheck";
+	"luafilesystem";
 	"luaossl";
+	"lunamark";
+	"lyaml";
+	"moonscript";
+	"moonxml";
 	"warn";
+	"xhmoon";
 }
 build = {
 	type = "builtin",
 	modules = {
-		['restia'] = 'restia/init.lua';
-		['restia.accessors'] = 'restia/accessors.lua';
-		['restia.callsign'] = 'restia/callsign.lua';
-		['restia.colors'] = 'restia/colors.lua';
-		['restia.commands'] = 'restia/commands.lua';
-		['restia.config'] = 'restia/config.lua';
-		['restia.controller'] = 'restia/controller.lua';
-		['restia.markdown'] = 'restia/markdown.lua';
-		['restia.negotiator'] = 'restia/negotiator.lua';
-		['restia.request'] = 'restia/request.lua';
-		['restia.secret'] = 'restia/secret.lua';
-		['restia.template'] = 'restia/template.lua';
-		['restia.utils'] = 'restia/utils.lua';
+		['restia']              = 'restia/init.lua';
+		['restia.accessors']    = 'restia/accessors.lua';
+		['restia.callsign']     = 'restia/callsign.lua';
+		['restia.colors']       = 'restia/colors.lua';
+		['restia.commands']     = 'restia/commands.lua';
+		['restia.config']       = 'restia/config.lua';
+		['restia.controller']   = 'restia/controller.lua';
+		['restia.markdown']     = 'restia/markdown.lua';
+		['restia.negotiator']   = 'restia/negotiator.lua';
+		['restia.request']      = 'restia/request.lua';
+		['restia.secret']       = 'restia/secret.lua';
+		['restia.template']     = 'restia/template.lua';
+		['restia.utils']        = 'restia/utils.lua';
 		['restia.contributors'] = 'contributors.lua';
 	};
 	install = {
