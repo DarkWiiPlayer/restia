@@ -33,17 +33,16 @@
 <h2>Contents</h2>
 <ul>
 <li><a href="#Functions">Functions</a></li>
-<li><a href="#Local_Functions">Local Functions</a></li>
 </ul>
 
 
 <h2>Modules</h2>
 <ul class="nowrap">
-  <li><a href="../modules/restia.attributes.html">restia.attributes</a></li>
+  <li><strong>restia.attributes</strong></li>
   <li><a href="../modules/restia.callsign.html">restia.callsign</a></li>
   <li><a href="../modules/restia.commands.html">restia.commands</a></li>
   <li><a href="../modules/restia.config.html">restia.config</a></li>
-  <li><strong>restia.controller</strong></li>
+  <li><a href="../modules/restia.controller.html">restia.controller</a></li>
   <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
   <li><a href="../modules/restia.negotiator.html">restia.negotiator</a></li>
   <li><a href="../modules/restia.request.html">restia.request</a></li>
@@ -65,8 +64,8 @@
 
 <div id="content">
 
-<h1>Module <code>restia.controller</code></h1>
-<p>Loads configurations from files on demand.</p>
+<h1>Module <code>restia.attributes</code></h1>
+<p>Implements OO-like "attributes" using metatables.</p>
 <p>
 
 </p>
@@ -80,15 +79,8 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#xpcall">xpcall (action, handler)</a></td>
-	<td class="summary">Similar to Luas <a href="../modules/restia.controller.html#xpcall">xpcall</a>, but exits the nginx request in case of error.</td>
-	</tr>
-</table>
-<h2><a href="#Local_Functions">Local Functions</a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#exit_on_failure">exit_on_failure (success, ...)</a></td>
-	<td class="summary">Handles the result of xpcall.</td>
+	<td class="name" nowrap><a href="#module.new">module.new (new)</a></td>
+	<td class="summary">Returns a pair of accessor tables and the object</td>
 	</tr>
 </table>
 
@@ -100,66 +92,46 @@
 
     <dl class="function">
     <dt>
-    <a name = "xpcall"></a>
-    <strong>xpcall (action, handler)</strong>
+    <a name = "module.new"></a>
+    <strong>module.new (new)</strong>
     </dt>
     <dd>
-    Similar to Luas <a href="../modules/restia.controller.html#xpcall">xpcall</a>, but exits the nginx request in case of error.
- A custom message handler takes care of logging and rendering an error message.
- This function is still very much work in progress and its behavior may change.
+    Returns a pair of accessor tables and the object
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">action</span>
-            <span class="types"><span class="type">function</span></span>
-         The code that should run in "protected" mode to handle the request.
-        </li>
-        <li><span class="parameter">handler</span>
-            <span class="types"><span class="type">function</span></span>
-         The error handler, which may return a HTTP error code.
+        <li><span class="parameter">new</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The object to be proxied. If missing, a new table is created.
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
-
-        The return value of the action function.
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        get Table of getter methods</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        set Table of setter methods</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        new The new proxied object</li>
     </ol>
 
 
 
-
-</dd>
-</dl>
-    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "exit_on_failure"></a>
-    <strong>exit_on_failure (success, ...)</strong>
-    </dt>
-    <dd>
-    Handles the result of xpcall.  Exits on error.
-
-
-    <h3>Parameters:</h3>
+    <h3>Usage:</h3>
     <ul>
-        <li><span class="parameter">success</span>
-
-
-
-        </li>
-        <li><span class="parameter">...</span>
-
-
-
-        </li>
+        <pre class="example"><span class="keyword">local</span> get, set, obj = restia.attributes.new { foo = <span class="number">1</span> }
+<span class="keyword">function</span> set:bar(value) self.foo=value <span class="keyword">end</span>
+<span class="keyword">function</span> get:bar() <span class="keyword">return</span> self.foo <span class="keyword">end</span>
+obj.bar = <span class="number">20</span> <span class="comment">-- calls the setter method
+</span><span class="global">print</span>(obj.bar) <span class="comment">-- calls the getter method, prints 20
+</span><span class="global">print</span>(obj.foo) <span class="comment">-- accesses the field directly, also prints 20
+</span><span class="global">print</span>(obj.baz) <span class="comment">-- raises an unknown property error</span></pre>
     </ul>
-
-
-
-
 
 </dd>
 </dl>

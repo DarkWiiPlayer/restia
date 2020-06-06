@@ -39,12 +39,14 @@
 </ul>
 <h2>Modules</h2>
 <ul class="nowrap">
+  <li><a href="../modules/restia.attributes.html">restia.attributes</a></li>
   <li><a href="../modules/restia.callsign.html">restia.callsign</a></li>
   <li><a href="../modules/restia.commands.html">restia.commands</a></li>
   <li><a href="../modules/restia.config.html">restia.config</a></li>
   <li><a href="../modules/restia.controller.html">restia.controller</a></li>
   <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
   <li><a href="../modules/restia.negotiator.html">restia.negotiator</a></li>
+  <li><a href="../modules/restia.request.html">restia.request</a></li>
   <li><a href="../modules/restia.secret.html">restia.secret</a></li>
   <li><a href="../modules/restia.template.html">restia.template</a></li>
   <li><a href="../modules/restia.utils.html">restia.utils</a></li>
@@ -64,167 +66,121 @@
 <p><a href="https://forthebadge.com"><img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with ♥"/></a>
 <a href="https://forthebadge.com"><img src="https://forthebadge.com/images/badges/uses-badges.svg" alt="Uses Badges"/></a></p>
 
+<h3>What is Restia?</h3>
+
 <p>Restia is a library that aims to make developing web-applications in Lua easier.</p>
 
-<h3>What do I need to get started?</h3>
+<h3>How do I start?</h3>
+
+<p>Assuming you have <a href="http://http://openresty.org/en/" title="OpenResty">openresty</a> installed:</p>
 
 
 <pre>
-restia new .
+luarocks install restia <span class="comment">--dev --lua-version 5.1
+</span>restia new application &amp;&amp; cd application
 restia run &amp;
 </pre>
 
-<p>That's it. You can now open it in your browser at localhost:8080 or start
-hacking the code right away :)</p>
+<p>That's it.
+You can now open it in your browser at <code>localhost:8080</code>
+or start hacking the code right away :)</p>
 
 <h3>What makes it different?</h3>
 
-<p>The key features that set restia apart from other frameworks like Rails or Lapis
-are:</p>
-
-<p><em>Simplicity</em> —
-Restia has a small codebase,
-making it easy to understand and adapt.</p>
-
-<p><em>Modularity</em> —
-The core library is modular.
-That doesn't just mean it's split into files as one expects from any project;
-all of the modules depend on as few other modules as possible,
-allowing most of them to be included into completely unrelated projects.</p>
-
-<p>Like the config loader? just throw it into your CLI application
-that's not even related to web applications.</p>
-
-<p>Like the HTML Templating engine? again, just plug it into your project and use
-it.</p>
-
-<p><em>No Magic (Maybe some sorcery though)</em> —
-Nothing in the core library happens "on its own"
-as it does in other frameworks.
-Restia encourages automation to be written out somewhere in the project,
-making it easier to modify and reason about.</p>
-
-<p><em>Power</em> —
-Restia was built to exist within the growing ecosystem of Lua and Openresty.
-Instead of implementing everything from scratch,
-it makes it easy to include components that already exist out there.
-<em>Todo / Work in Progress: Documented API for custom config loaders</em></p>
-
-<p>And most importantly:</p>
-
-<p><strong>Restia is your tool, not your overlord.</strong></p>
-
-
-<!--
-I (jokingly) call this aproach
-
-> "Convention encoded in generated configuration over headache"
--->
-
+<ul>
+    <li><strong>Simplicity</strong>: Restia has a very small codebase.</li>
+    <li><strong>Modularity</strong>: You can use the whole thing—or just a single function.</li>
+    <li><strong>No Magic</strong>: Making things easy doesn't mean they can't be predictable.</li>
+    <li><strong>Performance</strong>: Who would have guessed that less code runs in less time?</li>
+</ul>
 
 <h3>What makes it <em>special</em>?</h3>
 
 <p><details>
-<summary>Powerful Templating</summary>
-Making use of MoonXML, a templating engine very similar to that of the great Lapis
-framework in combination with the very fast cosmo templating engine,
-writing HTML has never been easier.
-At the cost of some sligtly increased complexity,
-multistage templates allow rendering MoonXML into a cosmo template
-on startup for a combination of convenient development and performant runtime.
-</details></p>
+<summary>Powerful Templating</summary></p>
+
+<p>The MoonXML templating engine, inspired by the Lapis web framework,
+takes away much of the complexity of writing HTML templates by hand.</p>
+
+<p><a href="http://www.cosmo.luaforge.net/" title="Cosmo Templating Engine">Cosmo</a> templates, on the other hand, are blazing fast.</p>
+
+<p>You can even chain them as "multistage templates":
+Restia will load a MoonXML template once and interpret the result
+as a cosmo template that you can then render repeatedly.
+Convenient <em>and</em> performant!</p>
+
+<hr>
+
+<p></details></p>
 
 <p><details>
-<summary>Flexible Configuration</summary>
-Making use of metatables to dynamically load files in different formats at
-runtime and making them available as table keys
-allows the developer to forget about folders, files and file structure.
-One can simply index through folders into files and their structure as if they
-had always been just a tree of nested Lua tables.
-</details></p>
+<summary>Flexible Configuration</summary></p>
+
+<p>In Lua, structured Data is represented in tables.</p>
+
+<p>Restia extends this pattern to your configuration data:
+Bind a directory and get a table that abstracts your complex file hierarchy
+and many different file types into one uniform structure that you already
+know how to use.</p>
+
+<hr>
+
+<p></details></p>
+
+<p><details>
+<summary>No magical state transfer</summary></p>
+
+<p>Restia doesn't share any data between objects or contexts behind the scenes.
+This means that all data-transfer is explicit
+and happens in the form of function arguments.</p>
+
+<p>You stay in control of how the data flows through your application;
+and it's up to you to make everything global, rely heavily on lexical scoping
+or just pass your entire data around as long lists of arguments.</p>
+
+<hr>
+
+<p></details></p>
 
 <h2>Work in Progress</h2>
 
 <p>In its current state, it should be obvious to anyone that Restia is still in
 development and nowhere near production ready.</p>
 
-<p>Currently this is mostly a personal project intended for my own use.
-Suggestions are still welcome, of course.</p>
-
 <p>If you want to use Restia for your own project,
 be warned that API changes are likely to happen unannounced during the
 zero-versions (<code>0.x.y</code>).</p>
 
+<h2>How do I build cool stuff?</h2>
+
+<ul>
+    <li>Run your application in the background with <code>restia run &amp;</code> as you code.</li>
+    <li>Check out <code>getting-started.md</code> in this repo for a detailed explanation.</li>
+    <li>Just inspect the source tree, specially <code>controllers</code>, <code>views</code> and <code>config</code>.</li>
+    <li>Read the documentation for detailed descriptions of what everything does.</li>
+    <li>Wear sunglasses. <!--Does this look like a tan trenchcoat situation to you?--></li>
+</ul>
+
 <h2>Building the Documentation</h2>
 
-<p>Lua doesn't install its documentation with luarocks, so it has to be built
-manually or read online. To build it, simply install <a href="ldoc">ldoc</a>, clone the
-restia repository and run <code>ldoc .</code> in its top level directory. The docs will
+<p>Restia doesn't install its documentation with luarocks, so it has to be built
+manually or read <a href="https://darkwiiplayer.github.io/restia" title="Restia Documentation">online</a>. To build it, simply install <a href="ldoc">ldoc</a>, clone
+the restia repository and run <code>ldoc .</code> in its top level directory. The docs will
 be generated in the <code>doc</code> folder by default.</p>
-
-<h2>Usage</h2>
-
-<h3>Getting started</h3>
-
-<p>If you're on the fence about installing restia system-wide, you can do the
-following:</p>
-
-
-<pre>
-mkdir trying_out_restia &amp;&amp; cd trying_out_restia
-mkdir .luarocks lua_modules
-luarocks
-# Confirm the default rock-tree is now lua_modules
-luarocks <span class="comment">--lua-version 5.1 install restia --dev
-</span>lua_modules/bin/restia new .
-lua_modules/bin/restia run &amp;
-</pre>
-
-<p>After that you will have a template project in the current directory and restia
-running in the background.</p>
-
-<p>You can now start looking at the project directory, make changes and reload
-restia with</p>
-
-
-<pre>
-lua_modules/bin/restia test
-lua_modules/bin/restia reload
-</pre>
-
-<h3>Executable</h3>
-
-<p>The <a href="../scripts/restia.html#">restia</a> executable is a convenient script that takes care of generating new
-project trees and running them, as well as some simple helper functionalities
-like running tests, reloading the server, etc.</p>
-
-<p>To get an overview of the available commands, run <code>restia help</code>.</p>
-
-<h3>Library</h3>
-
-<p>Restias main features as of now are:
-- Integration of moonhtml templates
-- A very generic config loader with optional support for json, yaml, etc.</p>
-
-<p>See the documentation for more information on this.</p>
 
 <h2>Modules</h2>
 
+<p>These are the most important modules that get most of the work done:</p>
+
 <h3>Config</h3>
 
-<p>The <a href="../modules/restia.config.html#">restia.config</a> module takes care of everything configuration-relatedi.
+<p>The <a href="../modules/restia.config.html#">restia.config</a> module takes care of everything configuration-related.
 Its main function is <code>bind</code>, which binds a directory to a table.
 Indexing the returned table will iterate through a series of loader functions,
 which each attempt to load the config entry in a certain way, like loading a
 yaml file or binding a subdirectory.</p>
 
 <p>See the documentation of the <a href="../modules/restia.config.html#">restia.config</a> module for more information.</p>
-
-<h3>Secret</h3>
-
-<p>The <a href="../modules/restia.secret.html#">restia.secret</a> module is a config table bound to the <code>.secret</code> directory
-with some additional functions for encryption/decryption. It assumes a special
-<code>key</code> file to exist in <code>.secret</code>, which should contain the servers secret key.</p>
 
 <h3>Template</h3>
 
@@ -235,10 +191,16 @@ series of convenient functions for common HTML structures.</p>
 
 <p>The <a href="../modules/restia.controller.html#">restia.controller</a> module provides a simple helper function
 that accepts the main controller code and an error handler.
-It acts very similar to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-xpcall">xpcall</a>,
+It acts very similar to <a href="https://www.lua.org/manual/5.1/manual.html#pdf-xpcall">xpcall</a>,
 but in case of error,
 it runs the message handler
 and instantly terminates the request.</p>
+
+<h3>Secret</h3>
+
+<p>The <a href="../modules/restia.secret.html#">restia.secret</a> module is a config table bound to the <code>.secret</code> directory
+with some additional functions for encryption/decryption. It assumes a special
+<code>key</code> file to exist in <code>.secret</code>, which should contain the servers secret key.</p>
 
 <h2>Docker</h2>
 
@@ -283,23 +245,23 @@ directory in the project tree.</p>
 <p>This error occurs under certain conditions:</p>
 
 <ol>
-    <li>The code being run is being (directly or indirectly) <a href="https://www.lua.org/manual/5.3/manual.html#pdf-require">require</a>d</li>
+    <li>The code being run is being (directly or indirectly) <a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a>d</li>
     <li>The code is running inside an openresty event that has replaced LuaJITs
 
 <pre>
-builtin <span class="backtick"><a href="https://www.lua.org/manual/5.3/manual.html#6.2">coroutine</a></span> <span class="global">module</span> with openrestys custom versions of those
+builtin <span class="backtick"><a href="https://www.lua.org/manual/5.1/manual.html#5.2">coroutine</a></span> <span class="global">module</span> with openrestys custom versions of those
 functions.
 </pre>
 </li>
     <li>Somewhere in the code a coroutine yields, no matter where it yields to (it
 
 <pre>
-doesn't have to yield outside the <span class="backtick"><a href="https://www.lua.org/manual/5.3/manual.html#pdf-require">require</a></span> call, which would understandably
-<span class="keyword">not</span> work, but anywhere within the code being executed by <span class="backtick"><a href="https://www.lua.org/manual/5.3/manual.html#pdf-require">require</a></span>)
+doesn't have to yield outside the <span class="backtick"><a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a></span> call, which would understandably
+<span class="keyword">not</span> work, but anywhere within the code being executed by <span class="backtick"><a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a></span>)
 </pre>
 
-Note that this problem not only happens with <a href="https://www.lua.org/manual/5.3/manual.html#pdf-require">require</a>, but also custom message
-handlers passed to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-xpcall">xpcall</a> when an error happens, but this is less likely to
+Note that this problem not only happens with <a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a>, but also custom message
+handlers passed to <a href="https://www.lua.org/manual/5.1/manual.html#pdf-xpcall">xpcall</a> when an error happens, but this is less likely to
 happen, as error handlers usually shouldn't have any complex code that could
 lead to more errors and thus shouldn't be running coroutines in the first place.</li>
 </ol>
@@ -311,7 +273,7 @@ lead to more errors and thus shouldn't be running coroutines in the first place.
 <ul>
     <li>Moonscripts compiler makes use of coroutines, thus compiling moonscript code
     (for example, precompiling a cosmo-moonhtml template) in a module that gets
-    <a href="https://www.lua.org/manual/5.3/manual.html#pdf-require">require</a>d.</li>
+    <a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a>d.</li>
 </ul>
 
 <p>Typical workarounds:</p>
@@ -323,12 +285,20 @@ lead to more errors and thus shouldn't be running coroutines in the first place.
 <span class="string">'mymodule'</span>.init()` (Sadly, this unavoidably leads to very ugly APIs)
 </pre>
 </li>
-    <li>Preload cosmo-moonhtml templates in <code>init_by_lua</code>, which runs before 2. happens</li>
-    <li>Precompile cosmo-moonscript templates so they don't need to be compiled when
-    <a href="https://www.lua.org/manual/5.3/manual.html#pdf-require">require</a>ing a module</li>
-</ul>
+    <li>Preload cosmo-moonhtml templates in <code>init_by_lua</code>, which runs before 2.
 
-<p>OpenResty issue: https://github.com/openresty/lua-nginx-module/issues/1292</p>
+<pre>
+happens
+</pre>
+</li>
+    <li>Precompile cosmo-moonscript templates so they don't need to be compiled when
+
+<pre>
+<span class="backtick"><a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a></span>ing a <span class="global">module</span>
+</pre>
+
+OpenResty issue: https://github.com/openresty/lua-nginx-module/issues/1292</li>
+</ul>
 
 <h2>Planned features</h2>
 
@@ -360,7 +330,10 @@ generate documentation, so its format should be used.</p>
 <h3>Development</h3>
 
 <ul>
-    <li>Add <a href="../modules/restia.negotiator.html#">restia.negotiator</a> template</li>
+    <li>Add <a href="../modules/restia.request.html#">restia.request</a> module</li>
+    <li>Add <code>restia.accessors</code> module</li>
+    <li>Add <a href="../modules/restia.callsign.html#">restia.callsign</a> module (Name subject to future change)</li>
+    <li>Add <a href="../modules/restia.negotiator.html#">restia.negotiator</a> module</li>
     <li>Add <a href="../modules/restia.template.html#require">restia.template.require</a> function</li>
     <li>Add <a href="../modules/restia.controller.html#">restia.controller</a> module</li>
     <li>Add <a href="../modules/restia.secret.html#">restia.secret</a> module</li>
@@ -389,12 +362,11 @@ generate documentation, so its format should be used.</p>
 
 
 
-
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-04-15 08:59:11 </i>
+<i style="float:right;">Last updated 2020-06-06 10:15:43 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
