@@ -99,6 +99,7 @@ commands:add('new <directory>', [[
 				}
 			]];
 		};
+		static = { [".gitignore"] = "" };
 		['lib/error.lua'] =
 		I[===========[
 			local json = require 'cjson'
