@@ -16,6 +16,7 @@
 
 local restia = require 'restia'
 local cookie = require 'resty.cookie'
+local multipart = require 'multipart'
 
 local request = {}
 
@@ -50,13 +51,25 @@ function get:params()
 		if self.method == "GET" then
 			ngx.ctx.params = restia.utils.deepen(ngx.req.get_uri_args())
 		elseif self.method == "POST" then
+			ngx.req.read_body()
 			if self.type == "application/json" then
 				local json = require 'cjson'
-				ngx.req.read_body()
 				ngx.ctx.params = json.decode(ngx.req.get_body_data())
-			else
-				ngx.req.read_body()
+			elseif self.type == "application/x-www-form-urlencoded" then
 				ngx.ctx.params = restia.utils.deepen(ngx.req.get_post_args())
+			elseif self.type == "multipart/form-data" then
+				local body_file = ngx.req.get_body_file()
+				local data
+				if body_file then
+					local file = io.open(body_file)
+					data = file:read("a")
+					file:close()
+				else
+					data = ngx.req.get_body_data()
+				end
+				return multipart(data, self.headers.content_type):get_all()
+			else
+				error("Don't know how to handle type: "..self.type, 2)
 			end
 		end
 	end
@@ -94,7 +107,7 @@ end
 -- @function type
 -- @treturn string Content type header
 function get:type()
-	return self.headers.content_type
+	return (self.headers.content_type:match('^[^;]+')) -- Only up to the first comma :D
 end
 
 --- Returns the current hostname or address.

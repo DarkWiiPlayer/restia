@@ -25,6 +25,7 @@ dependencies = {
 	"lyaml";
 	"moonscript";
 	"moonxml";
+	"multipart";
 	"warn";
 	"xhmoon";
 }
