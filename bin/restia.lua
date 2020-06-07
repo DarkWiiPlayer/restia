@@ -22,7 +22,7 @@ Restia Commandline Utility
 Available commands:
 ]]
 
-local nginx = [[nginx -p . -c openresty.conf -g 'daemon off;' ]]
+local openresty = [[openresty -p . -c openresty.conf -g 'daemon off;' ]]
 
 commands:add('new <directory>', [[
 	Creates a new application in the selected directory.
@@ -310,7 +310,7 @@ end)
 
 commands:add('test <lua> <configuration>', [[
 	Runs several tests:
-	- 'nginx -t' to check the nginx configuration
+	- 'openresty -t' to check the openresty configuration
 	- 'luacheck' for static analisys of the projects Lua files
 	- 'busted'	 to run the projects tests
 	<lua> is the lua version to run busted with. default is 'luajit'.
@@ -319,7 +319,7 @@ commands:add('test <lua> <configuration>', [[
 	lua = lua or 'luajit'
 	configuration = configuration or 'openresty.conf'
 	os.exit(
-		os.execute(nginx:gsub('openresty.conf', configuration)..'-t')
+		os.execute(openresty:gsub('openresty.conf', configuration)..'-t')
 		and os.execute('luacheck --exclude-files lua_modules/* --exclude-files .luarocks/* -q .')
 		and os.execute('busted --lua '..lua..' .')
 		or 1
@@ -331,7 +331,7 @@ commands:add('run <configuration>', [[
 	Default for <configuration> is 'openresty.conf'.
 ]], function(config)
 	config = config or 'openresty.conf'
-	os.execute(nginx:gsub('openresty.conf', config)..' -q')
+	os.execute(openresty:gsub('openresty.conf', config)..' -q')
 end)
 
 commands:add('reload <configuration>', [[
@@ -339,7 +339,7 @@ commands:add('reload <configuration>', [[
 	Default for <configuration> is 'openresty.conf'.
 ]], function(config)
 	config = config or 'openresty.conf'
-	os.execute(nginx:gsub('openresty.conf', config)..'-s reload')
+	os.execute(openresty:gsub('openresty.conf', config)..'-s reload')
 end)
 
 commands:add('help', [[
