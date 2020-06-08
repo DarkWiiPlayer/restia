@@ -4,7 +4,7 @@
 [![Built with ♥](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![Uses Badges](https://forthebadge.com/images/badges/uses-badges.svg)](https://forthebadge.com)
 
-**The new public domain web framework for Lua**
+**A new public domain web framework for Lua**
 
 ### What is Restia?
 
