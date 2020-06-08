@@ -4,27 +4,21 @@
 [![Built with ♥](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![Uses Badges](https://forthebadge.com/images/badges/uses-badges.svg)](https://forthebadge.com)
 
+**The new public domain web framework for Lua**
+
 ### What is Restia?
 
-Restia is a library that aims to make developing web-applications in Lua easier.
-
-### How do I start?
-
-Assuming you have [openresty][openresty] installed:
-
-	luarocks install restia --dev --lua-version 5.1
-	restia new application && cd application
-	restia run &
-
-That's it.
-You can now open it in your browser at `localhost:8080`
-or start hacking the code right away :)
+A framework that aims to make developing web-applications in Lua easier.
+It has been designed to be used as just a library to better fit into
+existing applications. Restia runs inside Openresty to achieve top
+performance, but can easily be adapted to use different host APIs.
 
 ### What makes it different?
 
 * **Simplicity**: Restia has a very small codebase.
 * **Modularity**: You can use the whole thing—or just a single function.
 * **No Magic**: Making things easy doesn't mean they can't be predictable.
+* **No Elves**: Nothing "just happens" on your behalf until you tell it to.
 * **Performance**: Who would have guessed that less code runs in less time?
 
 ### What makes it *special*?
@@ -68,6 +62,18 @@ and it's up to you to make everything global, rely heavily on lexical scoping
 or just pass your entire data around as long lists of arguments.
 <hr>
 </details>
+
+### Cool! How do I start?
+
+Assuming you have [openresty][openresty] installed:
+
+	luarocks install restia --dev --lua-version 5.1
+	restia new application && cd application
+	restia run &
+
+That's it.
+You can now open it in your browser at `localhost:8080`
+or start hacking the code right away :)
 
 Work in Progress
 --------------------------------------------------------------------------------
@@ -203,6 +209,27 @@ Typical workarounds:
 
 OpenResty issue: https://github.com/openresty/lua-nginx-module/issues/1292
 
+<!--
+Rationale
+--------------------------------------------------------------------------------
+
+Compared to many other "modern web frameworks", Restia takes a somewhat more
+traditional approach. One of its core design principles is to keep all magic to
+an absolute minimum. This choice obviously sacrifices some degree of convenience
+for the sake of having less surprises, but instead gains the benefit of being
+easier to integrate into existing environments, easier to predict (both in terms
+of performance and outcome) and easier to hack.
+
+What this obviously entails is that Restia will never be the framewrok of choice
+for quick prototyping or maintaining a large number of internal-use, low
+throughput web-applications.
+
+Instead, it aims to provide a good enough compromise. By keeping boilerplate to
+a manageable minimum and allowing several stages of integration, it makes it
+easy to build a somewhat slower prototype quickly and then refactor it easily
+and without much effort.
+-->
+
 Planned features
 --------------------------------------------------------------------------------
 
@@ -240,7 +267,7 @@ Changelog
 - Add `restia.secret` module
 - Add support for moonhtml+cosmo multistage templates
 - Add support for cosmo templates
-- Integrate templates with config
+- Integrate templates with `config`
 - Add `restia.config` module
 - Rewrite template loading to use a table and render on demand ;)
 - Rewrite template loading to use buffer and render instantly
