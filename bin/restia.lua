@@ -92,7 +92,7 @@ commands:add('new <directory>', [[
 					content_by_lua_file "controllers/front.lua";
 				}
 				location / {
-					if (-f controllers/$uri.lua) { content_by_lua_file controllers/$uri.lua; }
+					if (-f controllers$uri.lua) { content_by_lua_file controllers$uri.lua; }
 
 					root static;
 					try_files $uri =404;
