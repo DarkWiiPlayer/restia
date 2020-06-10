@@ -4,7 +4,7 @@
 [![Built with ♥](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![Uses Badges](https://forthebadge.com/images/badges/uses-badges.svg)](https://forthebadge.com)
 
-**A new public domain web framework for Lua**
+**The** *(Too bold?)* **new public domain web framework for Lua**
 
 ### What is Restia?
 
@@ -17,7 +17,6 @@ performance, but can easily be adapted to use different host APIs.
 
 * **Simplicity**: Restia has a very small codebase.
 * **Modularity**: You can use the whole thing—or just a single function.
-* **No Magic**: Making things easy doesn't mean they can't be predictable.
 * **No Elves**: Nothing "just happens" on your behalf until you tell it to.
 * **Performance**: Who would have guessed that less code runs in less time?
 
