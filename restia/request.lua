@@ -27,6 +27,7 @@ local request = {}
 -- how to pass the handlers.
 -- @tparam table available A map from content-types to handlers. Either as a plain key-value map or as a sequence of key-value pairs in the form of two-element sequences.
 function request:offer(available, ...)
+	assert(self.headers, "Request object has no headers!")
 	local content_type, handler =
 		restia.negotiator.pick(self.headers.accept, available)
 
