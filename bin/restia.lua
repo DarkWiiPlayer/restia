@@ -133,7 +133,7 @@ commands:add('new <directory>', [[
 				if content_type == 'application/json' then
 					ngx.say(json.encode(err))
 				elseif content_type == 'text/plain' then
-					ngx.say("Error ",err.code,"\n---------\n",err.message,"\n",err.description)
+					ngx.say("Error ",err.code,"\n---------\n",err.description)
 				else
 					if views.error then
 						err.message = restia.utils.escape(err.message)
