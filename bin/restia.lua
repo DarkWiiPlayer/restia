@@ -288,7 +288,7 @@ commands:add('new <directory>', [[
 		I[==========[
 			return {
 				_all = {
-					lpath = 'lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua';
+					lpath = 'lua_modules/share/lua/5.1/?.lua;lua_modules/share/lua/5.1/?/init.lua;lib/?.lua;lib/?/init.lua';
 					cpath = 'lua_modules/lib/lua/5.1/?.lua;lua_modules/lib/lua/5.1/?/init.lua';
 				};
 			}
