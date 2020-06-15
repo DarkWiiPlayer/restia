@@ -34,6 +34,15 @@ function utils.normalize_indent(block)
 	end))
 end
 
+--- Removes leading whitespace up to and including a pipe character.
+-- This is used to trim off unwanted whitespace at the beginning of a line.
+-- This is hopefully a bit faster and more versatile than the normalize_indent function.
+function utils.unpipe(block)
+	return block:gsub('[^\n]+', function(line)
+		return line:gsub('^%s*|', '')
+	end)
+end
+
 --- Indexes tables recursively with a chain of string keys
 function utils.deep_index(object, keys)
 	for key in keys:gmatch('[^.]+') do
