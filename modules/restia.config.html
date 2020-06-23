@@ -42,6 +42,7 @@
 <h2>Modules</h2>
 <ul class="nowrap">
   <li><a href="../modules/restia.attributes.html">restia.attributes</a></li>
+  <li><a href="../modules/restia.bin.manpage.html">restia.bin.manpage</a></li>
   <li><a href="../modules/restia.callsign.html">restia.callsign</a></li>
   <li><a href="../modules/restia.commands.html">restia.commands</a></li>
   <li><strong>restia.config</strong></li>
@@ -167,11 +168,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">dir</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Path to the directory to look in.
         </li>
         <li><span class="parameter">loaders</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          A table of loaders to use when attempting to load a configuration entry.
         </li>
     </ul>
@@ -179,7 +180,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
         config A table that maps to the config directory
     </ol>
 
@@ -231,8 +232,8 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">modname</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The name of the module as would be passed to <a href="https://www.lua.org/manual/5.1/manual.html#pdf-require">require</a>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The name of the module as would be passed to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-require">require</a>
         </li>
     </ul>
 
@@ -253,7 +254,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">path</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The path to the file to read
         </li>
     </ul>
@@ -281,7 +282,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Used as is without extension.
         </li>
     </ul>
@@ -302,7 +303,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The extension <code>.lua</code> is added.
         </li>
     </ul>
@@ -323,7 +324,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The extension <code>.json</code> is added.
         </li>
     </ul>
@@ -344,7 +345,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The extensions <code>.yaml</code> and <code>.yml</code> are both tried.
         </li>
     </ul>
@@ -365,7 +366,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Treated as a directory name as is
         </li>
     </ul>
@@ -388,7 +389,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The extension <code>.cosmo</code> is added.
         </li>
     </ul>
@@ -411,7 +412,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The extension <code>.cosmo.moonhtml.lua</code> is added.
         </li>
     </ul>
@@ -434,7 +435,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The extension <code>.cosmo.moonhtml</code> is added.
         </li>
     </ul>
@@ -456,7 +457,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The extension <code>.moonhtml.lua</code> is added.
         </li>
     </ul>
@@ -478,7 +479,7 @@ main_config.foo.bar
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          The extension <code>.moonhtml</code> is added.
         </li>
     </ul>
@@ -495,7 +496,7 @@ main_config.foo.bar
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-06-06 10:15:43 </i>
+<i style="float:right;">Last updated 2020-06-23 11:54:23 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
