@@ -140,7 +140,8 @@ end
 --- Returns an iterator over all the files in a directory and subdirectories
 -- @tparam string dir The directory to look in
 -- @treturn function Iterator over the file names
--- @usage -- 	for file in utils.files 'views' do
+-- @usage
+-- 	for file in utils.files 'views' do
 -- 		print('found view: ', file)
 -- 	end
 function utils.files(dir)
