@@ -1,13 +1,12 @@
-#!/bin/sh
+--- Renders a manpage for restia
+-- @module restia.bin.manpage
+-- @author DarkWiiPlayer
+-- @license Unlicense
 
-version=$(find restia-*-*.rockspec | head -1 | sed -e 's/^.\+\-\(.*\-.*\)\.rockspec$/\1/')
+local restia = require 'restia'
+local cosmo = require 'cosmo'
 
-contributors=$(lua -e '
-local function map(t,f) local r={}; for k,v in ipairs(t) do r[k]=f(v) end; return r; end
-print(table.concat(map(require "contributors", function(c) return string.format("\\fB%s\\fR <%s>", c.name, c.email) end), ",\n"))
-')
-
-cat <<EOF
+local manpage = cosmo.f [===[
 .TH restia 1 "" ""  "Restia web framework"
 
 .SH NAME
@@ -25,6 +24,8 @@ cat <<EOF
 \fBrestia\fR \fBrun\fR [\fIconfiguration\fR]
 .br
 \fBrestia\fR \fBreload\fR [\fIconfiguration\fR]
+.br
+\fBrestia\fR \fBmanpage\fR [\fIdirectory\fR]
 .br
 \fBrestia\fR \fBhelp\fR
 
@@ -55,22 +56,27 @@ Reloads an already running restia application.
 
 The default \fIconfiguration\fR for the three commands above is \fBopenresty.conf\fR
 
+\fBrestia\fR \fBmanpage\fR [\fIdirectory\fR]
+.br
+Installs restias manpage in \fIdirectory\fR.
+.br
+The default directory is \fB/usr/local/man\fR when executed as root and \fB~/.local/share/man\fR otherwise.
+
 \fBhelp\fR
 .br
 Displays help for the different commands and exit.
 
-.SH VERSION
-.\" #######
-
-\fBrestia\fR $version
+\fBrestia\fR
 
 .SH AUTHORS
 .\" #######
 
-$contributors
+$contributors[[$name <$email>]]
 
 .SH SEE ALSO
 .\" ########
 
 \fBnginx\fR(1)
-EOF
+]===] (restia)
+
+return manpage

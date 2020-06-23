@@ -225,10 +225,13 @@ be possible to just replace it with `docker` and run the script.
 Manpage
 --------------------------------------------------------------------------------
 
-For Linux\* users, there's a script to generate a manpage in the `manpage/`
-directory in the project tree.
+For Linux\* users, there's a command to generate and install a manpage.
 
-\* Not just GNU/Linux, but also all the weird minimalist musl+busybox setups :)
+Simply run `restia manpage` as root to install system-wide or as another user to
+installit locally in `$HOME/.local/share/man`.
+
+\* Yes, Linux. There's also non-GNU linuxes out there using musl+busybox and
+other GNU-alternatives.
 
 Known Issues
 --------------------------------------------------------------------------------

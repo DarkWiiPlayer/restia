@@ -35,6 +35,7 @@ build = {
 		['restia']              = 'restia/init.lua';
 		['restia.accessors']    = 'restia/accessors.lua';
 		['restia.bin']          = 'restia/bin/init.lua';
+		['restia.bin.manpage']  = 'restia/bin/manpage.lua';
 		['restia.bin.project']  = 'restia/bin/project.lua';
 		['restia.callsign']     = 'restia/callsign.lua';
 		['restia.colors']       = 'restia/colors.lua';

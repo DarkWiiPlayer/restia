@@ -9,12 +9,21 @@
 
 math.randomseed(os.time())
 
-local commands = require 'restia.commands'
-local utils = require 'restia.utils'
-local c = require 'restia.colors'
-local project = require 'restia.bin.project'
+local restia = require 'restia'
+
+local commands = restia.commands
+local utils = restia.utils
+local c = restia.colors
+local project = restia.bin.project
 
 local I = utils.normalize_indent
+
+local function uid()
+	local id_u = io.popen("id -u")
+	local id = tonumber(id_u:read())
+	id_u:close()
+	return id
+end
 
 local help = [[
 Restia Commandline Utility
@@ -65,6 +74,33 @@ commands:add('reload <configuration>', [[
 ]], function(config)
 	config = config or 'openresty.conf'
 	os.execute(openresty:gsub('openresty.conf', config)..'-s reload')
+end)
+
+commands:add('manpage <directory>', [[
+	Installs restias manpage.
+	<directory> Where to install the manpage.
+	Defaults to:
+	- /usr/local/man when executed as root
+	- ~/.local/share/man
+	(Remember to run mandb afterwards to update the database)
+]], function(directory)
+	if not directory then
+		if uid() == 0 then
+			directory = '/usr/local/man'
+		else
+			directory = os.getenv("HOME") .. '/.local/share/man'
+		end
+	end
+	
+	if directory == "-" then
+		print(restia.bin.manpage)
+	else
+		filename = directory:gsub("/$", ""):gsub("$", "/man1/restia.1")
+		local output = assert(io.open(filename, "w"))
+		print("Installing manpage as " .. filename)
+		output:write(restia.bin.manpage)
+		output:close()
+	end
 end)
 
 commands:add('help', [[
