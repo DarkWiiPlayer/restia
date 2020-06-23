@@ -159,6 +159,16 @@ Modules
 
 These are the most important modules that get most of the work done:
 
+### Request
+
+Restia provides some convenience for request-handling in the `restia.request`
+module. This module is passed automatically to every request handler wrapped
+in `restia.controller.xpcall` as its first argument.
+
+It wraps openresty functions to access request data and adds functionality to
+many of them, allowing the user to e. g. easily read and set cookies or access
+request parameters in a variety of formats.
+
 ### Config
 
 The `restia.config` module takes care of everything configuration-related.
