@@ -122,8 +122,9 @@ Then, in a view at `views/hello.cosmo.moonhtml`
 
 	h1 "Hello, $name!"
 
-This moonhtml template will be rendered instantly the first time it is loaded
-and produce a cosmo template that looks like this:
+This moonhtml will be rendered and turned into a cosmo template once when it is
+first accessed, that is, the `config` module runs the moonhtml-cosmo-loader.
+The resulting cosmo template will look like this:
 
 	<h1>Hello, $name!</h1>
 
