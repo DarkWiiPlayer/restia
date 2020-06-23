@@ -93,13 +93,66 @@ How do I build cool stuff?
 - Read the documentation for detailed descriptions of what everything does.
 - Wear sunglasses. <!--Does this look like a tan trenchcoat situation to you?-->
 
-Building the Documentation
+Some Examples
 --------------------------------------------------------------------------------
 
-Restia doesn't install its documentation with luarocks, so it has to be built
-manually or read [online][doc]. To build it, simply install [ldoc](ldoc), clone
-the restia repository and run `ldoc .` in its top level directory. The docs will
-be generated in the `doc` folder by default.
+### Hello, World!
+
+For a simple hello-world page one would usually set up a plain nginx route that
+just prints a string.
+
+	location = /hello { content_by_lua_block { ngx.say "Hello, World!" } }
+
+However, for the sake of making a better example, here's how this could be done
+using a few more Restia features:
+
+In a controller at `controllers/hello.lua`
+
+	local views = require("views")
+
+	require('restia.controller').xpcall(function(req)
+		return ngx.say(views.hello{ name = "World" })
+	end, require 'error')
+
+This controller simply renders a template called `hello` with an additional
+argument. It runs in a wrapper that takes care of error reporting for easier
+debugging.
+
+Then, in a view at `views/hello.cosmo.moonhtml`
+
+	h1 "Hello, $name!"
+
+This moonhtml template will be rendered instantly the first time it is loaded
+and produce a cosmo template that looks like this:
+
+	<h1>Hello, $name!</h1>
+
+When a user accesses the route, the cosmo template gets rendered and the
+variable `$name` is replaced with "World", giving us "Hello, World!".
+
+### Simple Content Negotiation
+
+Say you have some data like `{ name = "bob", hobby = "web-dev" }` and want to
+present that information in different content types depending on the clients
+`accept` header. The controller could look this:
+
+	local views = require 'views'
+	local json = require 'cjson'
+
+	local data = { name = "bob", hobby = "web-dev" }
+
+	require('restia.controller').xpcall(function(req)
+		req:offer {
+			{"application/json", function(req)
+				return json.encode(data)
+			end};
+			{"text/html", function(req)
+				return views.data(data)
+			end};
+		}
+	end, require 'error')
+
+Assuming the `views/data.xxx` template renders the data to HTML somehow.
 
 Modules
 --------------------------------------------------------------------------------
@@ -135,6 +188,14 @@ and instantly terminates the request.
 The `restia.secret` module is a config table bound to the `.secret` directory
 with some additional functions for encryption/decryption. It assumes a special
 `key` file to exist in `.secret`, which should contain the servers secret key.
+
+Building the Documentation
+--------------------------------------------------------------------------------
+
+Restia doesn't install its documentation with luarocks, so it has to be built
+manually or read [online][doc]. To build it, simply install [ldoc](ldoc), clone
+the restia repository and run `ldoc .` in its top level directory. The docs will
+be generated in the `doc` folder by default.
 
 Docker
 --------------------------------------------------------------------------------
