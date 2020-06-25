@@ -59,21 +59,36 @@ function negotiator.patterns(accept)
 end
 
 --- Picks a value from a content-type -> value map respecting an accept header.
--- @tparam string accept A full HTTP Accept header
--- @tparam table available A map from content-types to values. Either as a plain key-value map or as a sequence of key-value pairs in the form of two-element sequences.
--- @param default A default value to return when nothing matches
+-- When handlers are given as a sequence of tuples or strings, it checks them in
+-- order and prefers lower indices when more than one element matches.  This is
+-- to allow prioritizing computationally cheaper content representations when
+-- clients can accept both.  @tparam string accept A full HTTP Accept header
+-- @tparam table available A table of content types
+-- @return type value
 -- @usage
---  -- Check in order and use first match
---  restia.negotiator.pick(headers.accept, { {'text/plain', "Hello!"}, {'text/html', "<h1>Hello!</h1>"} })
---  -- Check out of order and use first match
---  restia.negotiator.pick(headers.accept, { ['text/html'] = "<h1>Hello!</h1>", ['text/plain'] = "Hello!" })
+-- -- Check in order and use first match
+-- restia.negotiator.pick(headers.accept, {
+-- 	{'text/plain', "Hello!"},
+-- 	{'text/html', "<h1>Hello!</h1>"}
+-- })
+-- -- Check out of order and use first match
+-- restia.negotiator.pick(headers.accept, {
+-- 	['text/plain'] = "Hello!"
+-- 	['text/html'] = "<h1>Hello!</h1>",
+-- })
 function negotiator.pick(accept, available, ...)
 	for i, entry in ipairs(negotiator.patterns(accept)) do
-		if available[1] then
+		if type(available[1])=="table" then
 			for j, pair in ipairs(available) do
 				local name, value = unpack(pair)
 				if name:find(entry.pattern) then
 					return name, value
+				end
+			end
+		elseif type(available[1])=="string" then
+			for j, name in ipairs(available) do
+				if name:find(entry.pattern) then
+					return name
 				end
 			end
 		else
