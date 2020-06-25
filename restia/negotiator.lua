@@ -67,15 +67,22 @@ end
 -- @return type value
 -- @usage
 -- -- Check in order and use first match
--- restia.negotiator.pick(headers.accept, {
+-- type, content = restia.negotiator.pick(headers.accept, {
 -- 	{'text/plain', "Hello!"},
 -- 	{'text/html', "<h1>Hello!</h1>"}
 -- })
 -- -- Check out of order and use first match
--- restia.negotiator.pick(headers.accept, {
+-- type, content = restia.negotiator.pick(headers.accept, {
 -- 	['text/plain'] = "Hello!"
 -- 	['text/html'] = "<h1>Hello!</h1>",
 -- })
+-- -- Return a fitting content type
+-- type = restia.negotiator.pick(headers.accept, {
+-- 	'appliaction/json', 'text/html', 'application/yaml'
+-- })
+-- -- Returns a fallback
+-- type, content =
+-- 	restia.negotiator.pick(headers.accept, {}, "text/plain", "Hello!")
 function negotiator.pick(accept, available, ...)
 	for i, entry in ipairs(negotiator.patterns(accept)) do
 		if type(available[1])=="table" then
