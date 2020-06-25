@@ -108,11 +108,13 @@ using a few more Restia features:
 
 In a controller at `controllers/hello.lua`
 
-	local views = require("views")
+```lua
+local views = require("views")
 
-	require('restia.controller').xpcall(function(req)
-		return ngx.say(views.hello{ name = "World" })
-	end, require 'error')
+require('restia.controller').xpcall(function(req)
+	return ngx.say(views.hello{ name = "World" })
+end, require 'error')
+```
 
 This controller simply renders a template called `hello` with an additional
 argument. It runs in a wrapper that takes care of error reporting for easier
@@ -137,21 +139,23 @@ Say you have some data like `{ name = "bob", hobby = "web-dev" }` and want to
 present that information in different content types depending on the clients
 `accept` header. The controller could look this:
 
-	local views = require 'views'
-	local json = require 'cjson'
+```lua
+local views = require 'views'
+local json = require 'cjson'
 
-	local data = { name = "bob", hobby = "web-dev" }
+local data = { name = "bob", hobby = "web-dev" }
 
-	require('restia.controller').xpcall(function(req)
-		req:offer {
-			{"application/json", function(req)
-				return json.encode(data)
-			end};
-			{"text/html", function(req)
-				return views.data(data)
-			end};
-		}
-	end, require 'error')
+require('restia.controller').xpcall(function(req)
+  req:offer {
+    {"application/json", function(req)
+      return json.encode(data)
+    end};
+    {"text/html", function(req)
+      return views.data(data)
+    end};
+  }
+end, require 'error')
+```
 
 Assuming the `views/data.xxx` template renders the data to HTML somehow.
 
