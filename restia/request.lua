@@ -23,9 +23,12 @@ local request = {}
 --- "Offers" a set of content types during content negotiation.
 -- Given a set of possible content types, it tries figuring out what the client
 -- wants and picks the most fitting content handler. Automatically runs the
--- handler and sends the result to the client. See `restia.negotiator.pick` for
--- how to pass the handlers.
+-- handler and sends the result to the client.
+-- For the most part, this is a wrapper around `restia.negotiator.pick` and
+-- follows the same semantics in its "available" argument.
+-- When no content-type matches, an error is raised.
 -- @tparam table available A map from content-types to handlers. Either as a plain key-value map or as a sequence of key-value pairs in the form of two-element sequences.
+-- @param ... Additional arguments to be passed to the content handlers
 function request:offer(available, ...)
 	assert(self.headers, "Request object has no headers!")
 	local content_type, handler =
@@ -37,6 +40,15 @@ function request:offer(available, ...)
 	else
 		error("No suitable request handler found", 2)
 	end
+end
+
+--- "Offers" a set of content types during content negotiation.
+-- Instead of picking an associated handler, this function simply returns the
+-- chosen content-type to be handled by the application.
+-- When no content-type matches, it returns nil and an error message.
+function request:offer_type(...)
+	assert(self.headers, "Request object has no headers!")
+	return restia.negotiator.pick(self.headers.accept, {...}, nil, "No suitable content type supported")
 end
 
 local get, set = restia.accessors.new(request)
