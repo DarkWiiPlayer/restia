@@ -90,7 +90,7 @@
 	<td class="summary">Works like <a href="../modules/restia.negotiator.html#parse">negotiator.parse</a> but adds a <a href="../modules/restia.negotiator.html#pattern">pattern</a> field to them.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#pick">pick (accept, available, default)</a></td>
+	<td class="name" nowrap><a href="#pick">pick (available)</a></td>
 	<td class="summary">Picks a value from a content-type -> value map respecting an accept header.</td>
 	</tr>
 </table>
@@ -126,7 +126,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">accept</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The full HTTP Accept header
         </li>
     </ul>
@@ -160,36 +160,51 @@
 </dd>
     <dt>
     <a name = "pick"></a>
-    <strong>pick (accept, available, default)</strong>
+    <strong>pick (available)</strong>
     </dt>
     <dd>
     Picks a value from a content-type -> value map respecting an accept header.
+ When handlers are given as a sequence of tuples or strings, it checks them in
+ order and prefers lower indices when more than one element matches.  This is
+ to allow prioritizing computationally cheaper content representations when
+ clients can accept both.  @tparam string accept A full HTTP Accept header
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">accept</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         A full HTTP Accept header
-        </li>
         <li><span class="parameter">available</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         A map from content-types to values. Either as a plain key-value map or as a sequence of key-value pairs in the form of two-element sequences.
-        </li>
-        <li><span class="parameter">default</span>
-         A default value to return when nothing matches
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         A table of content types
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+        type value
+    </ol>
 
 
 
     <h3>Usage:</h3>
     <ul>
         <pre class="example"><span class="comment">-- Check in order and use first match
-</span>restia.negotiator.pick(headers.accept, { {<span class="string">'text/plain'</span>, <span class="string">"Hello!"</span>}, {<span class="string">'text/html'</span>, <span class="string">"&lt;h1&gt;Hello!&lt;/h1&gt;"</span>} })
+</span><span class="global">type</span>, content = restia.negotiator.pick(headers.accept, {
+	{<span class="string">'text/plain'</span>, <span class="string">"Hello!"</span>},
+	{<span class="string">'text/html'</span>, <span class="string">"&lt;h1&gt;Hello!&lt;/h1&gt;"</span>}
+})
 <span class="comment">-- Check out of order and use first match
-</span>restia.negotiator.pick(headers.accept, { [<span class="string">'text/html'</span>] = <span class="string">"&lt;h1&gt;Hello!&lt;/h1&gt;"</span>, [<span class="string">'text/plain'</span>] = <span class="string">"Hello!"</span> })</pre>
+</span><span class="global">type</span>, content = restia.negotiator.pick(headers.accept, {
+	[<span class="string">'text/plain'</span>] = <span class="string">"Hello!"</span>
+	[<span class="string">'text/html'</span>] = <span class="string">"&lt;h1&gt;Hello!&lt;/h1&gt;"</span>,
+})
+<span class="comment">-- Return a fitting content type
+</span><span class="global">type</span> = restia.negotiator.pick(headers.accept, {
+	<span class="string">'appliaction/json'</span>, <span class="string">'text/html'</span>, <span class="string">'application/yaml'</span>
+})
+<span class="comment">-- Returns a fallback
+</span><span class="global">type</span>, content =
+	restia.negotiator.pick(headers.accept, {}, <span class="string">"text/plain"</span>, <span class="string">"Hello!"</span>)</pre>
     </ul>
 
 </dd>
@@ -208,7 +223,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">pattern</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          A string to escape
         </li>
     </ul>
@@ -229,7 +244,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">accept</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          A single content-type
         </li>
     </ul>
@@ -246,7 +261,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-06-25 11:22:40 </i>
+<i style="float:right;">Last updated 2020-07-07 21:30:10 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
