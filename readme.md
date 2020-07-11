@@ -367,5 +367,5 @@ License: [The Unlicense][unlicense]
 [ldoc]:       https://github.com/stevedonovan/LDoc, "LDoc - A Lua Documentation Tool"
 [lunamark]:   https://github.com/jgm/lunamark "Lunamark"
 [moonxml]:    https://github.com/darkwiiplayer/moonxml "MoonXML"
-[openresty]:  http://http://openresty.org/en/ "OpenResty"
+[openresty]:  http://openresty.org/en/ "OpenResty"
 [unlicense]:  https://unlicense.org "The Unlicense"
