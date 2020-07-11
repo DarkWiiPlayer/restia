@@ -118,7 +118,8 @@ function utils.deepconcat(tab, separator)
 	return table.concat(tab, separator)
 end
 
---- Returns a list containing
+--- Returns a list containing the result of `debug.getinfo` for every level in
+-- the current call stack. The table also contains its length at index `n`.
 function utils.stack(level)
 	local stack = {}
 	for i=level+1, math.huge do
@@ -126,6 +127,7 @@ function utils.stack(level)
 		if info then
 			table.insert(stack, info)
 		else
+			stack.n = i
 			break
 		end
 	end
