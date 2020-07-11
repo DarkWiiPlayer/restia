@@ -180,7 +180,7 @@ function project.new(options)
 				|restia.template.inject(function(_ENV)
 				|	setfenv(1, _ENV)
 				|	function render(name, ...)
-				|		print(restia.utils.deep_index(views, name):render(...))
+				|		print(restia.utils.deepindex(views, name):render(...))
 				|	end
 				|end)
 				|

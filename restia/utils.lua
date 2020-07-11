@@ -27,7 +27,7 @@ function utils.escape(str)
 end
 
 --- Removes excessive indentation from a block of text
-function utils.normalize_indent(block)
+function utils.normalizeindent(block)
 	local indent = '^'..(block:match("^%s+") or '')
 	return (block:gsub('[^\n]+', function(line)
 		return line:gsub(indent, ''):gsub('[\t ]+$', ''):gsub("^%s*$", '')
@@ -36,7 +36,7 @@ end
 
 --- Removes leading whitespace up to and including a pipe character.
 -- This is used to trim off unwanted whitespace at the beginning of a line.
--- This is hopefully a bit faster and more versatile than the normalize_indent function.
+-- This is hopefully a bit faster and more versatile than the normalizeindent function.
 function utils.unpipe(block)
 	return block:gsub('[^\n]+', function(line)
 		return line:gsub('^%s*|', '')
@@ -44,7 +44,7 @@ function utils.unpipe(block)
 end
 
 --- Indexes tables recursively with a chain of string keys
-function utils.deep_index(object, keys)
+function utils.deepindex(object, keys)
 	for key in keys:gmatch('[^.]+') do
 		object = object[key]
 		if not object then return nil end
@@ -107,10 +107,10 @@ local function random(n)
 end
 
 --- Recursively concatenates a table
-function utils.rconcat(tab, separator)
+function utils.deepconcat(tab, separator)
 	for key, value in ipairs(tab) do
 		if type(value)=="table" then
-			tab[key]=utils.rconcat(value, separator)
+			tab[key]=utils.deepconcat(value, separator)
 		else
 			tab[key]=tostring(value)
 		end
@@ -166,14 +166,14 @@ end
 -- @tparam table tab A table representing the directory structure.
 -- Table entries are subdirectories, strings are files, false means delete, true means touch file, everything else is an error.
 -- @usage
--- 	build_dir {
+-- 	builddir {
 -- 		sub_dir = {
 -- 			empty_file = ''
 -- 		}
 -- 		file = 'Hello World!';
 -- 	}
 -- @todo add `true` option for empty file -- @todo add `false` option to delete existing files/directories
-function utils.build_dir(prefix, tab)
+function utils.builddir(prefix, tab)
 	if not tab then
 		tab = prefix
 		prefix = '.'
@@ -193,7 +193,7 @@ function utils.build_dir(prefix, tab)
 				"Directory  "
 				..colors.blue(path)
 			)
-			utils.build_dir(path, value)
+			utils.builddir(path, value)
 
 		elseif type(value) == "string" then
 			print(

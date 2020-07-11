@@ -237,7 +237,7 @@ restia_html = moonxml.html:derive(function(_ENV)
 	function moon(code)
 		local utils = require 'restia.utils'
 		local moonscript = require 'moonscript.base'
-		lua(assert(moonscript.to_lua(utils.normalize_indent(code))))
+		lua(assert(moonscript.to_lua(utils.normalizeindent(code))))
 	end
 end)
 

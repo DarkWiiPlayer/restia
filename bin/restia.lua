@@ -16,7 +16,7 @@ local utils = restia.utils
 local c = restia.colors
 local project = restia.bin.project
 
-local I = utils.normalize_indent
+local I = utils.normalizeindent
 
 local function uid()
 	local id_u = io.popen("id -u")
@@ -39,7 +39,7 @@ commands:add('new <directory>', [[
 	The default <directory> is 'application'.
 ]], function(name)
 	name = name or 'application'
-	utils.build_dir(nil, {[name] = project.new()})
+	utils.builddir(nil, {[name] = project.new()})
 end)
 
 commands:add('test <lua> <configuration>', [[

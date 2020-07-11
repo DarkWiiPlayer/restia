@@ -162,7 +162,7 @@ if template then
 			name = tostring(name) .. '.cosmo.moonhtml.lua'
 			local file = io.open(name)
 			if file then
-				local prerendered = utils.rconcat(assert(template.loadlua(file:read("*a"), name)):render())
+				local prerendered = utils.deepconcat(assert(template.loadlua(file:read("*a"), name)):render())
 				return setmetatable(
 					{raw=assert(cosmo.compile(prerendered)), name=name:gsub('%.moonhtml%.lua$', '')},
 					template.metatable
@@ -181,7 +181,7 @@ if template then
 			name = tostring(name) .. '.cosmo.moonhtml'
 			local file = io.open(name)
 			if file then
-				local prerendered = utils.rconcat(assert(template.loadmoon(file:read("*a"), name)):render())
+				local prerendered = utils.deepconcat(assert(template.loadmoon(file:read("*a"), name)):render())
 				return setmetatable(
 					{raw=assert(cosmo.compile(prerendered)), name=name:gsub('%.moonhtml$', '')},
 					template.metatable
