@@ -87,52 +87,54 @@ function project.new(options)
 			]];
 		};
 		static = { [".gitignore"] = "" };
-		['lib/error.lua'] =
-		I[===========[
-			|local json = require 'cjson'
-			|local views = require 'views'
-			|local restia = require 'restia'
-			|
-			|return function(message)
-			|	ngx.log(ngx.ERR, debug.traceback(message))
-			|			if ngx.status < 300 then
-			|			 ngx.status = 500
-			|			end
-			|	if not message
-			|	then message = '(No error message given)'
-			|	end
-			|
-			|	local err if ngx.var.dev=="true" then
-			|		err = {
-			|			code = ngx.status;
-			|			message = message:match('^[^\n]+');
-			|			description = debug.traceback(message, 3);
-			|		}
-			|	else
-			|		err = {
-			|			code = ngx.status;
-			|			message = "There has been an error";
-			|			description = "Please contact a site administrator if this error persists";
-			|		}
-			|	end
-			|
-			|	local content_type = ngx.header['content-type']
-			|	if content_type == 'application/json' then
-			|		ngx.say(json.encode(err))
-			|	elseif content_type == 'text/plain' then
-			|		ngx.say("Error ",err.code,"\n---------\n",err.description)
-			|	else
-			|		if views.error then
-			|			err.message = restia.utils.escape(err.message)
-			|			err.description = restia.utils.escape(err.description)
-			|			ngx.say(views.error(err))
-			|		else
-			|			ngx.say('error '..tostring(ngx.status))
-			|		end
-			|	end
-			|	return ngx.HTTP_INTERNAL_SERVER_ERROR
-			|end
-		]===========];
+		lib = {
+			['error.lua'] =
+			I[===========[
+				|local json = require 'cjson'
+				|local views = require 'views'
+				|local restia = require 'restia'
+				|
+				|return function(message)
+				|	ngx.log(ngx.ERR, debug.traceback(message))
+				|			if ngx.status < 300 then
+				|			 ngx.status = 500
+				|			end
+				|	if not message
+				|	then message = '(No error message given)'
+				|	end
+				|
+				|	local err if ngx.var.dev=="true" then
+				|		err = {
+				|			code = ngx.status;
+				|			message = message:match('^[^\n]+');
+				|			description = debug.traceback(message, 3);
+				|		}
+				|	else
+				|		err = {
+				|			code = ngx.status;
+				|			message = "There has been an error";
+				|			description = "Please contact a site administrator if this error persists";
+				|		}
+				|	end
+				|
+				|	local content_type = ngx.header['content-type']
+				|	if content_type == 'application/json' then
+				|		ngx.say(json.encode(err))
+				|	elseif content_type == 'text/plain' then
+				|		ngx.say("Error ",err.code,"\n---------\n",err.description)
+				|	else
+				|		if views.error then
+				|			err.message = restia.utils.escape(err.message)
+				|			err.description = restia.utils.escape(err.description)
+				|			ngx.say(views.error(err))
+				|		else
+				|			ngx.say('error '..tostring(ngx.status))
+				|		end
+				|	end
+				|	return ngx.HTTP_INTERNAL_SERVER_ERROR
+				|end
+			]===========];
+		};
 		controllers = {
 			['front.lua'] = project.controller();
 		};
