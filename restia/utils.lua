@@ -52,12 +52,49 @@ function utils.deepindex(object, keys)
 	return object
 end
 
+--- Inserts a table into a nested table following a path.
+-- The path string mimics normal chained indexing in normal Lua.
+-- Nil-elements along the path will be created as tables.
+-- Non-nil elements will be indexed and error accordingly if this fails.
+-- @tparam table tab A table or indexable object to recursively insert into
+-- @tparam table path A string describing the path to iterate
+-- @param value The value that will be inserted
+-- @usage
+-- utils.deepinsert(some_table, 'foo.bar.baz', value)
+function utils.deepinsert(tab, path, value)
+	if type(path)~="string" then
+		return nil, "path is not a string"
+	end
+	local index, rest = path:match("^%.?([%a%d]+)(.*)")
+	if not index then
+		index, rest = path:match("^%[(%d+)%](.*)")
+		index = tonumber(index)
+	end
+	if index then
+		if #rest>0 then
+			local current
+			if tab[index] then
+				current = tab[index]
+			else
+				current = {}
+				tab[index] = current
+			end
+			return utils.deepinsert(current, rest, value)
+		else
+			tab[index] = value
+      return value or true
+		end
+	else
+		return nil, "malformed index-path string"
+	end
+end
+
 --- Turns a flat table and turns it into a nested table.
 -- @usage
 -- 	local deep = restia.utils.deep {
 -- 		['foo.bar.baz'] = "hello";
--- 		['foo.1'] = "first";
--- 		['foo.2'] = "second";
+-- 		['foo[1]'] = "first";
+-- 		['foo[2]'] = "second";
 -- 	}
 -- 	-- Is equal to
 -- 	local deep = {
@@ -67,23 +104,13 @@ end
 -- 		}
 -- 	}
 function utils.deepen(tab)
-	local res = {}
-	for key, value in pairs(tab) do
-		if type(key) == 'string' and key:find(".", 1, false) then
-			local tab = res
-			local name
-			local first, last = key:find("[^.]+")
-			repeat
-				name = key:sub(first, last); name = tonumber(name) or name
-				tab[name] = tab[name] or {}
-				first, last = key:find("[^.]+", last+1)
-				if first then tab = tab[name] end
-			until not first
-			tab[name] = value
-		else
-			res[key] = value end
+	local deep = {}
+	for path, value in pairs(tab) do
+		if not utils.deepinsert(deep, path, value) then
+			deep[path] = value
+		end
 	end
-	return res
+	return deep
 end
 
 local function files(dir, func)
