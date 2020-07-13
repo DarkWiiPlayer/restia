@@ -15,15 +15,24 @@ describe "utils.deepinsert", ->
 
 	it "should work for recursive cases", ->
 		tab = {}
-		restia.utils.deepinsert(tab, "foo.bar.baz", "hello")
+		assert restia.utils.deepinsert(tab, "foo.bar.baz", "hello")
 		assert.equal "hello", tab.foo.bar.baz
-		restia.utils.deepinsert(tab, "[1][2][3]", "world")
+		assert restia.utils.deepinsert(tab, "[1][2][3]", "world")
 		assert.equal "world", tab[1][2][3]
 
 	it "should error for non-string paths", ->
 		assert.nil restia.utils.deepinsert({}, (->), true)
 		assert.nil restia.utils.deepinsert({}, (20), true)
 		assert.nil restia.utils.deepinsert({}, ({}), true)
+
+describe "utils.deepindex", ->
+	it "should work for non-recursive cases", ->
+		assert.equal "yes", assert restia.utils.deepindex({foo: "yes"}, "foo")
+		assert.equal "first", assert restia.utils.deepindex({"first"}, "[1]")
+
+	it "should work for recursive cases", ->
+		assert.equal "yes", assert restia.utils.deepindex({foo: {bar: {baz: "yes"}}}, "foo.bar.baz")
+		assert.equal "third", assert restia.utils.deepindex({{{"third"}}}, "[1][1][1]")
 
 describe "utils.deepen", ->
 	it "should flat-clone a normal table", ->

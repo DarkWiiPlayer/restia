@@ -44,12 +44,28 @@ function utils.unpipe(block)
 end
 
 --- Indexes tables recursively with a chain of string keys
-function utils.deepindex(object, keys)
-	for key in keys:gmatch('[^.]+') do
-		object = object[key]
-		if not object then return nil end
+function utils.deepindex(tab, path)
+	if type(path)~="string" then
+		return nil, "path is not a string"
 	end
-	return object
+	local index, rest = path:match("^%.?([%a%d]+)(.*)")
+	if not index then
+		index, rest = path:match("^%[(%d+)%](.*)")
+		index = tonumber(index)
+	end
+	if index then
+		if #rest>0 then
+			if tab[index] then
+				return utils.deepindex(tab[index], rest)
+			else
+				return nil, "full path not present in table"
+			end
+		else
+			return tab[index]
+		end
+	else
+		return nil, "malformed index-path string"
+	end
 end
 
 --- Inserts a table into a nested table following a path.
