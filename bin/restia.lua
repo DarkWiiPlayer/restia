@@ -10,6 +10,7 @@
 math.randomseed(os.time())
 
 local restia = require 'restia'
+local arrr = require 'arrr'
 
 local commands = restia.commands
 local utils = restia.utils
@@ -37,9 +38,12 @@ local openresty = [[openresty -p . -c openresty.conf -g 'daemon off;' ]]
 commands:add('new <directory>', [[
 	Creates a new application in the selected directory.
 	The default <directory> is 'application'.
-]], function(name)
-	name = name or 'application'
-	utils.builddir(nil, {[name] = project.new()})
+]], function(...)
+	local options = arrr {
+		{ "Type of application", "type", "t", {"type"} };
+	} {...}
+	name = options[1] or 'application'
+	utils.builddir(nil, {[name] = project.new(options.type)})
 end)
 
 commands:add('test <lua> <configuration>', [[

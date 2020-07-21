@@ -28,6 +28,7 @@ dependencies = {
 	"multipart";
 	"warn";
 	"xhmoon";
+	"arrr";
 }
 build = {
 	type = "builtin",
