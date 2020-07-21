@@ -248,7 +248,7 @@ function utils.builddir(prefix, tab)
 				..#value
 				.." bytes"
 			)
-			local file = io.open(path,'w')
+			local file = assert(io.open(path,'w'))
 			file:write(value)
 			file:write('\n')
 			file:close()
