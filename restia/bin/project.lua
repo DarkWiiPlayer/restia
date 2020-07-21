@@ -4,7 +4,9 @@ local I = restia.utils.unpipe
 
 local project = {}
 
-function project.controller()
+local generators = {}
+
+function generators.controller()
 	return I[[
 		|local views = require("views")
 		|
@@ -14,7 +16,7 @@ function project.controller()
 	]]
 end
 
-function project.new(options)
+function generators.application()
 	local dir = {
 		['.gitignore'] =
 		I[============[
@@ -87,6 +89,45 @@ function project.new(options)
 			]];
 		};
 		static = { [".gitignore"] = "" };
+		controllers = {
+			['front.lua'] = generators.controller();
+		};
+		views = {
+			['front.cosmo.moonhtml'] = I[[
+				|strings = require('config').i18n[ngx.var.lang]
+				|h1 strings.title
+				|h2 "$domain"
+			]];
+			['error.cosmo.moonhtml'] = I[[
+				|h1 "ERROR $code"
+				|h2 "$message"
+				|p -> pre "$description"
+			]];
+		};
+		models = {};
+		['readme.md'] = I[[
+			|Restia Application
+			|================================================================================
+			|
+			|<!-- Start writing your project description here -->
+		]];
+		['license.md'] = I[[
+			|All rights reserved
+			|<!-- TODO: Make project open source :D -->
+		]];
+		['config.ld'] = I[[
+			|title = "Restia Application"
+			|project = "Restia Application"
+			|format = 'discount'
+			|topics = {
+			|	'readme.md',
+			|	'license.md',
+			|}
+			|file = {
+			|	'lib';
+			|}
+			|all = true
+		]];
 		lib = {
 			['error.lua'] =
 			I[===========[
@@ -134,47 +175,6 @@ function project.new(options)
 				|	return ngx.HTTP_INTERNAL_SERVER_ERROR
 				|end
 			]===========];
-		};
-		controllers = {
-			['front.lua'] = project.controller();
-		};
-		views = {
-			['front.cosmo.moonhtml'] = I[[
-				|strings = require('config').i18n[ngx.var.lang]
-				|h1 strings.title
-				|h2 "$domain"
-			]];
-			['error.cosmo.moonhtml'] = I[[
-				|h1 "ERROR $code"
-				|h2 "$message"
-				|p -> pre "$description"
-			]];
-		};
-		models = {};
-		['readme.md'] = I[[
-			|Restia Application
-			|================================================================================
-			|
-			|<!-- Start writing your project description here -->
-		]];
-		['license.md'] = I[[
-			|All rights reserved
-			|<!-- TODO: Make project open source :D -->
-		]];
-		['config.ld'] = I[[
-			|title = "Restia Application"
-			|project = "Restia Application"
-			|format = 'discount'
-			|topics = {
-			|	'readme.md',
-			|	'license.md',
-			|}
-			|file = {
-			|	'lib';
-			|}
-			|all = true
-		]];
-		lib = {
 			['views.lua'] = I[[
 				|local restia = require "restia"
 				|local views = restia.config.bind "views"
@@ -287,6 +287,11 @@ function project.new(options)
 		dependancies = [[luarocks install restia --dev]];
 	}
 	return dir
+end
+
+function project.new(t)
+	t = t or 'application'
+	return generators[t]()
 end
 
 return project
