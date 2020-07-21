@@ -35,14 +35,15 @@ Available commands:
 
 local openresty = [[openresty -p . -c openresty.conf -g 'daemon off;' ]]
 
-commands:add('new <directory>', [[
-	Creates a new application in the selected directory.
-	The default <directory> is 'application'.
+commands:add('new <target>', [[
+	Creates a new application or asset at the target location.
+	<target> File or directory to write the asset to
+	--type <type> Type of asset to create
 ]], function(...)
 	local options = arrr {
 		{ "Type of application", "type", "t", {"type"} };
 	} {...}
-	name = options[1] or 'application'
+	name = options[1] or error("No asset name given!")
 	utils.builddir(nil, {[name] = project.new(options.type)})
 end)
 
@@ -80,6 +81,32 @@ commands:add('reload <configuration>', [[
 	os.execute(openresty:gsub('openresty.conf', config)..'-s reload')
 end)
 
+commands:add('compile <template>', [[
+	Compiles an template.
+	<template> Config path to the template
+	--root <root> The config root to bind to
+	--arguments <path> Config path to an argument to pass to the template
+]], function(...)
+	local options = arrr {
+		{ "Binds to another root directory", "root", "R", "root" };
+		{ "Passes this config entry as argument to the template", "arguments", "a", "path" };
+	} { ... }
+	local config = restia.config.bind(options.root or ".")
+	local outfile = options[2] or options[1]:match("[^%.]+$")
+	local template = restia.utils.deepindex(config, options[1])
+	if not template then
+		error("Could not find template: "..options[1])
+	end
+	local arguments = options.arguments and restia.utils.deepindex(config, options.arguments)
+	local result = template(arguments)
+	if type(result)=="table" then
+		result = restia.utils.deepconcat(result)
+	elseif type(result)=="function" then
+		result = string.dump(result)
+	end
+	restia.utils.builddir { [outfile] = result }
+end)
+
 commands:add('manpage <directory>', [[
 	Installs restias manpage.
 	<directory> Where to install the manpage.
@@ -112,8 +139,8 @@ commands:add('help', [[
 ]], function()
 	print(help)
 	for idx, command in ipairs(commands) do
-		print((c('%{green}'..command.name):gsub('<.->', c.blue)))
-		print((command.description:gsub('<.->', c.blue)))
+		print((c('%{green}'..command.name):gsub('<.->', c.blue):gsub('%-%-%a+', c.yellow)))
+		print((command.description:gsub('<.->', c.blue):gsub('%-%-%a+', c.yellow)))
 	end
 end)
 
