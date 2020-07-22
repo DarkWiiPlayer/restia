@@ -96,13 +96,19 @@ restia_html = moonxml.html:derive(function(_ENV)
 	end
 
 	--- Embeds a stylesheet into the document.
-	-- @tparam string uri The URI to the stylesheet
+	-- @param uri The URI to the stylesheet or a sequence of URIs
 	-- @tparam boolean async Load the stylesheet asynchronously and apply it once it's loaded
 	-- @function stylesheet
 	-- @usage
 	-- 	stylesheet 'styles/site.css'
 	-- 	stylesheet 'styles/form.css', true
 	stylesheet = function(uri, async)
+    if type(uri)=="table" then
+      for i, _uri in ipairs(uri) do
+        stylesheet(_uri, async)
+      end
+      return
+    end
 		if async then
 			link({rel='stylesheet', href=uri, type='text/css', media='print', onload='this.media=`all`'})
 		else
