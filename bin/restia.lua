@@ -86,6 +86,7 @@ commands:add('compile <template>', [[
 	<template> Config path to the template
 	--root <root> The config root to bind to
 	--arguments <path> Config path to an argument to pass to the template
+  The default argument is the config root
 ]], function(...)
 	local options = arrr {
 		{ "Binds to another root directory", "root", "R", "root" };
@@ -97,7 +98,7 @@ commands:add('compile <template>', [[
 	if not template then
 		error("Could not find template: "..options[1])
 	end
-	local arguments = options.arguments and restia.utils.deepindex(config, options.arguments)
+	local arguments = options.arguments and restia.utils.deepindex(config, options.arguments) or config
 	local result = template(arguments)
 	if type(result)=="table" then
 		result = restia.utils.deepconcat(result)
