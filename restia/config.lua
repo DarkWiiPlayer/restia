@@ -73,6 +73,21 @@ end
 -- Functions that turn the entry name into a filename and attempt to load with some specific mechanism.
 -- @section loaders
 
+--- Binds a subdirectory
+-- @function dir
+-- @tparam string name Treated as a directory name as is
+local lfs = try_require 'lfs'
+if lfs then
+	config.loaders:insert("dir", function(dir)
+		local attributes = lfs.attributes(dir)
+		if attributes and attributes.mode=='directory' then
+			return config.bind(dir)
+		end
+	end)
+else
+	warn("Could not require lfs; directory recursion disabled")
+end
+
 --- Loads a file as plain text.
 -- @function raw
 -- @tparam string name Used as is without extension.
@@ -116,43 +131,30 @@ else
 	warn("Could not load lyaml; all builtin yaml parsing disabled")
 end
 
---- Binds a subdirectory
--- @function dir
--- @tparam string name Treated as a directory name as is
-local lfs = try_require 'lfs'
-if lfs then
-	config.loaders:insert("dir", function(dir)
-		local attributes = lfs.attributes(dir)
-		if attributes and attributes.mode=='directory' then
-			return config.bind(dir)
+local cosmo = try_require 'cosmo'
+if cosmo then
+	--- Loads a cosmo template.
+	-- This returns the plain cosmo template, which has to be
+	-- manually printed to the client with `ngx.say`.
+	-- @function cosmo
+	-- @tparam string name The extension `.cosmo` is added.
+	config.loaders:insert("cosmo", function(name)
+		name = tostring(name) .. '.cosmo'
+		local file = io.open(name)
+		if file then
+			return setmetatable(
+				{raw=assert(cosmo.compile(file:read("*a"), name)), name=name},
+				template.metatable
+			)
+		else
+			return nil
 		end
 	end)
-else
-	warn("Could not require lfs; directory recursion disabled")
 end
 
-local cosmo = try_require 'cosmo'
 local template = try_require 'restia.template'
 if template then
 	if cosmo then
-		--- Loads a cosmo template.
-		-- This returns the plain cosmo template, which has to be
-		-- manually printed to the client with `ngx.say`.
-		-- @function cosmo
-		-- @tparam string name The extension `.cosmo` is added.
-		config.loaders:insert("cosmo", function(name)
-			name = tostring(name) .. '.cosmo'
-			local file = io.open(name)
-			if file then
-				return setmetatable(
-					{raw=assert(cosmo.compile(file:read("*a"), name)), name=name},
-					template.metatable
-				)
-			else
-				return nil
-			end
-		end)
-
 		--- Multistage template for compiled moonhtml + cosmo.
 		-- Loads and renders a precompiled moonhtml template, then compiles the resulting string as a cosmo template.
 		-- The resulting template renders a string which has to manually be sent to the client with `ngx.say`.
