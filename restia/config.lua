@@ -3,7 +3,7 @@
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
-require 'warn'
+local warn = warn or require 'warn.compatible'
 
 local utils = require 'restia.utils'
 
@@ -86,6 +86,25 @@ if lfs then
 	end)
 else
 	warn("Could not require lfs; directory recursion disabled")
+end
+
+local discount = try_require 'discount'
+if discount then
+	--- Loads a markdown file and converts it to HTML.
+	-- Repeatedly calling the function will just return the same exact string.
+	-- @function markdown
+	config.loaders:insert("markdown", function(name)
+		name = tostring(name) .. '.md'
+		local file = io.open(name)
+		if file then
+			local html = discount(file:read("*a"))
+			return function()
+				return html
+			end
+		else
+			return nil
+		end
+	end)
 end
 
 --- Loads a file as plain text.
