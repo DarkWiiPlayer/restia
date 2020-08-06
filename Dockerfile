@@ -28,11 +28,13 @@ run ./configure \
 # cleanup
 run rm -rf /tmp/*
 
+run git config --global url."https://github.com/".insteadOf "git@github.com:"
+
 # LuaJIT
 workdir /tmp
 copy http://luajit.org/download/LuaJIT-2.0.4.tar.gz LuaJIT-2.0.4.tar.gz
-run tar -xzf LuaJIT-*.tar.gz
-workdir LuaJIT-2.0.4
+run tar -xzf LuaJIT-*.tar.gz; rm *.tar.gz; mv LuaJIT-* luajit
+workdir luajit
 run make -j $(nproc) && make install
 # cleanup
 run rm -rf /tmp/*
@@ -41,8 +43,8 @@ run rm -rf /tmp/*
 workdir /tmp
 run apk add unzip
 copy http://luarocks.github.io/luarocks/releases/luarocks-3.2.1.tar.gz luarocks-3.2.1.tar.gz
-run tar -xzf luarocks-*.tar.gz
-workdir luarocks-3.2.1
+run tar -xzf luarocks-*.tar.gz; rm *.tar.gz; mv luarocks-* luarocks
+workdir luarocks
 run ./configure && make bootstrap
 # cleanup
 run rm -rf /tmp/*
