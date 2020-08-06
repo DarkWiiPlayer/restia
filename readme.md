@@ -91,7 +91,7 @@ How do I build cool stuff?
 - Check out `getting-started.md` in this repo for a detailed explanation.
 - Just inspect the source tree, specially `controllers`, `views` and `config`.
 - Read the documentation for detailed descriptions of what everything does.
-- Wear sunglasses. <!--Does this look like a tan trenchcoat situation to you?-->
+- Wear sunglasses. 😎<!--Does this look like a tan trenchcoat situation to you?-->
 
 Some Examples
 --------------------------------------------------------------------------------
