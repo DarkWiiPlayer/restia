@@ -129,7 +129,7 @@ function utils.deepen(tab)
 	return deep
 end
 
-local utils.tree = {}
+utils.tree = {}
 
 --- Inserts a value into a tree.
 -- Every node in the tree, not only leaves, can hold a value.
