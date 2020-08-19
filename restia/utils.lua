@@ -129,6 +129,58 @@ function utils.deepen(tab)
 	return deep
 end
 
+local utils.tree = {}
+
+--- Inserts a value into a tree.
+-- Every node in the tree, not only leaves, can hold a value.
+-- The special index __value is used for this and should not appear in the route.
+-- @tparam table head The tree to insert the value into.
+-- @tparam table route A list of values to recursively index the tree with.
+-- @param value Any Lua value to be inserted into the tree.
+-- @treturn table The head node of the tree.
+-- @see tree.get
+-- @usage
+-- 	local insert = restia.utils.tree.insert
+-- 	local tree = {}
+-- 	insert(tree, {"foo"}, "value 1")
+-- 	-- Nodes can have values and children at once
+-- 	insert(tree, {"foo", "bar"}, "value 2")
+-- 	-- Keys can be anything
+-- 	insert(tree, {function() end, {}}, "value 2")
+-- @function tree.insert
+function utils.tree.insert(head, route, value)
+  local tail = head
+	for i, key in ipairs(route) do
+		local next = tail[key]
+		if not next then
+			next = {}
+			tail[key] = next
+		end
+		tail = next
+	end
+	tail.__value = value
+  return head
+end
+
+--- Gets a value from a tree.
+-- @tparam table head The tree to retreive the value from.
+-- @tparam table route A list of values to recursively index the tree with.
+-- @return The value at the described node in the tree.
+-- @see tree.insert
+-- @usage
+-- 	local tree = { foo = { bar = { __value = "Some value" }, __value = "Unused value" } }
+-- 	restia.utils.tree.get(tree, {"foo", "bar"})
+-- @function tree.get
+function utils.tree.get(head, route)
+	for i, key in ipairs(route) do
+		head = head[key]
+		if not head then
+			return nil
+		end
+	end
+	return head.__value
+end
+
 local function files(dir, func)
 	for path in lfs.dir(dir) do
 		if path:sub(1, 1) ~= '.' then
