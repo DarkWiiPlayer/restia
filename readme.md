@@ -336,6 +336,7 @@ Changelog
 
 ### Development
 
+- Add `restia.utils.tree` submodule
 - Add `restia.request` module
 - Add `restia.accessors` module
 - Add `restia.callsign` module (Name subject to future change)

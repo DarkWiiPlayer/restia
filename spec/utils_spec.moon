@@ -62,3 +62,11 @@ describe "utils.escape", ->
 		assert.equal "&lt;hello&gt;", restia.utils.escape("<hello>")
 	it "should escape quotation marks", ->
 		assert.equal "&quot;G&#039;day&quot;", restia.utils.escape([["G'day"]])
+
+describe "utils.tree", ->
+	describe "insert", ->
+		it "should insert a node into a tree", ->
+			assert.same { foo: { bar: { __value: "test" } } }, restia.utils.tree.insert({}, {"foo", "bar"}, "test")
+	describe "get", ->
+		it "should retreive a key from a tree", ->
+			assert.equal "test", restia.utils.tree.get({ foo: { bar: { __value: "test" } } }, { "foo", "bar" })

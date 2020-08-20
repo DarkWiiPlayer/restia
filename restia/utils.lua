@@ -149,7 +149,7 @@ utils.tree = {}
 -- 	insert(tree, {function() end, {}}, "value 2")
 -- @function tree.insert
 function utils.tree.insert(head, route, value)
-  local tail = head
+	local tail = head
 	for i, key in ipairs(route) do
 		local next = tail[key]
 		if not next then
@@ -159,7 +159,7 @@ function utils.tree.insert(head, route, value)
 		tail = next
 	end
 	tail.__value = value
-  return head
+	return head
 end
 
 --- Gets a value from a tree.
