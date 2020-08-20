@@ -117,14 +117,6 @@ restia_html = moonxml.html:derive(function(_ENV)
 		end
 	end
 
-	--- Renders a HTML5 doctype in place.
-	-- @function html5
-	-- @usage
-	-- 	html5()
-	function html5()
-		print('<!doctype html>')
-	end
-
 	--- Renders an unordered list.
 	-- List elements can be any valid MoonHTML data object,
 	-- including functions and tables.
