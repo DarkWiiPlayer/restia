@@ -161,10 +161,7 @@ if cosmo then
 		name = tostring(name) .. '.cosmo'
 		local file = io.open(name)
 		if file then
-			return setmetatable(
-				{raw=assert(cosmo.compile(file:read("*a"), name)), name=name},
-				template.metatable
-			)
+			return assert(cosmo.compile(file:read("*a"), name))
 		else
 			return nil
 		end
