@@ -81,25 +81,27 @@ commands:add('reload <configuration>', [[
 	os.execute(openresty:gsub('openresty.conf', config)..'-s reload')
 end)
 
-commands:add('compile <template>', [[
-	Compiles an template.
-	<template> Config path to the template
+commands:add('compile <resource> <output>', [[
+	Compiles an resource (most commonly a template).
+	<resource> Config path to the resoutce
+	<output> The output file to save the rendered resoutce to.
 	--root <root> The config root to bind to
-	--arguments <path> Config path to an argument to pass to the template
-  The default argument is the config root
+	--arguments <path> Config path to an argument to pass to the resoutce
+  The default argument is the config root.
+  THe default config root is the current directory.
 ]], function(...)
 	local options = arrr {
 		{ "Binds to another root directory", "root", "R", "root" };
-		{ "Passes this config entry as argument to the template", "arguments", "a", "path" };
+		{ "Passes this config entry as argument to the resoutce", "arguments", "a", "path" };
 	} { ... }
 	local config = restia.config.bind(options.root or ".")
 	local outfile = options[2] or options[1]:match("[^%.]+$")
-	local template = restia.utils.deepindex(config, options[1])
-	if not template then
-		error("Could not find template: "..options[1])
+	local resoutce = restia.utils.deepindex(config, options[1])
+	if not resoutce then
+		error("Could not find resoutce: "..options[1])
 	end
 	local arguments = options.arguments and restia.utils.deepindex(config, options.arguments) or config
-	local result = template(arguments)
+	local result = resoutce(arguments)
 	if type(result)=="table" then
 		result = restia.utils.deepconcat(result)
 	elseif type(result)=="function" then
