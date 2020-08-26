@@ -43,7 +43,7 @@ commands:add('new <target>', [[
 	local options = arrr {
 		{ "Type of application", "type", "t", {"type"} };
 	} {...}
-	name = options[1] or error("No asset name given!")
+	name = options[1] or commands.help('^new ') or error("No target directory given!")
 	utils.builddir(nil, {[name] = project.new(options.type)})
 end)
 
