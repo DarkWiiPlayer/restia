@@ -137,13 +137,27 @@ commands:add('manpage <directory>', [[
 	end
 end)
 
-commands:add('help', [[
-	Prints this help and exits.
-]], function()
-	print(help)
-	for idx, command in ipairs(commands) do
-		print((c('%{green}'..command.name):gsub('<.->', c.blue):gsub('%-%-%a+', c.yellow)))
-		print((command.description:gsub('<.->', c.blue):gsub('%-%-%a+', c.yellow)))
+commands:add('help <command>', [[
+	Prints help and exits.
+]], function(name)
+	if name then
+		local found = false
+		for idx, command in ipairs(commands) do
+			if command.name:find(name) then
+				print((c('%{green}'..command.name):gsub('<.->', c.blue):gsub('%-%-%a+', c.yellow)))
+				print((command.description:gsub('<.->', c.blue):gsub('%-%-%a+', c.yellow)))
+				found = true
+			end
+		end
+		if not found then
+			print("No restia command matching your query: "..c.yellow(name))
+		end
+	else
+		print(help)
+		for idx, command in ipairs(commands) do
+			print((c('%{green}'..command.name):gsub('<.->', c.blue):gsub('%-%-%a+', c.yellow)))
+			print((command.description:gsub('<.->', c.blue):gsub('%-%-%a+', c.yellow)))
+		end
 	end
 end)
 
