@@ -45,6 +45,18 @@ function config.loaders:insert(name, func)
 	self[name] = func
 end
 
+local __metatable = {}
+function __metatable:__index(index)
+	if type(index)~="string" then return nil end
+	for i, loader in ipairs(self.__loaders) do
+		local result = loader(self.__dir..'/'..index)
+		if result then
+			rawset(self, index, result)
+			return result
+		end
+	end
+end
+
 --- Binds a table to a config directory.
 -- The returned table maps keys to configurations, which are handled by different "loaders". loaders are handlers that try loading a config entry in a certain format and are tried  sequentially until one succeeds. If no loader matches, nil is returned.
 -- @tparam string dir Path to the directory to look in.
@@ -57,16 +69,7 @@ end
 -- 	-- in the configurations directory
 function config.bind(dir, loaders)
 	loaders = loaders or config.loaders
-	return setmetatable({__dir=dir}, {__index = function(self, index)
-		if type(index)~="string" then return nil end
-		for i, loader in ipairs(loaders) do
-			local result = loader(self.__dir..'/'..index)
-			if result then
-				rawset(self, index, result)
-				return result
-			end
-		end
-	end})
+	return setmetatable({__dir=dir, __loaders=loaders}, __metatable)
 end
 
 --- Config loaders.
@@ -84,9 +87,29 @@ if lfs then
 			return config.bind(dir)
 		end
 	end)
+
+	function __metatable:__pairs()
+		local _, dir = lfs.dir(self.__dir)
+		local function next_config(dir)
+			local file = dir:next()
+			if file then
+				local name = file:match("[^%.]+")
+				if self[name] then
+					return name, self[name]
+				else
+					return next_config(dir)
+				end
+			else
+				return nil -- End of iteration
+			end
+		end
+		return next_config, dir
+	end
 else
 	warn("Could not require lfs; directory recursion disabled")
 end
+
+config.pairs = __metatable.__pairs
 
 local discount = try_require 'discount'
 if discount then
