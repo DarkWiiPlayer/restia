@@ -2,7 +2,7 @@ rockspec_format = "3.0"
 package = "restia"
 version = "dev-1"
 source = {
-	url = "git://github.com/DarkWiiPlayer/restia.git";
+	url = "git+https://github.com/DarkWiiPlayer/restia.git";
 }
 description = {
 	summary = "Auxiliary library for dynamic web content in openresty";
