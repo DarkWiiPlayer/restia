@@ -15,10 +15,8 @@ description = {
 }
 dependencies = {
 	"lua ~> 5";
-	"busted";
 	"cosmo";
 	"lua-resty-cookie";
-	"luacheck";
 	"luafilesystem";
 	"luaossl";
 	"lunamark";
