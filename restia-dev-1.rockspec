@@ -18,6 +18,7 @@ dependencies = {
 	"cosmo";
 	"lua-resty-cookie";
 	"luafilesystem";
+	"lua-cjson";
 	"luaossl";
 	"lunamark";
 	"lyaml";
