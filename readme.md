@@ -321,15 +321,15 @@ Contributing
 In general, all meaningful contributions are welcome
 under the following conditions:
 
-- All commit messages must be meaningful. (No "updated file X", etc.)
-- Commits must consist of (Atomic) changes that fit together.
-- PGP-Signing commits is not mandatory, but encouraged.
+- All commit messages MUST be meaningful and [properlt formatted](https://chris.beams.io/posts/git-commit/).
+- Commits SHOULD NOT group unrelated features.
+- Exported functions MUST be documented in [LDoc][ldoc] style.
+- Local functions SHOULD be documented as well.
+- Contributors MUST appear in `contributors.lua`.
+- Contributors MAY add custom fields to their `contributors.lua` entry.
+- Commits modifying `contributors.lua` MUST be signed.
 
-After submitting a larger change, feel free to add your name to the
-"contributors.lua" file. Please PGP-sign at least that commit though.
-
-All newly added code should be documented. The project uses [LDoc][ldoc] to
-generate documentation, so its format should be used.
+See [RFC2119][rfc2119] if you're wondering about the weird capitalization.
 
 Changelog
 --------------------------------------------------------------------------------
@@ -370,3 +370,4 @@ License: [The Unlicense][unlicense]
 [moonxml]:    https://github.com/darkwiiplayer/moonxml "MoonXML"
 [openresty]:  http://openresty.org/en/ "OpenResty"
 [unlicense]:  https://unlicense.org "The Unlicense"
+[rfc2119]:    https://tools.ietf.org/html/rfc2119 "Request for Comment 2119"
