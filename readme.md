@@ -15,10 +15,10 @@ performance, but can easily be adapted to use different host APIs.
 
 ### What makes it different?
 
-* **Simplicity**: Restia has a very small codebase.
+* **Simplicity**: Restia has a small codebase and clear structure.
 * **Modularity**: You can use the whole thing—or just a single function.
-* **No Elves**: Nothing "just happens" on your behalf until you tell it to.
-* **Performance**: Who would have guessed that less code runs in less time?
+* **No Elves**: Things don't "just happen" unless told to.
+* **Performance**: Low overhead means short code paths.
 
 ### What makes it *special*?
 
@@ -52,13 +52,12 @@ know how to use.
 <details>
 <summary>No magical state transfer</summary>
 
-Restia doesn't share any data between objects or contexts behind the scenes.
-This means that all data-transfer is explicit
-and happens in the form of function arguments.
+Restia doesn't take care of the plumbing behind the scenes.
+Data should be passed around explicitly as function arguments to avoid
+over-sharing—both for security and predictability.
 
-You stay in control of how the data flows through your application;
-and it's up to you to make everything global, rely heavily on lexical scoping
-or just pass your entire data around as long lists of arguments.
+It's up to the developer to selectively override this and introduce global state
+where necessary.
 <hr>
 </details>
 
@@ -114,6 +113,7 @@ local views = require("views")
 require('restia.controller').xpcall(function(req)
 	return ngx.say(views.hello{ name = "World" })
 end, require 'error')
+-- error.lua is generated in lib/ with the default project.
 ```
 
 This controller simply renders a template called `hello` with an additional
@@ -286,27 +286,6 @@ Typical workarounds:
 	`require`ing a module
 
 OpenResty issue: https://github.com/openresty/lua-nginx-module/issues/1292
-
-<!--
-Rationale
---------------------------------------------------------------------------------
-
-Compared to many other "modern web frameworks", Restia takes a somewhat more
-traditional approach. One of its core design principles is to keep all magic to
-an absolute minimum. This choice obviously sacrifices some degree of convenience
-for the sake of having less surprises, but instead gains the benefit of being
-easier to integrate into existing environments, easier to predict (both in terms
-of performance and outcome) and easier to hack.
-
-What this obviously entails is that Restia will never be the framewrok of choice
-for quick prototyping or maintaining a large number of internal-use, low
-throughput web-applications.
-
-Instead, it aims to provide a good enough compromise. By keeping boilerplate to
-a manageable minimum and allowing several stages of integration, it makes it
-easy to build a somewhat slower prototype quickly and then refactor it easily
-and without much effort.
--->
 
 Planned features
 --------------------------------------------------------------------------------
