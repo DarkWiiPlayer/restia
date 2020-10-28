@@ -87,8 +87,8 @@ commands:add('compile <resource> <output>', [[
 	<output> The output file to save the rendered resoutce to.
 	--root <root> The config root to bind to
 	--arguments <path> Config path to an argument to pass to the resoutce
-  The default argument is the config root.
-  THe default config root is the current directory.
+	The default argument is the config root.
+	THe default config root is the current directory.
 ]], function(...)
 	local options = arrr {
 		{ "Binds to another root directory", "root", "R", "root" };

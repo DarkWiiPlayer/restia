@@ -98,7 +98,7 @@ function utils.deepinsert(tab, path, value)
 			return utils.deepinsert(current, rest, value)
 		else
 			tab[index] = value
-      return value or true
+			return value or true
 		end
 	else
 		return nil, "malformed index-path string"

@@ -103,12 +103,12 @@ restia_html = moonxml.html:derive(function(_ENV)
 	-- 	stylesheet 'styles/site.css'
 	-- 	stylesheet 'styles/form.css', true
 	stylesheet = function(uri, async)
-    if type(uri)=="table" then
-      for i, _uri in ipairs(uri) do
-        stylesheet(_uri, async)
-      end
-      return
-    end
+		if type(uri)=="table" then
+			for i, _uri in ipairs(uri) do
+				stylesheet(_uri, async)
+			end
+			return
+		end
 		if async then
 			link({rel='stylesheet', href=uri, type='text/css', media='print', onload='this.media=`all`'})
 		else
