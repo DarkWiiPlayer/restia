@@ -1,4 +1,4 @@
 #!/bin/sh
-podman build --no-cache . -t restia \
+podman build "$@" . -t restia \
 	&& (notify-send --icon=info 'Container build completed :)' && true) \
 	|| (notify-send --icon=error 'Container build failed :(' && false)
