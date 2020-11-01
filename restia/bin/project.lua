@@ -8,11 +8,10 @@ local generators = {}
 
 function generators.controller()
 	return I[[
-		|local views = require("views")
-		|
-		|require('restia.controller').xpcall(function(req)
-		|	return ngx.say(views.front{ domain = req.host })
-		|end, require 'error')
+		|return function(req)
+		|	local views = require("views")
+		|	return ngx.say(views.front{domain = req.host})
+		|end
 	]]
 end
 
@@ -56,15 +55,16 @@ function generators.application()
 			|
 			|	init_by_lua_block {
 			|		-- Preload modules
-			|		local restia = require 'restia'
+			|		restia = require 'restia'
+			|
 			|		require 'config'
 			|		require 'views'
 			|
 			|		restia.template.require 'template.cosmo'
 			|
-			|		-- Error view to be preloaded lest the error handler fails
+			|		-- Pre-require some stuff to work around openresty bug
 			|		-- (Openresty bug related to coroutines)
-			|		local _ = require('views').error
+			|		local _ = require('views').error, restia.controller
 			|	}
 			|
 			|	server {
@@ -78,10 +78,10 @@ function generators.application()
 		locations = {
 			root = I[[
 				|location = / {
-				|	content_by_lua_file "controllers/front.lua";
+				|	content_by_lua_block { restia.controller.serve("front", "error") }
 				|}
 				|location / {
-				|	if (-f controllers$uri.lua) { content_by_lua_file controllers$uri.lua; }
+				|	if (-f controller$uri.lua) { content_by_lua_block { restia.controller.serve("main", "error") } }
 				|
 				|	root static;
 				|	try_files $uri =404;
@@ -89,7 +89,7 @@ function generators.application()
 			]];
 		};
 		static = { [".gitignore"] = "" };
-		controllers = {
+		controller = {
 			['front.lua'] = generators.controller();
 		};
 		views = {

@@ -22,8 +22,12 @@ end
 -- @return The return value of the action function.
 function controller.xpcall(action, handler)
 	return exit_on_failure(xpcall(function()
-		return action(require('restia.request'))
+		return action(restia.request)
 	end, handler))
+end
+
+function controller.serve(controllermodule, errormodule)
+	controller.xpcall(require('controller.'..controllermodule), require(errormodule))
 end
 
 return controller
