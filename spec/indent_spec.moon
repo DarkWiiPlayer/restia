@@ -1,5 +1,3 @@
-lfs = require 'lfs'
-
 tabbed = (path) ->
 	file = assert io.open path
 	for line in file\lines! do
@@ -7,25 +5,11 @@ tabbed = (path) ->
 			return false
 	true
 
-scan = (root, files={}) ->
-	for path in lfs.dir root
-		unless path\find '^%.'
-			path = root .. "/" .. path
-			attributes = lfs.attributes(path)
-			if attributes.mode == 'directory'
-				scan path, files
-			else
-				table.insert(files, path) if path\find '.lua$'
-	files
+files = {}
+for file in assert(io.popen("git ls-files '*.lua' '*.moon'"))\lines!
+	table.insert(files, file)
 
-files = scan 'restia'
-files = scan 'bin', files
-
-describe 'lfs', ->
-	it 'is available', ->
-		assert.not.nil lfs
-
-describe 'Lua file', ->
+describe 'Source file', ->
 	for file in *files
 		describe file, ->
 			it "Should not use spaces for indentation", ->
