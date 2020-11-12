@@ -39,7 +39,7 @@ end
 -- This is hopefully a bit faster and more versatile than the normalizeindent function.
 function utils.unpipe(block)
 	return block:gsub('[^\n]+', function(line)
-		return line:gsub('^%s*|', '')
+		return line:gsub('^%s*|', ''):gsub('^%s+$', '')
 	end)
 end
 
@@ -302,7 +302,6 @@ function utils.builddir(prefix, tab)
 			)
 			local file = assert(io.open(path,'w'))
 			file:write(value)
-			file:write('\n')
 			file:close()
 
 		elseif value==false then
