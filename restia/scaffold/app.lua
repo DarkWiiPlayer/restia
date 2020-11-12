@@ -77,10 +77,20 @@ return function()
 		static = { [".gitignore"] = "" };
 		controller = {
 			['front.lua'] = I[[
-				|return function(req)
-				|	local views = require("views")
-				|	return ngx.say(views.front{domain = req.host})
-				|end
+				|local json = require 'cjson'
+				|local views = require("views");
+				|
+				|return function(req);
+				|	local data = { domain = req.host }
+				|	return req:offer {
+				|		{'application/json', function(req)
+				|			return json.encode(data)
+				|		end};
+				|		{'text/html', function(req)
+				|			return '<h1>Hello, World!</h1>'
+				|		end};
+				|	}
+				|end;
 			]];
 		};
 		views = {
