@@ -12,18 +12,16 @@ math.randomseed(os.time())
 local restia = require 'restia'
 local arrr = require 'arrr'
 
-local commands = restia.commands
+local commands = restia.bin.commands
 local utils = restia.utils
 local c = restia.colors
-local project = restia.bin.project
 
 local I = utils.normalizeindent
 
 local function uid()
 	local id_u = io.popen("id -u")
 	local id = tonumber(id_u:read())
-	id_u:close()
-	return id
+	id_u:close() return id
 end
 
 local help = [[
@@ -35,16 +33,11 @@ Available commands:
 
 local openresty = [[openresty -p . -c openresty.conf -g 'daemon off;' ]]
 
-commands:add('new <target>', [[
-	Creates a new application or asset at the target location.
-	<target> File or directory to write the asset to
-	--type <type> Type of asset to create
-]], function(...)
-	local options = arrr {
-		{ "Type of application", "type", "t", {"type"} };
-	} {...}
-	name = options[1] or commands.help('^new ') or error("No target directory given!")
-	utils.builddir(nil, {[name] = project.new(options.type)})
+commands:add('new <scaffold>', [[
+	Generates a builtin scaffold
+	(shortcut for restia scaffold restia.scaffold.<scaffold>)
+]], function(name, ...)
+	commands.scaffold("restia.scaffold."..tostring(name), ...)
 end)
 
 commands:add('test <lua> <configuration>', [[
@@ -135,6 +128,16 @@ commands:add('manpage <directory>', [[
 		output:write(restia.bin.manpage)
 		output:close()
 	end
+end)
+
+commands:add('scaffold <module> <scaffold-options>', [[
+	Generates a new scaffold from a module.
+]], function(name, ...)
+	if not name then
+		return commands.help("scaffold")
+	end
+	local tree = require(name){...}
+	restia.utils.builddir(".", tree)
 end)
 
 commands:add('help <command>', [[

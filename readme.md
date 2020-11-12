@@ -66,7 +66,7 @@ where necessary.
 Assuming you have [openresty][openresty] installed:
 
 	luarocks install restia --dev --lua-version 5.1
-	restia new application && cd application
+	restia new app
 	restia run &
 
 That's it.
@@ -158,6 +158,26 @@ end, require 'error')
 ```
 
 Assuming the `views/data.xxx` template renders the data to HTML somehow.
+
+Scaffolding / Generators
+--------------------------------------------------------------------------------
+
+Restia has a simple scaffolding mechanism which essentially wraps the
+`restia.utils.builddir` function within the `restia` executable.
+
+The concept is simple: A scaffold generator is a Lua module that returns a
+function. This function, when called, should return a table representing the
+changes to be applied to the current directory.
+
+The `restia scaffold` command accepts a module name and a list of extra
+arguments to be passed to the generator script as a table, to be evaluated
+internally.
+
+More advanced scaffolds may choose to provide their own help flag.
+
+The `restia new` command is a shortcut to builtin Restia generators that
+internally calls `restia scaffold` prepending `'restia.scaffold.'` to the module
+name.
 
 Modules
 --------------------------------------------------------------------------------
@@ -315,6 +335,7 @@ Changelog
 
 ### Development
 
+- Add simple scaffolding/generators system
 - Add `restia.utils.tree` submodule
 - Add `restia.request` module
 - Add `restia.accessors` module

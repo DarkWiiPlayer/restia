@@ -1,21 +1,7 @@
 local restia = require 'restia'
-
 local I = restia.utils.unpipe
 
-local project = {}
-
-local generators = {}
-
-function generators.controller()
-	return I[[
-		|return function(req)
-		|	local views = require("views")
-		|	return ngx.say(views.front{domain = req.host})
-		|end
-	]]
-end
-
-function generators.application()
+return function()
 	local dir = {
 		['.gitignore'] =
 		I[============[
@@ -90,7 +76,12 @@ function generators.application()
 		};
 		static = { [".gitignore"] = "" };
 		controller = {
-			['front.lua'] = generators.controller();
+			['front.lua'] = I[[
+				|return function(req)
+				|	local views = require("views")
+				|	return ngx.say(views.front{domain = req.host})
+				|end
+			]];
 		};
 		views = {
 			['front.cosmo.moonhtml'] = I[[
@@ -288,10 +279,3 @@ function generators.application()
 	}
 	return dir
 end
-
-function project.new(t)
-	t = t or 'application'
-	return generators[t]()
-end
-
-return project
