@@ -70,3 +70,16 @@ describe "utils.tree", ->
 	describe "get", ->
 		it "should retreive a key from a tree", ->
 			assert.equal "test", restia.utils.tree.get({ foo: { bar: { __value: "test" } } }, { "foo", "bar" })
+
+describe "utils.mixin", ->
+	it "should return the first table", ->
+		first = {}
+		assert.equal first, restia.utils.mixin first, { foo: "foo" }
+	it "should mix in flat values", ->
+		assert.same { foo: "foo", bar: "bar" }, restia.utils.mixin { foo: "foo" }, { bar: "bar" }
+	it "should mix in recursively", ->
+		assert.same { foo: { bar: "bar", baz: "baz" } },
+			restia.utils.mixin { foo: { bar: "bar" } }, { foo: { baz: "baz" } }
+	it "should mix tables over non-tables", ->
+		assert.same { foo: { "bar" } },
+			restia.utils.mixin { foo: 20 }, { foo: { "bar" } }

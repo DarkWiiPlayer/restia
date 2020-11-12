@@ -26,6 +26,25 @@ function utils.escape(str)
 	return (tostring(str):gsub(escapes.pattern, escapes))
 end
 
+--- Mixes several tables into another and returns it.
+function utils.mixin(first, second, ...)
+	if type(second)=="table" then
+		for key, value in pairs(second) do
+			if type(value) == "table" then
+				if type(first[key]) ~= "table" then
+					first[key] = {}
+				end
+				utils.mixin(first[key], value)
+			else
+				first[key] = value
+			end
+		end
+		return utils.mixin(first, ...)
+	else
+		return first
+	end
+end
+
 --- Removes excessive indentation from a block of text
 function utils.normalizeindent(block)
 	local indent = '^'..(block:match("^%s+") or '')
