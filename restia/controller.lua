@@ -36,12 +36,13 @@ end
 -- @tparam string controllermodule The module name to `require` to get the controller.
 -- @tparam[opt="error"] string errormodule The module name of the error handler.
 -- @tparam[opt] string action The table path to the event handler.
-function controller.serve(controllermodule, errormodule, action)
+-- @param ... Additional arguments to be passed to the handler.
+function controller.serve(controllermodule, errormodule, action, ...)
 	local handler = require('controller.'..controllermodule)
 	if action then
 		handler = restia.utils.deepindex(handler, action)
 	end
-	controller.xpcall(handler, require(errormodule or 'error'))
+	controller.xpcall(handler, require(errormodule or 'error'), ...)
 end
 
 return controller
