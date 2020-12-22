@@ -50,7 +50,7 @@ return function()
 			|
 			|		-- Pre-require some stuff to work around openresty bug
 			|		-- (Openresty bug related to coroutines)
-			|		local _ = require('views').error, restia.controller
+			|		local _ = require('views').error, restia.handler
 			|	}
 			|
 			|	server {
@@ -64,10 +64,10 @@ return function()
 		locations = {
 			root = I[[
 				|location = / {
-				|	content_by_lua_block { restia.controller.serve("front", "error") }
+				|	content_by_lua_block { restia.handler.serve("front", "error") }
 				|}
 				|location / {
-				|	if (-f controller$uri.lua) { content_by_lua_block { restia.controller.serve("main", "error") } }
+				|	if (-f controller$uri.lua) { content_by_lua_block { restia.controller.serve("controller.main", "error") } }
 				|
 				|	root static;
 				|	try_files $uri =404;
