@@ -110,15 +110,13 @@ In a controller at `controllers/hello.lua`
 ```lua
 local views = require("views")
 
-require('restia.controller').xpcall(function(req)
+return function(req)
 	return ngx.say(views.hello{ name = "World" })
-end, require 'error')
--- error.lua is generated in lib/ with the default project.
+end
 ```
 
 This controller simply renders a template called `hello` with an additional
-argument. It runs in a wrapper that takes care of error reporting for easier
-debugging.
+argument.
 
 Then, in a view at `views/hello.cosmo.moonhtml`
 
@@ -133,11 +131,18 @@ The resulting cosmo template will look like this:
 When a user accesses the route, the cosmo template gets rendered and the
 variable `$name` is replaced with "World", giving us "Hello, World!".
 
+This behavior is not mandatory: one can also write a `hello.moonhtml` template
+that will get rendered anew for every request. This will decrease performance
+though, since the MoonXML renderer is much more expensive.
+
 ### Simple Content Negotiation
 
 Say you have some data like `{ name = "bob", hobby = "web-dev" }` and want to
 present that information in different content types depending on the clients
-`accept` header. The controller could look this:
+`accept` header.
+
+Assuming there's a "data" template in the vews directory,
+the controller could look this:
 
 ```lua
 local views = require 'views'
@@ -145,19 +150,17 @@ local json = require 'cjson'
 
 local data = { name = "bob", hobby = "web-dev" }
 
-require('restia.controller').xpcall(function(req)
-  req:offer {
-    {"application/json", function(req)
-      return json.encode(data)
-    end};
-    {"text/html", function(req)
-      return views.data(data)
-    end};
-  }
-end, require 'error')
+return function(req)
+	req:offer {
+		{"application/json", function(req)
+			return json.encode(data)
+		end};
+		{"text/html", function(req)
+			return views.data(data)
+		end};
+	}
+end
 ```
-
-Assuming the `views/data.xxx` template renders the data to HTML somehow.
 
 Scaffolding / Generators
 --------------------------------------------------------------------------------
@@ -191,7 +194,7 @@ module. This module is passed automatically to every request handler wrapped
 in `restia.controller.xpcall` as its first argument.
 
 It wraps openresty functions to access request data and adds functionality to
-many of them, allowing the user to e. g. easily read and set cookies or access
+many of them, allowing the user to e.g. easily read and set cookies or access
 request parameters in a variety of formats.
 
 ### Config
@@ -211,12 +214,13 @@ series of convenient functions for common HTML structures.
 
 ### Controller
 
-The `restia.controller` module provides a simple helper function
-that accepts the main controller code and an error handler.
-It acts very similar to `xpcall`,
-but in case of error,
-it runs the message handler
-and instantly terminates the request.
+The `restia.controller` module provides helper functions to find and call
+request handlers. It supports both a *one handler per file* approach, where the
+controller module returns a function, or a more rails-like system where each
+controller has several actions (that is, the module returns a table).
+
+The module also takes care of catching errors and running a handler that can
+take care of reporting the error in a suitable manner.
 
 ### Secret
 
@@ -342,7 +346,7 @@ Changelog
 - Add `restia.callsign` module (Name subject to future change)
 - Add `restia.negotiator` module
 - Add `restia.template.require` function
-- Add `restia.controller` module
+- Add `restia.handler` module (formerly `restia.controller`)
 - Add `restia.secret` module
 - Add support for moonhtml+cosmo multistage templates
 - Add support for cosmo templates
