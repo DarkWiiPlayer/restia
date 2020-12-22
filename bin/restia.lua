@@ -24,6 +24,10 @@ local function uid()
 	id_u:close() return id
 end
 
+local builtin_scaffolds = {
+	app = "Generic web-application using Openresty";
+}
+
 local help = [[
 Restia Commandline Utility
 --------------------------
@@ -37,7 +41,14 @@ commands:add('new <scaffold>', [[
 	Generates a builtin scaffold
 	(shortcut for restia scaffold restia.scaffold.<scaffold>)
 ]], function(name, ...)
-	commands.scaffold("restia.scaffold."..tostring(name), ...)
+	if name and builtin_scaffolds[name] then
+		commands.scaffold("restia.scaffold."..tostring(name), ...)
+	else
+		print("Builtin Scaffolds:")
+		for scaffold, description in pairs(builtin_scaffolds) do
+			print("", c.yellow(scaffold) .. ": " .. description)
+		end
+	end
 end)
 
 commands:add('test <lua> <configuration>', [[
