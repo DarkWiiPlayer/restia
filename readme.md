@@ -232,7 +232,7 @@ Building the Documentation
 --------------------------------------------------------------------------------
 
 Restia doesn't install its documentation with luarocks, so it has to be built
-manually or read [online][doc]. To build it, simply install [ldoc](ldoc), clone
+manually or read [online][doc]. To build it, simply install [ldoc][ldoc], clone
 the restia repository and run `ldoc .` in its top level directory. The docs will
 be generated in the `doc` folder by default.
 
@@ -369,7 +369,7 @@ License: [The Unlicense][unlicense]
 
 [cosmo]:      http://www.cosmo.luaforge.net/ "Cosmo Templating Engine"
 [doc]:        https://darkwiiplayer.github.io/restia "Restia Documentation"
-[ldoc]:       https://github.com/stevedonovan/LDoc, "LDoc - A Lua Documentation Tool"
+[ldoc]:       https://github.com/stevedonovan/LDoc "LDoc - A Lua Documentation Tool"
 [lunamark]:   https://github.com/jgm/lunamark "Lunamark"
 [moonxml]:    https://github.com/darkwiiplayer/moonxml "MoonXML"
 [openresty]:  http://openresty.org/en/ "OpenResty"
