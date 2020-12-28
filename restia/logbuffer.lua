@@ -1,9 +1,9 @@
 --- A very simple helper function.
--- @module restia.callsign
+-- @module restia.logbuffer
 -- @author DarkWiiPlayer
 -- @license Unlicense
 -- @usage
--- 	local msg = restia.callsign ()
+-- 	local msg = restia.logbuffer ()
 --
 -- 	msg:error 'You have made a mistake'
 -- 	msg:info 'No actions have been committed'
