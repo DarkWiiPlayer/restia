@@ -5,7 +5,8 @@ format = 'discount'
 topics = {
 	'readme.md',
 	'license.md',
-  'guides/getting-started.md',
+	'guides/getting-started.md',
+	'guides/controllers.md',
 }
 file = {
 	'restia', 'bin';
