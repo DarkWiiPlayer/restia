@@ -87,25 +87,25 @@ end)
 
 commands:add('compile <resource> <output>', [[
 	Compiles an resource (most commonly a template).
-	<resource> Config path to the resoutce
-	<output> The output file to save the rendered resoutce to.
+	<resource> Config path to the resource
+	<output> The output file to save the rendered resource to.
 	--root <root> The config root to bind to
-	--arguments <path> Config path to an argument to pass to the resoutce
+	--arguments <path> Config path to an argument to pass to the resource
 	The default argument is the config root.
 	THe default config root is the current directory.
 ]], function(...)
 	local options = arrr {
 		{ "Binds to another root directory", "root", "R", "root" };
-		{ "Passes this config entry as argument to the resoutce", "arguments", "a", "path" };
+		{ "Passes this config entry as argument to the resource", "arguments", "a", "path" };
 	} { ... }
 	local config = restia.config.bind(options.root or ".")
 	local outfile = options[2] or options[1]:match("[^%.]+$")
-	local resoutce = restia.utils.deepindex(config, options[1])
-	if not resoutce then
-		error("Could not find resoutce: "..options[1])
+	local resource = restia.utils.deepindex(config, options[1])
+	if not resource then
+		error("Could not find resource: "..options[1])
 	end
 	local arguments = options.arguments and restia.utils.deepindex(config, options.arguments) or config
-	local result = resoutce(arguments)
+	local result = resource(arguments)
 	if type(result)=="table" then
 		result = restia.utils.deepconcat(result)
 	elseif type(result)=="function" then
