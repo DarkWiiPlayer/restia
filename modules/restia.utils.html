@@ -39,11 +39,11 @@
 <h2>Modules</h2>
 <ul class="nowrap">
   <li><a href="../modules/restia.attributes.html">restia.attributes</a></li>
-  <li><a href="../modules/restia.bin.manpage.html">restia.bin.manpage</a></li>
-  <li><a href="../modules/restia.callsign.html">restia.callsign</a></li>
   <li><a href="../modules/restia.commands.html">restia.commands</a></li>
+  <li><a href="../modules/restia.bin.manpage.html">restia.bin.manpage</a></li>
   <li><a href="../modules/restia.config.html">restia.config</a></li>
-  <li><a href="../modules/restia.controller.html">restia.controller</a></li>
+  <li><a href="../modules/restia.handler.html">restia.handler</a></li>
+  <li><a href="../modules/restia.logbuffer.html">restia.logbuffer</a></li>
   <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
   <li><a href="../modules/restia.negotiator.html">restia.negotiator</a></li>
   <li><a href="../modules/restia.request.html">restia.request</a></li>
@@ -60,6 +60,7 @@
   <li><a href="../topics/readme.md.html">readme</a></li>
   <li><a href="../topics/license.md.html">license</a></li>
   <li><a href="../topics/getting-started.md.html">getting-started</a></li>
+  <li><a href="../topics/controllers.md.html">controllers</a></li>
 </ul>
 
 </div>
@@ -69,7 +70,6 @@
 <h1>Module <code>restia.utils</code></h1>
 <p>Utility functions for Restia</p>
 <p>
-
 </p>
     <h3>Info:</h3>
     <ul>
@@ -85,7 +85,11 @@
 	<td class="summary">Escapes special HTML characters in a string</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#normalize_indent">normalize_indent (block)</a></td>
+	<td class="name" nowrap><a href="#mixin">mixin (first, second, ...)</a></td>
+	<td class="summary">Mixes several tables into another and returns it.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#normalizeindent">normalizeindent (block)</a></td>
 	<td class="summary">Removes excessive indentation from a block of text</td>
 	</tr>
 	<tr>
@@ -93,20 +97,33 @@
 	<td class="summary">Removes leading whitespace up to and including a pipe character.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#deep_index">deep_index (object, keys)</a></td>
+	<td class="name" nowrap><a href="#deepindex">deepindex (tab, path)</a></td>
 	<td class="summary">Indexes tables recursively with a chain of string keys</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#deepinsert">deepinsert (tab, path, value)</a></td>
+	<td class="summary">Inserts a table into a nested table following a path.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#deepen">deepen (tab)</a></td>
 	<td class="summary">Turns a flat table and turns it into a nested table.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#rconcat">rconcat (tab, separator)</a></td>
+	<td class="name" nowrap><a href="#tree.insert">tree.insert (head, route, value)</a></td>
+	<td class="summary">Inserts a value into a tree.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tree.get">tree.get (head, route)</a></td>
+	<td class="summary">Gets a value from a tree.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#deepconcat">deepconcat (tab, separator)</a></td>
 	<td class="summary">Recursively concatenates a table</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#stack">stack (level)</a></td>
-	<td class="summary">Returns a list containing</td>
+	<td class="summary">Returns a list containing the result of <a href="https://www.lua.org/manual/5.1/manual.html#pdf-debug.getinfo">debug.getinfo</a> for every level in
+ the current call stack.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#randomhex">randomhex (n)</a></td>
@@ -121,7 +138,7 @@
 	<td class="summary">Deletes a file or directory recursively</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#build_dir">build_dir (prefix, tab)</a></td>
+	<td class="name" nowrap><a href="#builddir">builddir (prefix, tab)</a></td>
 	<td class="summary">Builds a directory structure recursively from a table template.</td>
 	</tr>
 </table>
@@ -146,6 +163,34 @@
         <li><span class="parameter">str</span>
 
 
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mixin"></a>
+    <strong>mixin (first, second, ...)</strong>
+    </dt>
+    <dd>
+    Mixes several tables into another and returns it.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">first</span>
+
+
+        </li>
+        <li><span class="parameter">second</span>
+
+
+        </li>
+        <li><span class="parameter">...</span>
+
 
         </li>
     </ul>
@@ -156,8 +201,8 @@
 
 </dd>
     <dt>
-    <a name = "normalize_indent"></a>
-    <strong>normalize_indent (block)</strong>
+    <a name = "normalizeindent"></a>
+    <strong>normalizeindent (block)</strong>
     </dt>
     <dd>
     Removes excessive indentation from a block of text
@@ -166,7 +211,6 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">block</span>
-
 
 
         </li>
@@ -184,13 +228,12 @@
     <dd>
     Removes leading whitespace up to and including a pipe character.
  This is used to trim off unwanted whitespace at the beginning of a line.
- This is hopefully a bit faster and more versatile than the normalize_indent function.
+ This is hopefully a bit faster and more versatile than the normalizeindent function.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">block</span>
-
 
 
         </li>
@@ -202,8 +245,8 @@
 
 </dd>
     <dt>
-    <a name = "deep_index"></a>
-    <strong>deep_index (object, keys)</strong>
+    <a name = "deepindex"></a>
+    <strong>deepindex (tab, path)</strong>
     </dt>
     <dd>
     Indexes tables recursively with a chain of string keys
@@ -211,13 +254,11 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">object</span>
-
+        <li><span class="parameter">tab</span>
 
 
         </li>
-        <li><span class="parameter">keys</span>
-
+        <li><span class="parameter">path</span>
 
 
         </li>
@@ -226,6 +267,41 @@
 
 
 
+
+</dd>
+    <dt>
+    <a name = "deepinsert"></a>
+    <strong>deepinsert (tab, path, value)</strong>
+    </dt>
+    <dd>
+    Inserts a table into a nested table following a path.
+ The path string mimics normal chained indexing in normal Lua.
+ Nil-elements along the path will be created as tables.
+ Non-nil elements will be indexed and error accordingly if this fails.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tab</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         A table or indexable object to recursively insert into
+        </li>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         A string describing the path to iterate
+        </li>
+        <li><span class="parameter">value</span>
+         The value that will be inserted
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">utils.deepinsert(some_table, <span class="string">'foo.bar.baz'</span>, value)</pre>
+    </ul>
 
 </dd>
     <dt>
@@ -241,7 +317,6 @@
         <li><span class="parameter">tab</span>
 
 
-
         </li>
     </ul>
 
@@ -252,8 +327,8 @@
     <ul>
         <pre class="example"><span class="keyword">local</span> deep = restia.utils.deep {
 	[<span class="string">'foo.bar.baz'</span>] = <span class="string">"hello"</span>;
-	[<span class="string">'foo.1'</span>] = <span class="string">"first"</span>;
-	[<span class="string">'foo.2'</span>] = <span class="string">"second"</span>;
+	[<span class="string">'foo[1]'</span>] = <span class="string">"first"</span>;
+	[<span class="string">'foo[2]'</span>] = <span class="string">"second"</span>;
 }
 <span class="comment">-- Is equal to
 </span><span class="keyword">local</span> deep = {
@@ -266,8 +341,97 @@
 
 </dd>
     <dt>
-    <a name = "rconcat"></a>
-    <strong>rconcat (tab, separator)</strong>
+    <a name = "tree.insert"></a>
+    <strong>tree.insert (head, route, value)</strong>
+    </dt>
+    <dd>
+    Inserts a value into a tree.
+ Every node in the tree, not only leaves, can hold a value.
+ The special index __value is used for this and should not appear in the route.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">head</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The tree to insert the value into.
+        </li>
+        <li><span class="parameter">route</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         A list of values to recursively index the tree with.
+        </li>
+        <li><span class="parameter">value</span>
+         Any Lua value to be inserted into the tree.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        The head node of the tree.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/restia.utils.html#tree.get">tree.get</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> insert = restia.utils.tree.insert
+<span class="keyword">local</span> tree = {}
+insert(tree, {<span class="string">"foo"</span>}, <span class="string">"value 1"</span>)
+<span class="comment">-- Nodes can have values and children at once
+</span>insert(tree, {<span class="string">"foo"</span>, <span class="string">"bar"</span>}, <span class="string">"value 2"</span>)
+<span class="comment">-- Keys can be anything
+</span>insert(tree, {<span class="keyword">function</span>() <span class="keyword">end</span>, {}}, <span class="string">"value 2"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "tree.get"></a>
+    <strong>tree.get (head, route)</strong>
+    </dt>
+    <dd>
+    Gets a value from a tree.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">head</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The tree to retreive the value from.
+        </li>
+        <li><span class="parameter">route</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         A list of values to recursively index the tree with.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The value at the described node in the tree.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/restia.utils.html#tree.insert">tree.insert</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> tree = { foo = { bar = { __value = <span class="string">"Some value"</span> }, __value = <span class="string">"Unused value"</span> } }
+restia.utils.tree.get(tree, {<span class="string">"foo"</span>, <span class="string">"bar"</span>})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "deepconcat"></a>
+    <strong>deepconcat (tab, separator)</strong>
     </dt>
     <dd>
     Recursively concatenates a table
@@ -278,10 +442,8 @@
         <li><span class="parameter">tab</span>
 
 
-
         </li>
         <li><span class="parameter">separator</span>
-
 
 
         </li>
@@ -297,13 +459,13 @@
     <strong>stack (level)</strong>
     </dt>
     <dd>
-    Returns a list containing
+    Returns a list containing the result of <a href="https://www.lua.org/manual/5.1/manual.html#pdf-debug.getinfo">debug.getinfo</a> for every level in
+ the current call stack.  The table also contains its length at index <code>n</code>.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">level</span>
-
 
 
         </li>
@@ -325,7 +487,6 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">n</span>
-
 
 
         </li>
@@ -391,8 +552,8 @@
 
 </dd>
     <dt>
-    <a name = "build_dir"></a>
-    <strong>build_dir (prefix, tab)</strong>
+    <a name = "builddir"></a>
+    <strong>builddir (prefix, tab)</strong>
     </dt>
     <dd>
     Builds a directory structure recursively from a table template.
@@ -416,7 +577,7 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">build_dir {
+        <pre class="example">builddir {
 	sub_dir = {
 		empty_file = <span class="string">''</span>
 	}
@@ -432,7 +593,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-07-07 21:30:10 </i>
+<i style="float:right;">Last updated 2021-01-03 16:45:09 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

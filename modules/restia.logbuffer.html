@@ -36,10 +36,10 @@
 <ul class="nowrap">
   <li><a href="../modules/restia.attributes.html">restia.attributes</a></li>
   <li><a href="../modules/restia.commands.html">restia.commands</a></li>
-  <li><strong>restia.bin.manpage</strong></li>
+  <li><a href="../modules/restia.bin.manpage.html">restia.bin.manpage</a></li>
   <li><a href="../modules/restia.config.html">restia.config</a></li>
   <li><a href="../modules/restia.handler.html">restia.handler</a></li>
-  <li><a href="../modules/restia.logbuffer.html">restia.logbuffer</a></li>
+  <li><strong>restia.logbuffer</strong></li>
   <li><a href="../modules/restia.markdown.html">restia.markdown</a></li>
   <li><a href="../modules/restia.negotiator.html">restia.negotiator</a></li>
   <li><a href="../modules/restia.request.html">restia.request</a></li>
@@ -63,10 +63,22 @@
 
 <div id="content">
 
-<h1>Module <code>restia.bin.manpage</code></h1>
-<p>Renders a manpage for restia</p>
+<h1>Module <code>restia.logbuffer</code></h1>
+<p>A very simple helper function.</p>
 <p>
 </p>
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">local msg = restia.logbuffer ()
+
+msg:error &apos;You have made a mistake&apos;
+msg:info &apos;No actions have been committed&apos;
+
+for _, m in pairs(msg) do
+	print(m.class, m.message)
+end
+</pre>
+    </ul>
     <h3>Info:</h3>
     <ul>
         <li><strong>License</strong>: Unlicense</li>
