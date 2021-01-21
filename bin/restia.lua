@@ -95,8 +95,8 @@ commands:add('compile <resource> <output>', [[
 	THe default config root is the current directory.
 ]], function(...)
 	local options = arrr {
-		{ "Binds to another root directory", "root", "R", "root" };
-		{ "Passes this config entry as argument to the resource", "arguments", "a", "path" };
+		{ "Binds to another root directory", "-root", "-r", "root" };
+		{ "Passes this config entry as argument to the resource", "--arguments", "-a", "path" };
 	} { ... }
 	local config = restia.config.bind(options.root or ".")
 	local outfile = options[2] or options[1]:match("[^%.]+$")
