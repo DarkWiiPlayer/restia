@@ -191,6 +191,24 @@ if cosmo then
 	end)
 end
 
+local skooma = try_require 'skooma'
+if skooma then
+	local env = skooma.env:proxy(_G)
+	--- Loads Lua files within the skooma environment.
+	-- Loaded chunks are wrapped in a function that serializes their result.
+	-- @function skooma
+	-- @tparam string name The extension `.skooma` is added.
+	config.loaders:insert("skooma", function(name)
+		name = tostring(name)..'.skooma'
+		local template = loadfile(name, "tb", env)
+		return function(...)
+			return skooma.serialize(template(...))
+		end
+	end)
+else
+	warn("Could not find skooma; Skooma templates disabled")
+end
+
 local template = try_require 'restia.template'
 if template then
 	if cosmo then
