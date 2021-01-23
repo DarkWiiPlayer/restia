@@ -87,7 +87,7 @@ return function()
 				|			return json.encode(data)
 				|		end};
 				|		{'text/html', function(req)
-				|			return '<h1>Hello, World!</h1>'
+				|			return views.front(data)
 				|		end};
 				|	}
 				|end;
