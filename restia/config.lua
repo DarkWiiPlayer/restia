@@ -202,7 +202,7 @@ if skooma then
 		name = tostring(name)..'.skooma'
 		local template = loadfile(name, "tb", env)
 		return function(...)
-			return skooma.serialize(template(...))
+			return skooma.serialize.html(template(...))
 		end
 	end)
 else
