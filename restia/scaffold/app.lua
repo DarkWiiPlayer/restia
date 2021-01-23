@@ -64,10 +64,10 @@ return function()
 		locations = {
 			root = I[[
 				|location = / {
-				|	content_by_lua_block { restia.handler.serve("front", "error") }
+				|	content_by_lua_block { restia.handler.serve("controller.front", "error") }
 				|}
 				|location / {
-				|	if (-f controller$uri.lua) { content_by_lua_block { restia.controller.serve("controller.main", "error") } }
+				|	if (-f controller$uri.lua) { content_by_lua_block { restia.handler.serve("controller/"..ngx.var.uri..".lua", "error") } }
 				|
 				|	root static;
 				|	try_files $uri =404;
