@@ -201,8 +201,10 @@ if skooma then
 	config.loaders:insert("skooma", function(name)
 		name = tostring(name)..'.skooma'
 		local template = loadfile(name, "tb", env)
-		return function(...)
-			return skooma.serialize.html(template(...))
+		if template then
+			return function(...)
+				return skooma.serialize.html(template(...))
+			end
 		end
 	end)
 else
