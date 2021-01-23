@@ -30,15 +30,20 @@ function handler.xpcall(action, handler)
 	end, handler))
 end
 
---- Serves a handler. This is a higher-level wrapper to `handler.xpcall` that requires a module.
+--- Serves a handler. This is a higher-level wrapper to `handler.xpcall` that requires a module or loads a file.
 -- If no `action` is given, the module is assumed to return a handler function directly.
 -- If the `action` is given, the module is treated as a table and deep-indexed with `action` to get the handler function.
--- @tparam string handlermodule The module name to `require` to get the handler.
+-- @tparam string handlermodule Either a module name to `require` or filename to `loadfile` to get the handler.
 -- @tparam[opt="error"] string errormodule The module name of the error handler.
--- @tparam[opt] string action The table path to the event handler.
+-- @tparam[opt] string action Path to deep-index the handler module with to get handler function.
 -- @param ... Additional arguments to be passed to the handler.
 function handler.serve(handlermodule, errormodule, action, ...)
-	local fn = require(handlermodule)
+	local fn
+	if handlermodule:find("%.lua$") then
+		fn = assert(dofile(handlermodule))
+	else
+		fn = require(handlermodule)
+	end
 	if action then
 		fn = restia.utils.deepindex(fn, action)
 	end
