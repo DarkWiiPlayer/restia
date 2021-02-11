@@ -285,7 +285,25 @@ return function()
 		lua_modules = {['.gitignore'] = '*\n!.gitignore'};
 
 		-- Shell script to install dependancies
-		dependancies = [[luarocks install restia --dev]];
+		['application-dev-1.rockspec'] = I[[
+			|package = "application"
+			|version = "dev-1"
+			|source = {
+			|	url = ""
+			|}
+			|description = {
+			|	homepage = "",
+			|	license = ""
+			|}
+			|dependencies = {
+			|	"lua ~> 5.1",
+			|	"restia"
+			|}
+			|build = {
+			|	type = "builtin",
+			|	modules = {}
+			|}
+		]];
 	}
 	return dir
 end
