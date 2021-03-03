@@ -193,7 +193,10 @@ end
 
 local skooma = try_require 'skooma'
 if skooma then
-	local env = skooma.env:proxy(_G)
+	local env = skooma.env -- This can safely get shadowed
+	local env = setmetatable({}, {__index = function(self, index)
+		return _G[index] or env[index]
+	end})
 	--- Loads Lua files within the skooma environment.
 	-- Loaded chunks are wrapped in a function that serializes their result.
 	-- @function skooma
