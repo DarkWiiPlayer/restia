@@ -94,15 +94,21 @@ return function()
 			]];
 		};
 		views = {
-			['front.cosmo.moonhtml'] = I[[
-				|strings = require('config').i18n[ngx.var.lang]
-				|h1 strings.title
-				|h2 "$domain"
+			['front.skooma'] = I[[
+				|local strings = require('config').i18n[ngx.var.lang]
+				|local params = ...
+				|return {
+				|	h1(strings.title);
+				|	h2(params.domain);
+				|}
 			]];
-			['error.cosmo.moonhtml'] = I[[
-				|h1 "ERROR $code"
-				|h2 "$message"
-				|p -> pre "$description"
+			['error.skooma'] = I[[
+				|local params = ...
+				|return {
+				|	h1("ERROR ", params.code);
+				|	h2(params.message);
+				|	p(pre(params.description));
+				|}
 			]];
 		};
 		models = {};
