@@ -264,7 +264,7 @@ return function()
 				|types { # Or just include nginx' default types file :D
 				|	text/html html;
 				|	text/css css;
-				|	application/js js;
+				|	application/javascript js;
 				|}
 			]===]
 		};
