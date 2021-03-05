@@ -184,21 +184,16 @@ return function()
 			]===========];
 			['views.lua'] = I[[
 				|local restia = require "restia"
-				|local views = restia.config.bind "views"
-				|
-				|restia.template.inject(function(_ENV)
-				|	setfenv(1, _ENV)
-				|	function render(name, ...)
-				|		print(restia.utils.deepindex(views, name):render(...))
-				|	end
-				|end)
-				|
+				|local views = restia.config.bind("views", {
+				|	require 'restia.config.skooma'
+				|})
 				|return views
 			]];
 			['config.lua'] = I[[
 				|local restia = require "restia"
-				|local config = restia.config.bind "config"
-				|config.secret = restia.config.bind ".secret"
+				|local config = restia.config.bind("config", {
+				|	require 'restia.config.yaml'
+				|})
 				|return config
 			]];
 			template = {

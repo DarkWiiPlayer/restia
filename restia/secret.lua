@@ -8,7 +8,7 @@ local cipher = require 'openssl.cipher'
 local digest = require 'openssl.digest'
 local json = require 'cjson'
 
-local secret = config.bind('.secret')
+local secret = config.bind('.secret', { require 'restia.config.readfile' })
 local aes = cipher.new 'AES-256-CBC'
 local key = digest.new('sha256'):final(assert(secret.key, "couldn't find `secret.key` config entry!"))
 
