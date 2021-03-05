@@ -13,10 +13,7 @@ local restia = require 'restia'
 local arrr = require 'arrr'
 
 local commands = restia.bin.commands
-local utils = restia.utils
 local c = restia.colors
-
-local I = utils.normalizeindent
 
 local function uid()
 	local id_u = io.popen("id -u")
@@ -129,11 +126,11 @@ commands:add('manpage <directory>', [[
 			directory = os.getenv("HOME") .. '/.local/share/man'
 		end
 	end
-	
+
 	if directory == "-" then
 		print(restia.bin.manpage)
 	else
-		filename = directory:gsub("/$", ""):gsub("$", "/man1/restia.1")
+		local filename = directory:gsub("/$", ""):gsub("$", "/man1/restia.1")
 		local output = assert(io.open(filename, "w"))
 		print("Installing manpage as " .. filename)
 		output:write(restia.bin.manpage)

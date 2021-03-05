@@ -58,7 +58,10 @@ function __metatable:__index(index)
 end
 
 --- Binds a table to a config directory.
--- The returned table maps keys to configurations, which are handled by different "loaders". loaders are handlers that try loading a config entry in a certain format and are tried  sequentially until one succeeds. If no loader matches, nil is returned.
+-- The returned table maps keys to configurations, which are handled by
+-- different "loaders". loaders are handlers that try loading a config entry in
+-- a certain format and are tried  sequentially until one succeeds. If no
+-- loader matches, nil is returned.
 -- @tparam string dir Path to the directory to look in.
 -- @tparam table loaders A table of loaders to use when attempting to load a configuration entry.
 -- @treturn table config A table that maps to the config directory

@@ -22,7 +22,7 @@
 -- THE SOFTWARE.
 --
 -------------------
--- 
+--
 -- Modified by DarkWiiPlayer for easier usage. This file should only be part
 -- of restia until these changes are accepted into the ansicolors rock.
 

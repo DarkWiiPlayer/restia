@@ -3,8 +3,6 @@
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
-local utils = require 'restia.utils'
-
 local commands = {}
 
 function commands:add(name, description, fn)
