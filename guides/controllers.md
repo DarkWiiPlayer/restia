@@ -1,4 +1,4 @@
-# Using Controllers (or Handlers)
+# Writing Controllers (or Handlers)
 
 Restia does not assume a MVC-workflow, but supports it when needed. As such, it
 does not have a specific concept for controllers, but allows grouping request
