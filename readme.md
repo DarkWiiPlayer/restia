@@ -339,6 +339,7 @@ Changelog
 
 ### Development
 
+- Add skooma loader for functional templating
 - Add simple scaffolding/generators system
 - Add `restia.utils.tree` submodule
 - Add `restia.request` module
