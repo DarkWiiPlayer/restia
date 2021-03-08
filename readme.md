@@ -17,8 +17,8 @@ performance, but can easily be adapted to use different host APIs.
 
 * **Simplicity**: Restia has a small codebase and clear structure.
 * **Modularity**: You can use the whole thing—or just a single function.
-* **No Elves**: Things don't "just happen" unless told to.
-* **Performance**: Low overhead means short code paths.
+* **No Elves**: Things don't "just happen" unless you tell them to.
+* **Performance**: Low overhead means short code paths means fast code.
 
 ### What makes it *special*?
 
@@ -34,6 +34,11 @@ You can even chain them as "multistage templates":
 Restia will load a MoonXML template once and interpret the result
 as a cosmo template that you can then render repeatedly.
 Convenient *and* performant!
+
+For even more modularity, Skooma ditches the separation between code and
+templates entirely. A document tree is constructed through pure functions and
+later rendered into actual HTML text. This two-stage process allows building
+transformation pipelines (read: "middleware") without having to parse HTML.
 <hr>
 </details>
 
@@ -46,6 +51,9 @@ Restia extends this pattern to your configuration data:
 Bind a directory and get a table that abstracts your complex file hierarchy
 and many different file types into one uniform structure that you already
 know how to use.
+
+Even templates can be accessed this way, and with only a few lines of code,
+custom config loaders can be added for new file formats.
 <hr>
 </details>
 
