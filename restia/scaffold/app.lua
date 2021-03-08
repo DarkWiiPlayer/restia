@@ -96,19 +96,22 @@ return function()
 		views = {
 			['front.skooma'] = I[[
 				|local strings = require('config').i18n[ngx.var.lang]
-				|local params = ...
-				|return {
-				|	h1(strings.title);
-				|	h2(params.domain);
-				|}
+				|
+				|return function(params)
+				|	return render.html {
+				|		h1(strings.title);
+				|		h2(params.domain);
+				|	}
+				|end
 			]];
 			['error.skooma'] = I[[
-				|local params = ...
-				|return {
-				|	h1("ERROR ", params.code);
-				|	h2(params.message);
-				|	p(pre(params.description));
-				|}
+				|return function(params)
+				|	return render.html {
+				|		h1("ERROR ", params.code);
+				|		h2(params.message);
+				|		p(pre(params.description));
+				|	}
+				|end
 			]];
 		};
 		models = {};
