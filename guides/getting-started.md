@@ -1,7 +1,5 @@
 # Getting Started with Restia
 
-TODO: Update to reflect changes in default skeleton project.
-
 ## Requirements
 
 This tutorial will assume you have
@@ -26,8 +24,9 @@ for ubuntu-based systems you might want to use `apt install`.
 
 After that, you can run `restia new` to create a new project:
 
-	$ restia new app
+	$ mkdir application
 	$ cd application
+	$ restia new app
 
 Now you can take a moment to inspect the directory structure.
 This is also a good moment to create a git repository
@@ -201,10 +200,10 @@ Most importantly though: The **controller** shouldn't care about the type of
 The controller just renders a parametrized **view**,
 which, by convention is a function as described above.
 
-## Making it bot-friendly
+## Making it robot-friendly
 
 We already have a nice HTML page, but what about computers? They don't like
-looking at HTML pages nearly as much as human users do. Instead, let's ofer
+looking at HTML pages nearly as much as human users do. Instead, let's offer
 them the same content in a more machine-readable format.
 
 To achieve this, first replace the line that renders the view with:
@@ -233,9 +232,8 @@ Luckily, OpenResty comes bundled with one, so you can just add `local json =
 require 'cjson'` at the top of the file.
 
 As you may have noticed, there's some duplication there: the table that gets
-sent to the template looks identical to the one that gets encoded as JSON. This
-isn't always the case, but rather often, it is. We can just extract that table
-into a variable and put it on top of the content negotiation code.
+sent to the template looks identical to the one that gets encoded as JSON.
+Let's extract that table into a variable.
 
 The final controller should look something like this:
 
