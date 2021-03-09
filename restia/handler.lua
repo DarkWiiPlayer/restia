@@ -24,9 +24,9 @@ end
 -- @tparam function action The code that should run in "protected" mode to handle the request (a module name).
 -- @tparam function handler The error handler, which may return a HTTP error code.
 -- @return The return value of the action function.
-function handler.xpcall(action, handler)
+function handler.xpcall(action, handler, ...)
 	return exit_on_failure(xpcall(function()
-		return action(restia.request)
+		return action(...)
 	end, handler))
 end
 
@@ -47,7 +47,24 @@ function handler.serve(handlermodule, errormodule, action, ...)
 	if action then
 		fn = restia.utils.deepindex(fn, action)
 	end
-	handler.xpcall(fn, require(errormodule or 'error'), ...)
+	handler.xpcall(fn, require(errormodule or 'error'), restia.request, ...)
+end
+
+--- Serves an action from a controller. This is a higher-level wrapper to `handler.xpcall` that requires or loads a class.
+-- The class module is assumed to return a constructor function that will be called without any arguments to get a new instance.
+-- @tparam string classmodule Either a module name to `require` or a filename to `loadfile` to get the controller class.
+-- @tparam[opt="error"] string errormodule The module name of the error handler.
+-- @tparam[opt="index"] string action Method name to call on the controller class.
+-- @param ... Additional arguments to be passed to the action
+function handler.controller(controllermodule, errormodule, action, ...)
+	local class
+	if controllermodule:find("%.lua$") then
+		class = assert(dofile(controllermodule))
+	else
+		class = require(controllermodule)
+	end
+	local instance = class()
+	handler.xpcall(instance[action], require(errormodule or 'error'), instance, ...)
 end
 
 return handler
