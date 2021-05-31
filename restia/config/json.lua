@@ -10,9 +10,9 @@ local readfile = require 'restia.cofnig.readfile'
 -- the top-level of the JSON file.
 -- @treturn table JSON-Data
 -- @function load
-config.loaders:insert("json", function(file)
+return function(file)
 	local raw = readfile(file..'.json')
 	if raw then
 		return json.decode(raw)
 	end
-end)
+end
