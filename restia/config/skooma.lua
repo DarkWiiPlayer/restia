@@ -26,7 +26,8 @@ end
 -- @function load
 return function(name)
 	name = tostring(name)..'.skooma'
-	local template = loadfile(name, "tb", env)()
+	local template = loadfile(name, "tb", env)
+	template = template and template()
 	if template then
 		return template
 	end
