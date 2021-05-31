@@ -89,6 +89,7 @@ end
 
 --- Inserts a table into a nested table following a path.
 -- The path string mimics normal chained indexing in normal Lua.
+-- Supported indices are: `.string`, `[number]`, `[]` for inserting after the last array index and `[$]` for the last array index.
 -- Nil-elements along the path will be created as tables.
 -- Non-nil elements will be indexed and error accordingly if this fails.
 -- @tparam table tab A table or indexable object to recursively insert into
@@ -104,6 +105,10 @@ function utils.deepinsert(tab, path, value)
 	if not index then
 		index, rest = path:match("^%[(%d+)%](.*)")
 		index = tonumber(index)
+	end
+	if not index then
+		index, rest = path:match("^%[($?)%](.*)")
+		index = index and (index=="$" and #tab or #tab+1)
 	end
 	if index then
 		if #rest>0 then
