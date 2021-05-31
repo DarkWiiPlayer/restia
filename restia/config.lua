@@ -28,7 +28,7 @@ function __metatable:__index(index)
 				return result
 			end
 		end
-		return index
+		return nil, "Could not load: "..tostring(index)
 	end
 end
 
