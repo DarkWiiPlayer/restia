@@ -28,6 +28,15 @@ function handler.xpcall(action, handler, ...)
 	return exit_on_failure(xpcall(action, handler, ...))
 end
 
+function handler.assert(handler, ...)
+	if ... then
+		return ...
+	else
+		handler(select(2, ...))
+		return ngx.exit(tonumber(...) or ngx.status)
+	end
+end
+
 --- Serves a handler. This is a higher-level wrapper to `handler.xpcall` that requires a module or loads a file.
 -- If no `action` is given, the module is assumed to return a handler function directly.
 -- If the `action` is given, the module is treated as a table and deep-indexed with `action` to get the handler function.
@@ -38,9 +47,11 @@ end
 function handler.serve(handlermodule, errormodule, action, ...)
 	local fn
 	if handlermodule:find("%.lua$") then
-		fn = assert(dofile(handlermodule))
+		fn = handler.assert(require(errormodule or 'error'), dofile(handlermodule))
 	else
-		fn = require(handlermodule)
+		fn = handler.xpcall(function()
+			return require(handlermodule)
+		end, require(errormodule or 'error'))
 	end
 	if action then
 		fn = restia.utils.deepindex(fn, action)
@@ -57,9 +68,11 @@ end
 function handler.controller(controllermodule, errormodule, action, ...)
 	local class
 	if controllermodule:find("%.lua$") then
-		class = assert(dofile(controllermodule))
+		class = handler.assert(require(errormodule or 'error'), dofile(controllermodule))
 	else
-		class = require(controllermodule)
+		class = handler.xpcall(function()
+			return require(controllermodule)
+		end, require(errormodule or 'error'))
 	end
 	local instance = class()
 	handler.xpcall(instance[action], require(errormodule or 'error'), instance, ...)
