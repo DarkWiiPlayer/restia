@@ -25,9 +25,7 @@ end
 -- @tparam function handler The error handler, which may return a HTTP error code.
 -- @return The return value of the action function.
 function handler.xpcall(action, handler, ...)
-	return exit_on_failure(xpcall(function()
-		return action(...)
-	end, handler))
+	return exit_on_failure(xpcall(action, handler, ...))
 end
 
 --- Serves a handler. This is a higher-level wrapper to `handler.xpcall` that requires a module or loads a file.
