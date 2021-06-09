@@ -347,6 +347,9 @@ Changelog
 
 ### Development
 
+### Version 0.1.0
+
+- Add `restia.controller` class
 - Add skooma loader for functional templating
 - Add simple scaffolding/generators system
 - Add `restia.utils.tree` submodule
