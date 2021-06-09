@@ -62,10 +62,10 @@ end
 --- Serves an action from a controller. This is a higher-level wrapper to `handler.xpcall` that requires or loads a class.
 -- The class module is assumed to return a constructor function that will be called without any arguments to get a new instance.
 -- @tparam string classmodule Either a module name to `require` or a filename to `loadfile` to get the controller class.
--- @tparam[opt="error"] string errormodule The module name of the error handler.
 -- @tparam[opt="index"] string action Method name to call on the controller class.
+-- @tparam[opt="error"] string errormodule The module name of the error handler.
 -- @param ... Additional arguments to be passed to the action
-function handler.controller(controllermodule, errormodule, action, ...)
+function handler.controller(controllermodule, action, errormodule, ...)
 	local class
 	if controllermodule:find("%.lua$") then
 		class = handler.assert(require(errormodule or 'error'), dofile(controllermodule))
