@@ -353,4 +353,14 @@ function utils.builddir(prefix, tab)
 	end
 end
 
+function utils.frontmatter(text)
+	local a, b = text:find('^%-%-%-+\n')
+	local c, d = text:find('\n%-%-%-+\n', b)
+	if b and c then
+		return text:sub(b+1, c-1), text:sub(d+1, -1)
+	else
+		return nil, text
+	end
+end
+
 return utils
