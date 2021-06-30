@@ -305,6 +305,9 @@ end
 
 --- Converts a filesystem path to something deepinsert can handle
 function utils.fs2tab(path)
+	if type(path)~="string" then
+		error(debug.getinfo(1).name..": Expected string, got "..type(path), 2)
+	end
 	return path
 		-- Remove leading directory
 		:gsub("^%.?/", "")
