@@ -299,6 +299,22 @@ function utils.fs2tab(path)
 		:gsub("/", ".")
 end
 
+--- Reads a directory into a table
+function utils.readdir(path)
+	local mode = lfs.attributes(path, 'mode')
+	if mode == 'directory' then
+		local result = {}
+		for name in lfs.dir(path) do
+			if name:sub(1, 1) ~= '.' then
+				result[name] = utils.readdir(path.."/"..name)
+			end
+		end
+		return result
+	elseif mode == 'file' then
+		return(io.open(path, 'rb'):read('a'))
+	end
+end
+
 --- Copies a directory recursively
 function utils.copy(from, to)
 	local mode = lfs.attributes(from, 'mode')
