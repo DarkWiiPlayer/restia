@@ -26,6 +26,15 @@ function utils.escape(str)
 	return (tostring(str):gsub(escapes.pattern, escapes))
 end
 
+--- Makes a table look up missing keys with `require`
+function utils.deepmodule(prefix)
+	return setmetatable({}, {
+		__index = function(self, name)
+			return require(prefix .. "." .. name)
+		end
+	})
+end
+
 --- Mixes several tables into another and returns it.
 function utils.mixin(first, second, ...)
 	if type(second)=="table" then
