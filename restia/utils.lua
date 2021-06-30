@@ -282,7 +282,9 @@ function utils.delete(path)
 	local mode = lfs.attributes(path, 'mode')
 	if mode=='directory' then
 		for entry in lfs.dir(path) do
-			utils.delete(path..'/'..entry)
+			if not entry:match("^%.%.?$") then
+				utils.delete(path..'/'..entry)
+			end
 		end
 	end
 	os.remove(path)
