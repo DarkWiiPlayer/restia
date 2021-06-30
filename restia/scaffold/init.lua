@@ -4,16 +4,4 @@
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
-local scaffold = {}
-
-local name = ...
-
-setmetatable(scaffold, {
-	__index = function(self, key)
-		local module = require(name..'.'..key)
-		rawset(self, key, module)
-		return module
-	end
-})
-
-return scaffold
+return require('restia.utils').deepmodule(...)

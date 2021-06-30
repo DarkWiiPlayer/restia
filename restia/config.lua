@@ -3,6 +3,8 @@
 -- @author DarkWiiPlayer
 -- @license Unlicense
 
+local restia = require 'restia'
+
 local lfs = require 'lfs'
 
 local utils = require 'restia.utils'
@@ -11,7 +13,7 @@ local utils = require 'restia.utils'
 
 local readfile = require 'restia.config.readfile'
 
-local config = {}
+local config = restia.utils.deepmodule(...)
 
 local __metatable = {}
 function __metatable:__index(index)
