@@ -335,6 +335,14 @@ function utils.copy(from, to)
 	end
 end
 
+function utils.mkdir(path)
+	local slash = 0
+	while slash do
+		slash = path:find("/", slash+1)
+		lfs.mkdir(path:sub(1, slash))
+	end
+end
+
 --- Builds a directory structure recursively from a table template.
 -- @tparam string prefix A prefix to the path, aka. where to initialize the directory structure.
 -- @tparam table tab A table representing the directory structure.
