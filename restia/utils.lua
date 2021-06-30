@@ -297,7 +297,10 @@ function utils.copy(from, to)
 			end
 		end
 	elseif mode == 'file' then
-		local of = io.open(to, 'wb')
+		local of, err = io.open(to, 'wb')
+		if not of then
+			error(err)
+		end
 		of:write(io.open(from, 'rb'):read('a'))
 		of:close()
 	end
