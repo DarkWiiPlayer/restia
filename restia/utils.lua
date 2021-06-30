@@ -286,6 +286,23 @@ function utils.delete(path)
 	os.remove(path)
 end
 
+--- Copies a directory recursively
+function utils.copy(from, to)
+	local mode = lfs.attributes(from, 'mode')
+	if mode == 'directory' then
+		lfs.mkdir(to)
+		for path in lfs.dir(from) do
+			if path:sub(1, 1) ~= '.' then
+				utils.copy(from.."/"..path, to.."/"..path)
+			end
+		end
+	elseif mode == 'file' then
+		local of = io.open(to, 'wb')
+		of:write(io.open(from, 'rb'):read('a'))
+		of:close()
+	end
+end
+
 --- Builds a directory structure recursively from a table template.
 -- @tparam string prefix A prefix to the path, aka. where to initialize the directory structure.
 -- @tparam table tab A table representing the directory structure.
