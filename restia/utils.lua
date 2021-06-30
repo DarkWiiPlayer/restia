@@ -288,6 +288,17 @@ function utils.delete(path)
 	os.remove(path)
 end
 
+--- Converts a filesystem path to something deepinsert can handle
+function utils.fs2tab(path)
+	return path
+		-- Remove leading directory
+		:gsub("^%.?/", "")
+		-- Replace . with null-bytes
+		:gsub("%.", "\0")
+		-- Replace / with .
+		:gsub("/", ".")
+end
+
 --- Copies a directory recursively
 function utils.copy(from, to)
 	local mode = lfs.attributes(from, 'mode')
