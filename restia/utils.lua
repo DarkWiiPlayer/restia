@@ -356,6 +356,10 @@ end
 -- 	}
 -- @todo add `true` option for empty file -- @todo add `false` option to delete existing files/directories
 function utils.builddir(prefix, tab)
+	if lfs.attributes(prefix, 'mode') ~= "directory" then
+		print("Root       " ..colors.red(prefix))
+		utils.mkdir(prefix)
+	end
 	if not tab then
 		tab = prefix
 		prefix = '.'
@@ -370,11 +374,15 @@ function utils.builddir(prefix, tab)
 		end
 
 		if type(value) == "table" then
-			lfs.mkdir(path)
-			print (
-				"Directory  "
-				..colors.blue(path)
-			)
+			if lfs.attributes(path, 'mode') ~= "directory" then
+				print ("Directory  "..colors.blue(path))
+				local result, err = lfs.mkdir(path)
+				if not result then
+					error("Building "..path..":"..err)
+				end
+			else
+				print(colors.dim_white("Directory  "..path))
+			end
 			utils.builddir(path, value)
 
 		elseif type(value) == "string" then
