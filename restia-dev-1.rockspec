@@ -45,6 +45,7 @@ build = {
 		['restia.config.lua']            = 'restia/config/lua.lua';
 		['restia.config.moonhtml']       = 'restia/config/moonhtml.lua';
 		['restia.config.moonhtml_cosmo'] = 'restia/config/moonhtml_cosmo.lua';
+		['restia.config.post']           = 'restia/config/post.lua';
 		['restia.config.readfile']       = 'restia/config/readfile.lua';
 		['restia.config.skooma']         = 'restia/config/skooma.lua';
 		['restia.config.yaml']           = 'restia/config/yaml.lua';
