@@ -109,8 +109,10 @@ function utils.deepinsert(tab, path, value)
 	if type(path)~="string" then
 		return nil, "path is not a string"
 	end
-	local index, rest = path:match("^%.?([%a%d]+)(.*)")
-	if not index then
+	local index, rest = path:match("^%.?([%a%d\0]+)(.*)")
+	if index then
+		index = index:gsub("\0", ".")
+	else
 		index, rest = path:match("^%[(%d+)%](.*)")
 		index = tonumber(index)
 	end
