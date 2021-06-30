@@ -16,7 +16,7 @@ local readfile = require 'restia.config.readfile'
 return function(file)
 	local head, body = restia.utils.frontmatter(io.open(file):read('a'))
 	return {
-		head = yaml.load(head);
+		head = head and yaml.load(head) or {};
 		body = discount(body);
 	}
 end
