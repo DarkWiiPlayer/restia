@@ -266,13 +266,26 @@ end
 
 --- Returns an iterator over all the files in a directory and subdirectories
 -- @tparam string dir The directory to look in
+-- @tparam[opt] string filter A string to match filenames against for filtering
 -- @treturn function Iterator over the file names
 -- @usage
 -- 	for file in utils.files 'views' do
 -- 		print('found view: ', file)
 -- 	end
-function utils.files(dir)
-	return coroutine.wrap(files), dir, coroutine.yield
+--
+-- 	for image in utils.files(".", "%.png$") do
+-- 		print('found image: ', image)
+-- 	end
+function utils.files(dir, filter)
+	if type(filter)=="string" then
+		return coroutine.wrap(files), dir, function(name)
+			if name:find(filter) then
+				coroutine.yield(name)
+			end
+		end
+	else
+		return coroutine.wrap(files), dir, coroutine.yield
+	end
 end
 
 --- Deletes a file or directory recursively
