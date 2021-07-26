@@ -6,24 +6,28 @@ describe "utils.deepinsert", ->
 	it "should sound wrong", ->
 		assert.truthy "It sure does"
 
-	it "should work for non-recursive cases", ->
+	it "should work for non-recursive string cases", ->
 		tab = {}
 		restia.utils.deepinsert(tab, "foo", "bar")
 		assert.equal "bar", tab.foo
 		restia.utils.deepinsert(tab, "[1]", "bar")
 		assert.equal "bar", tab[1]
 
-	it "should work for recursive cases", ->
+	it "should work for recursive string cases", ->
 		tab = {}
 		assert restia.utils.deepinsert(tab, "foo.bar.baz", "hello")
 		assert.equal "hello", tab.foo.bar.baz
 		assert restia.utils.deepinsert(tab, "[1][2][3]", "world")
 		assert.equal "world", tab[1][2][3]
+	
+	it "should work for table paths", ->
+		tab = {}
+		assert restia.utils.deepinsert(tab, {"foo", "bar", "baz"}, "hello")
+		assert.equal "hello", tab.foo.bar.baz
 
-	it "should error for non-string paths", ->
+	it "should error for incorrect path types", ->
 		assert.nil restia.utils.deepinsert({}, (->), true)
 		assert.nil restia.utils.deepinsert({}, (20), true)
-		assert.nil restia.utils.deepinsert({}, ({}), true)
 
 describe "utils.deepindex", ->
 	it "should work for non-recursive cases", ->
@@ -52,6 +56,17 @@ describe "utils.deepen", ->
 
 	it "should convert numeric indices", ->
 		assert.same({foo: {'baz'}}, restia.utils.deepen{['foo[1]']: 'baz'})
+
+describe "utils.fs2tab", ->
+	it "handles simple paths", ->
+		assert.same {"foo", "bar", "baz.txt"}, restia.utils.fs2tab "foo/bar/baz.txt"
+	it "removes current directory", ->
+		assert.same {"foo", "bar", "baz.txt"}, restia.utils.fs2tab "./foo/./bar/baz.txt"
+	it "resolves parent directory nodes if possible", ->
+		assert.same {"bar", "baz.txt"}, restia.utils.fs2tab "./foo/../bar/baz.txt"
+	it "leaves parent directory nodes beyond root", ->
+		assert.same {"..", "foo"}, restia.utils.fs2tab "../foo"
+		assert.same {"..", "baz"}, restia.utils.fs2tab "foo/../../baz"
 
 describe "utils.escape", ->
 	it "should do nothing to normal strings", ->

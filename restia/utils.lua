@@ -106,32 +106,46 @@ end
 -- @usage
 -- utils.deepinsert(some_table, 'foo.bar.baz', value)
 function utils.deepinsert(tab, path, value)
-	if type(path)~="string" then
-		return nil, "path is not a string"
-	end
-	local index, rest = path:match("^%.?([^%[%.]+)(.*)")
-	if index then
-		index = index:gsub("\0", ".")
-	else
-		index, rest = path:match("^%[(%d+)%](.*)")
-		index = tonumber(index)
-	end
-	if index then
-		if #rest>0 then
-			local current
-			if tab[index] then
-				current = tab[index]
+	if type(path) == "table" then
+		local current = tab
+		for i=1,math.huge do
+			local key = path[i]
+			if path[i+1] then
+				if not current[key] then
+					current[key] = {}
+				end
+				current = current[key]
 			else
-				current = {}
-				tab[index] = current
+				current[key] = value
+				break
 			end
-			return utils.deepinsert(current, rest, value)
+		end
+		return value or true
+	elseif type(path) == "string" then
+		local index, rest = path:match("^%.?([^%[%.]+)(.*)")
+		if not index then
+			index, rest = path:match("^%[(%d+)%](.*)")
+			index = tonumber(index)
+		end
+		if index then
+			if #rest>0 then
+				local current
+				if tab[index] then
+					current = tab[index]
+				else
+					current = {}
+					tab[index] = current
+				end
+				return utils.deepinsert(current, rest, value)
+			else
+				tab[index] = value
+				return value or true
+			end
 		else
-			tab[index] = value
-			return value or true
+			return nil, "malformed index-path string: " .. path
 		end
 	else
-		return nil, "malformed index-path string"
+		return nil, "path is neither string nor table: " .. type(path)
 	end
 end
 
@@ -308,13 +322,15 @@ function utils.fs2tab(path)
 	if type(path)~="string" then
 		error(debug.getinfo(1).name..": Expected string, got "..type(path), 2)
 	end
-	return path
-		-- Remove leading directory
-		:gsub("^%.?/", "")
-		-- Replace . with null-bytes
-		:gsub("%.", "\0")
-		-- Replace / with .
-		:gsub("/", ".")
+	local elements = {}
+	for element in path:gmatch("[^/]+") do
+		if element == ".." and elements[1] then
+			table.remove(elements)
+		elseif element ~= "." then
+			table.insert(elements, element)
+		end
+	end
+	return elements
 end
 
 --- Reads a directory into a table
