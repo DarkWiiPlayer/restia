@@ -15,13 +15,48 @@ return function()
 		|lua build.lua --delete --copy css --copy javascript
 		]];
 		['templates'] = {
-			['main.skooma'] = I[[
+			['main.skooma'] = I[=====[
+			|local function map(tab, fn)
+			|	local new = {}
+			|	for key, value in ipairs(tab) do
+			|		new[key] = fn(value)
+			|	end
+			|	return new
+			|end
+			|
 			|return function(content, attributes)
+			|	local route = {}
+			|	for segment in attributes.uri:gmatch("[^/]+") do
+			|		table.insert(route, segment)
+			|	end
+			|
 			|	return render.html(html{
 			|		head {
 			|			title(attributes.title);
+			|			link{rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.58/dist/themes/light.css"};
+			|			script{type="module", src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.58/dist/shoelace.js"};
+			|			script { type="module", [[
+			|				document.querySelector("#navigation-button").addEventListener("click", event => {
+			|					document.querySelector("#menu-drawer").open = true
+			|				})
+			|			]]};
 			|		};
 			|		body {
+			|			style = "padding: 2em max(calc(50vw - 40em), 2em)";
+			|			slDrawer {
+			|				placement = "start";
+			|				id = "menu-drawer";
+			|				ul(map(require("posts"), function(post)
+			|					return li(a{href=post.head.uri, post.head.title});
+			|				end));
+			|			};
+			|			div {
+			|				style="display: flex; flex-flow: row; gap: 1em; align-items: center;";
+			|				slButton { slIcon {name = "list", slot="prefix"}, "Menu", id="navigation-button" };
+			|				slBreadcrumb {
+			|					map(route, slBreadcrumbItem);
+			|				};
+			|			};
 			|			article {
 			|				h1(attributes.title);
 			|				content;
@@ -29,7 +64,7 @@ return function()
 			|		};
 			|	})
 			|end
-			]];
+			]=====];
 		};
 		['build.lua'] = I[[
 		|local arrr = require 'arrr'
