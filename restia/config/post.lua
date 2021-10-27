@@ -13,10 +13,13 @@ local readfile = require 'restia.config.readfile'
 -- the top-level of the YAML file.
 -- @treturn table YAML-Data
 -- @function load
-return function(file)
-	local head, body = restia.utils.frontmatter(io.open(file):read('a'))
-	return {
-		head = head and yaml.load(head) or {};
-		body = discount(body);
-	}
+return function(name)
+	local file = io.open(name .. '.post')
+	if file then
+		local head, body = restia.utils.frontmatter(file:read('a'))
+		return {
+			head = head and yaml.load(head) or {};
+			body = discount(body);
+		}
+	end
 end

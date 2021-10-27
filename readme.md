@@ -349,6 +349,8 @@ Changelog
 
 ### Version 0.1.0
 
+- Add 'blog' scaffold
+- Add 'app' scaffold
 - Add `restia.controller` class
 - Add skooma loader for functional templating
 - Add simple scaffolding/generators system
