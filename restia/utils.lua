@@ -433,17 +433,20 @@ function utils.builddir(prefix, tab)
 		end
 
 		if type(value) == "table" then
-			if lfs.attributes(path, 'mode') ~= "directory" then
-				print ("Directory  "..colors.blue(path))
-				local result, err = lfs.mkdir(path)
-				if not result then
-					error("Building "..path..":"..err)
-				end
+			if value[1] then
+				print("File       "..colors.magenta(path).." with "..tostring(utils.writebuffer(value, path)).." bytes")
 			else
-				print(colors.dim_white("Directory  "..path))
+				if lfs.attributes(path, 'mode') ~= "directory" then
+					print ("Directory  "..colors.blue(path))
+					local result, err = lfs.mkdir(path)
+					if not result then
+						error("Building "..path..":"..err)
+					end
+				else
+					print(colors.dim_white("Directory  "..path))
+				end
+				utils.builddir(path, value)
 			end
-			utils.builddir(path, value)
-
 		elseif type(value) == "string" then
 			print(
 				"File       "
