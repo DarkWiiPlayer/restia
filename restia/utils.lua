@@ -377,6 +377,31 @@ function utils.mkdir(path)
 	end
 end
 
+--- Writes an arbitrarily nested sequence of strings to a file
+-- @tparam table buffer A sequence containing strings or nested sequences
+-- @tparam file file A file to write to
+-- @treturn number The number of bytes that were written
+function utils.writebuffer(buffer, file)
+	local bytes = 0
+	local close = false
+	if type(file) == "string" then
+		file = io.open(file, "wb")
+		close = true
+	end
+	if type(buffer) == "string" then
+		file:write(buffer)
+		return #buffer
+	else
+		for i, chunk in ipairs(buffer) do
+			bytes = bytes + utils.writebuffer(chunk, file)
+		end
+	end
+	if close then
+		file:close()
+	end
+	return bytes
+end
+
 --- Builds a directory structure recursively from a table template.
 -- @tparam string prefix A prefix to the path, aka. where to initialize the directory structure.
 -- @tparam table tab A table representing the directory structure.
