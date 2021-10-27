@@ -349,6 +349,7 @@ Changelog
 
 ### Version 0.1.0
 
+- Add 'static' scaffold
 - Add 'blog' scaffold
 - Add 'app' scaffold
 - Add `restia.controller` class

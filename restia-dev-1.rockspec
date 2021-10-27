@@ -60,6 +60,7 @@ build = {
 		['restia.scaffold.app']          = 'restia/scaffold/app.lua';
 		['restia.scaffold.init']         = 'restia/scaffold/init.lua';
 		['restia.scaffold.blog']         = 'restia/scaffold/blog.lua';
+		['restia.scaffold.static']       = 'restia/scaffold/static.lua';
 		['restia.secret']                = 'restia/secret.lua';
 		['restia.skooma']                = 'restia/skooma.lua';
 		['restia.template']              = 'restia/template.lua';
