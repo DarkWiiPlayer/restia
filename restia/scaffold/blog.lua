@@ -142,7 +142,7 @@ return function()
 		|
 		|-- Load Posts
 		|for file in restia.utils.files(params.input, "%.post$") do
-		|	local post = restia.config.post(file:gsub("%.post$"))
+		|	local post = restia.config.post(file:gsub("%.post$", ""))
 		|	post.head.file = file
 		|
 		|	assert(validate_head(post.head))
