@@ -23,7 +23,8 @@ end
 
 local builtin_scaffolds = {
 	app = "Generic web-application using Openresty";
-	static = "A simple blog-like website as an SSG";
+	static = "A simple SSG setup that preserves the directory structure";
+	blog = "A simple blog-like SSG setup";
 }
 
 local help = [[
