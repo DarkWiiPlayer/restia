@@ -8,22 +8,23 @@ local utils = {}
 local lfs = require 'lfs'
 local colors = require 'restia.colors'
 
-local escapes = {
+local htmlescapes = {
 	['&'] = '&amp;',
 	['<'] = '&lt;',
 	['>'] = '&gt;',
 	['"'] = '&quot;',
 	["'"] = '&#039;',
 }
+
 do local buf = {}
-	for char in pairs(escapes) do
+	for char in pairs(htmlescapes) do
 		table.insert(buf, char)
 	end
-	escapes.pattern = "["..table.concat(buf).."]"
+	htmlescapes.pattern = "["..table.concat(buf).."]"
 end
 --- Escapes special HTML characters in a string
-function utils.escape(str)
-	return (tostring(str):gsub(escapes.pattern, escapes))
+function utils.htmlescape(str)
+	return (tostring(str):gsub(htmlescapes.pattern, htmlescapes))
 end
 
 --- Makes a table look up missing keys with `require`
@@ -317,38 +318,6 @@ function utils.delete(path)
 	os.remove(path)
 end
 
---- Converts a filesystem path to something deepinsert can handle
-function utils.fs2tab(path)
-	if type(path)~="string" then
-		error(debug.getinfo(1).name..": Expected string, got "..type(path), 2)
-	end
-	local elements = {}
-	for element in path:gmatch("[^/]+") do
-		if element == ".." and elements[1] then
-			table.remove(elements)
-		elseif element ~= "." then
-			table.insert(elements, element)
-		end
-	end
-	return elements
-end
-
---- Reads a directory into a table
-function utils.readdir(path)
-	local mode = lfs.attributes(path, 'mode')
-	if mode == 'directory' then
-		local result = {}
-		for name in lfs.dir(path) do
-			if name:sub(1, 1) ~= '.' then
-				result[name] = utils.readdir(path.."/"..name)
-			end
-		end
-		return result
-	elseif mode == 'file' then
-		return(io.open(path, 'rb'):read('a'))
-	end
-end
-
 --- Copies a directory recursively
 function utils.copy(from, to)
 	local mode = lfs.attributes(from, 'mode')
@@ -400,93 +369,6 @@ function utils.writebuffer(buffer, file)
 		file:close()
 	end
 	return bytes
-end
-
---- Builds a directory structure recursively from a table template.
--- @tparam string prefix A prefix to the path, aka. where to initialize the directory structure.
--- @tparam table tab A table representing the directory structure.
--- Table entries are subdirectories, strings are files, false means delete, true means touch file, everything else is an error.
--- @usage
--- 	builddir {
--- 		sub_dir = {
--- 			empty_file = ''
--- 		}
--- 		file = 'Hello World!';
--- 	}
--- @todo add `true` option for empty file -- @todo add `false` option to delete existing files/directories
-function utils.builddir(prefix, tab)
-	if lfs.attributes(prefix, 'mode') ~= "directory" then
-		print("Root       " ..colors.red(prefix))
-		utils.mkdir(prefix)
-	end
-	if not tab then
-		tab = prefix
-		prefix = '.'
-	end
-	if not type(tab) == 'table' then
-		error("Invalid argument; expected table, got "..type(tab), 1)
-	end
-
-	for path, value in pairs(tab) do
-		if prefix then
-			path = prefix.."/"..tostring(path)
-		end
-
-		if type(value) == "table" then
-			if value[1] then
-				print("File       "..colors.magenta(path).." with "..tostring(utils.writebuffer(value, path)).." bytes")
-			else
-				if lfs.attributes(path, 'mode') ~= "directory" then
-					print ("Directory  "..colors.blue(path))
-					local result, err = lfs.mkdir(path)
-					if not result then
-						error("Building "..path..":"..err)
-					end
-				else
-					print(colors.dim_white("Directory  "..path))
-				end
-				utils.builddir(path, value)
-			end
-		elseif type(value) == "string" then
-			print(
-				"File       "
-				..colors.magenta(path)
-				.." with "
-				..#value
-				.." bytes"
-			)
-			local file = assert(io.open(path,'w'))
-			file:write(value)
-			file:close()
-
-		elseif value==false then
-			print(
-				"Deleting   "..colors.red(path)
-			)
-			utils.delete(path)
-
-		elseif value==true then
-			print(
-				"Touching   "..colors.yellow(path)
-			)
-			local file = io.open(path)
-			if not file then
-				file = io.open(path, 'w')
-				file:write('')
-			end
-			file:close()
-
-		else
-			print(
-				"Unknown type at     "
-				..colors.red(path)
-				.." ("
-				..colors.red(type(value))
-				..")"
-			)
-
-		end
-	end
 end
 
 function utils.frontmatter(text)

@@ -147,7 +147,8 @@ commands:add('scaffold <module> <scaffold-options>', [[
 		return commands.help("scaffold")
 	end
 	local tree = require(name){...}
-	restia.utils.builddir(".", tree)
+	local scaffold = require 'scaffold'
+	scaffold.builddir(".", tree)
 end)
 
 commands:add('help <command>', [[

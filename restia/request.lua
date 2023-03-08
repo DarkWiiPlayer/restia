@@ -39,7 +39,8 @@ function request:offer(available, ...)
 			restia.negotiator.pick(self.headers.accept, available)
 		ngx.header["content-type"] = content_type
 		if handler then
-			return ngx.say(handler(self, ...))
+			local result = handler(self, ...)
+			return ngx.say(tostring(result))
 		else
 			error("No suitable request handler found", 2)
 		end

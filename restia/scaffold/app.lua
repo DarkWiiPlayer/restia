@@ -94,24 +94,23 @@ return function()
 			]];
 		};
 		views = {
-			['front.skooma'] = I[[
+			['front.html.skooma'] = I[[
 				|local strings = require('config').i18n[ngx.var.lang]
-				|
-				|return function(params)
-				|	return render.html {
-				|		h1(strings.title);
-				|		h2(params.domain);
-				|	}
-				|end
+				|local params = ...
+				|return html {
+				|	h1(strings.title);
+				|	h2(params.domain);
+				|}
 			]];
-			['error.skooma'] = I[[
-				|return function(params)
-				|	return render.html {
+			['error.html.skooma'] = I[[
+				|local params = ...
+				|return html {
+				|	body {
 				|		h1("ERROR ", params.code);
 				|		h2(params.message);
 				|		p(pre(params.description));
 				|	}
-				|end
+				|}
 			]];
 		};
 		models = {};
@@ -146,12 +145,12 @@ return function()
 				|local restia = require 'restia'
 				|
 				|return function(message)
-				|	ngx.log(ngx.ERR, debug.traceback(message))
-				|			if ngx.status < 300 then
-				|			 ngx.status = 500
-				|			end
-				|	if not message
-				|	then message = '(No error message given)'
+				|	if not message then 
+				|		message = '(No error message given)'
+				|	end
+				|	ngx.log(ngx.ERR, debug.traceback(message, 4))
+				|	if ngx.status < 300 then
+				|		ngx.status = 500
 				|	end
 				|
 				|	local err if ngx.var.dev=="true" then
@@ -175,9 +174,9 @@ return function()
 				|		ngx.say("Error ",err.code,"\n---------\n",err.description)
 				|	else
 				|		if views.error then
-				|			err.message = restia.utils.escape(err.message)
-				|			err.description = restia.utils.escape(err.description)
-				|			ngx.say(views.error(err))
+				|			err.message = restia.utils.htmlescape(err.message)
+				|			err.description = restia.utils.htmlescape(err.description)
+				|			ngx.say(tostring(views.error(err)))
 				|		else
 				|			ngx.say('error '..tostring(ngx.status))
 				|		end
@@ -186,16 +185,17 @@ return function()
 				|end
 			]===========];
 			['views.lua'] = I[[
-				|local restia = require "restia"
-				|local views = restia.config.bind("views", {
-				|	require 'restia.config.skooma'
+				|local glass = require "glass"
+				|local views = glass.bind("views", {
+				|	require 'glass.skooma.html',
 				|})
 				|return views
 			]];
 			['config.lua'] = I[[
-				|local restia = require "restia"
-				|local config = restia.config.bind("config", {
-				|	require 'restia.config.yaml'
+				|local glass = require "glass"
+				|local config = glass.bind("config", {
+				|	require 'glass.yaml',
+				|	-- Add more loaders here
 				|})
 				|return config
 			]];

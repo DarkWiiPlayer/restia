@@ -15,19 +15,21 @@ description = {
 }
 dependencies = {
 	"lua ~> 5";
+	"arrr";
 	"cosmo";
+	"lua-cjson";
 	"lua-resty-cookie";
 	"luafilesystem";
-	"lua-cjson";
 	"luaossl";
 	"lunamark";
 	"lyaml";
 	"moonscript";
 	"moonxml";
 	"multipart";
+	"protomixin";
 	"warn";
 	"xhmoon";
-	"arrr";
+	"glass ~> 1.3.0";
 }
 build = {
 	type = "builtin",
@@ -38,31 +40,18 @@ build = {
 		['restia.bin.commands']          = 'restia/bin/commands.lua';
 		['restia.bin.manpage']           = 'restia/bin/manpage.lua';
 		['restia.colors']                = 'restia/colors.lua';
-		['restia.config']                = 'restia/config.lua';
-		['restia.config.cosmo']          = 'restia/config/cosmo.lua';
-		['restia.config.discount']       = 'restia/config/discount.lua';
-		['restia.config.json']           = 'restia/config/json.lua';
-		['restia.config.lua']            = 'restia/config/lua.lua';
-		['restia.config.moonhtml']       = 'restia/config/moonhtml.lua';
-		['restia.config.moonhtml_cosmo'] = 'restia/config/moonhtml_cosmo.lua';
-		['restia.config.post']           = 'restia/config/post.lua';
-		['restia.config.readfile']       = 'restia/config/readfile.lua';
-		['restia.config.skooma']         = 'restia/config/skooma.lua';
-		['restia.config.yaml']           = 'restia/config/yaml.lua';
 		['restia.contributors']          = 'contributors.lua';
 		['restia.controller']            = 'restia/controller.lua';
 		['restia.handler']               = 'restia/handler.lua';
 		['restia.logbuffer']             = 'restia/logbuffer.lua';
 		['restia.markdown']              = 'restia/markdown.lua';
 		['restia.negotiator']            = 'restia/negotiator.lua';
-		['restia.protomixin']            = 'restia/protomixin.lua';
 		['restia.request']               = 'restia/request.lua';
 		['restia.scaffold.app']          = 'restia/scaffold/app.lua';
 		['restia.scaffold.init']         = 'restia/scaffold/init.lua';
 		['restia.scaffold.blog']         = 'restia/scaffold/blog.lua';
 		['restia.scaffold.static']       = 'restia/scaffold/static.lua';
 		['restia.secret']                = 'restia/secret.lua';
-		['restia.skooma']                = 'restia/skooma.lua';
 		['restia.template']              = 'restia/template.lua';
 		['restia.utils']                 = 'restia/utils.lua';
 	};

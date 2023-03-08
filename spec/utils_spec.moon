@@ -57,17 +57,6 @@ describe "utils.deepen", ->
 	it "should convert numeric indices", ->
 		assert.same({foo: {'baz'}}, restia.utils.deepen{['foo[1]']: 'baz'})
 
-describe "utils.fs2tab", ->
-	it "handles simple paths", ->
-		assert.same {"foo", "bar", "baz.txt"}, restia.utils.fs2tab "foo/bar/baz.txt"
-	it "removes current directory", ->
-		assert.same {"foo", "bar", "baz.txt"}, restia.utils.fs2tab "./foo/./bar/baz.txt"
-	it "resolves parent directory nodes if possible", ->
-		assert.same {"bar", "baz.txt"}, restia.utils.fs2tab "./foo/../bar/baz.txt"
-	it "leaves parent directory nodes beyond root", ->
-		assert.same {"..", "foo"}, restia.utils.fs2tab "../foo"
-		assert.same {"..", "baz"}, restia.utils.fs2tab "foo/../../baz"
-
 describe "utils.escape", ->
 	it "should do nothing to normal strings", ->
 		assert.equal "hello", restia.utils.escape("hello")
