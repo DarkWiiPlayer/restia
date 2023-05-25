@@ -11,12 +11,13 @@ description = {
 	labels = {
 		"html";
 		"openresty";
-	 }
+	}
 }
 dependencies = {
-	"lua ~> 5";
 	"arrr";
 	"cosmo";
+	"glass ~> 1.3.0";
+	"lua ~> 5";
 	"lua-cjson";
 	"lua-resty-cookie";
 	"luafilesystem";
@@ -27,9 +28,9 @@ dependencies = {
 	"moonxml";
 	"multipart";
 	"protomixin";
+	"scaffold ~> 1.1";
 	"warn";
 	"xhmoon";
-	"glass ~> 1.3.0";
 }
 build = {
 	type = "builtin",
