@@ -14,22 +14,19 @@ description = {
 	}
 }
 dependencies = {
-	"arrr";
+	"arrr ~> 2.2";
 	"cosmo";
-	"glass ~> 1.3.0";
+	"glass ~> 1.3";
 	"lua ~> 5";
-	"lua-cjson";
+	"lua-cjson ~> 2.1";
 	"lua-resty-cookie";
-	"luafilesystem";
+	"luafilesystem ~> 1.8";
 	"luaossl";
-	"lunamark";
-	"lyaml";
-	"moonscript";
-	"moonxml";
-	"multipart";
-	"protomixin";
+	"lunamark ~> 0.5";
+	"lyaml ~> 6.2";
+	"multipart ~> 0.5";
+	"protomixin ~> 1";
 	"scaffold ~> 1.1";
-	"warn";
 	"xhmoon";
 }
 build = {
